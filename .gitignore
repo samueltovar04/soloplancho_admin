@@ -1,0 +1,24 @@
+config/core.php
+config/database.php
+tmp/cache/*
+tmp/cache/persistent/*
+tmp/cache/models/*
+tmp/logs/*
+tmp/sessions/*
+tmp/tests/*
+	tmp/cache/models/cake_model_default_articulos
+	tmp/cache/models/cake_model_default_balanzas
+	tmp/cache/models/cake_model_default_clientes
+	tmp/cache/models/cake_model_default_codbarra_articulos
+	tmp/cache/models/cake_model_default_configuraciones
+	tmp/cache/models/cake_model_default_direccion_cliente
+	tmp/cache/models/cake_model_default_empresas
+	tmp/cache/models/cake_model_default_orden_articulos
+	tmp/cache/models/cake_model_default_orden_servicios
+	tmp/cache/models/cake_model_default_soloplancho_list
+	tmp/cache/models/cake_model_default_usuario_ordenes
+	tmp/cache/models/cake_model_default_usuarios
+	tmp/cache/persistent/cake_core_debug_kit_es-es
+	tmp/cache/persistent/cake_core_dir_map
+	tmp/cache/persistent/cake_core_file_map
+	tmp/cache/persistent/cake_core_object_map
