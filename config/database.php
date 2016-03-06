@@ -7,7 +7,7 @@ class DATABASE_CONFIG {
 		//'host' => '10.70.249.35',
                 'host' => 'localhost',
 		'login' => 'root',
-		'password' => '12',
+		'password' => 'Ch4N63m4.',
 		'database' => 'soloplancho',
 		'encoding' => 'y'
 	);
