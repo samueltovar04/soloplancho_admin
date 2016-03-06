@@ -1,3 +1,4 @@
+config/core.php
 tmp/cache/models/cake_model_default_articulos
 tmp/cache/models/cake_model_default_balanzas
 tmp/cache/models/cake_model_default_clientes

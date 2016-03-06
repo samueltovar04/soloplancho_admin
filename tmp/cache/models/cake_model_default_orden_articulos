@@ -1,2 +1,2 @@
-1457248786
+1457304576
 a:3:{s:8:"id_orden";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;}s:11:"id_articulo";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;}s:8:"cantidad";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;}}
