@@ -196,6 +196,18 @@
   </div>
 
 <!-- panel -->
+<div id="buscarresul" class="panel panel-default windows">
+  <div class="panel-heading">
+      <i class="fa fa-user-plus"></i> Datos de la Busqueda                <i class="info"></i>
+     <a data-target="#buscarresul" class="close-window"><i class="fa fa-times pull-right"></i></a>
+     <a data-target="#buscarresul" class="minimize-window"><i class="fa fa-chevron-down pull-right"></i></a>
+  </div>
+  <div class="panel-body">
+    </div>
+    <!-- /table -->
+  </div>
+
+<!-- panel -->
 <div id="verdelivery" class="panel panel-default windows">
   <div class="panel-heading">
       <i class="fa fa-user-plus"></i> Asignar Delivery                <i class="info"></i>
