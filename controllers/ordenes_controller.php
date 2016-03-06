@@ -332,11 +332,31 @@ class OrdenesController extends AppController {
             $emp = $this->Session->read('id_empresa');
             $this->OrdenServicio->recursive = 2;
             $orden=$this->paginate('OrdenServicio',array('Cliente.cedula'=>base64_decode(base64_decode($ced)),'OrdenServicio.fecha_solicitud>=DATE_SUB(curdate(), INTERVAL 1 MONTH)'));
-               
+               //pr($orden);
             $this->set('ordenes',$orden);
             $this->set('ced',$ced);
         }
         
+        function busquedaordenes($id=null){
+            $emp = $this->Session->read('id_empresa');
+            $this->OrdenServicio->recursive = 2;
+            $orden=$this->OrdenServicio->find('first',array(
+                'conditions'=>array('OrdenServicio.id_orden'=>$id)
+            ));
+            $usu=$this->UsuarioOrden->find('all',array('conditions'=>array('UsuarioOrden.id_orden'=>$id,'UsuarioOrden.status'=>array('1','2','3','4','5'))));
+            $pag=$this->PagoOrden->find('first',array('conditions'=>array('PagoOrden.id_orden'=>$id)));
+            $pago=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'costo','status'=>'1')));
+            $iva=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
+            
+            $this->set('impuesto',$iva);
+            $this->set('costo',$pago);
+            $this->set('pagorden',$pag);
+            $codb=$this->CodbarraArticulo->find('all',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.status'=>'2')));
+                
+            $this->set('ordenes',$orden);
+            $this->set('usuario',$usu);
+            $this->set('codbarra',$codb);
+        }
         
        function verificar_ordenes(){
             $emp = $this->Session->read('id_empresa');
@@ -463,7 +483,11 @@ class OrdenesController extends AppController {
             $orden=$this->OrdenServicio->find('first',array(
                 'conditions'=>array('OrdenServicio.id_orden'=>$id)
             ));
-           
+            $pago=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'costo','status'=>'1')));
+            $iva=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
+            
+            $this->set('impuesto',$iva);
+            $this->set('costo',$pago);
             $this->set('ordenes',$orden);
         }
         
@@ -474,6 +498,12 @@ class OrdenesController extends AppController {
             $orden=$this->OrdenServicio->find('first',array(
                 'conditions'=>array('OrdenServicio.id_orden'=>$id)
             ));
+            
+            $pago=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'costo','status'=>'1')));
+            $iva=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
+            
+            $this->set('impuesto',$iva);
+            $this->set('costo',$pago);
             
             if($id<10){
                 $num='000000'.$id;

@@ -13,9 +13,11 @@
             $ordenes['Cliente']['DireccionCliente']['localidad']."<br>Ciudad: ".
             $ordenes['Cliente']['DireccionCliente']['ciudad']."</div>";
             
-            $iva=$ordenes['OrdenServicio']['precio_orden']*0.12;
-            $monto=$ordenes['OrdenServicio']['precio_orden']-$iva;
-            $total=$ordenes['OrdenServicio']['precio_orden'];
+            $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+            
+            $iva=$precio*$impuesto['Configuracion']['valor'];
+            $monto=$precio-$iva;
+            $total=$precio;
     echo "<div class='col-lg-4'><strong>Orden # ".$ordenes['OrdenServicio']['id_orden']."</strong><br />"
           ."Cant. Piezas: ".$ordenes['OrdenServicio']['cantidad_piezas']."<br />";
             foreach ($ordenes['OrdenArticulo'] as $key => $value) {
@@ -46,7 +48,7 @@
 echo "<strong><h4>Libras : ".$ordenes['OrdenServicio']['peso_libras']." Lb. </h4></strong>"
             ."<strong><h4>Libras Gratis: ".$ordenes['OrdenServicio']['peso_descuento']." Lb. </h4></strong>"
             ."<strong><h4>Monto : ".$monto." $$. </h4></strong>"
-            ."<strong><h4>IVA : ".$iva." $$. </h4></strong>"
+            ."<strong><h4>".$impuesto['Configuracion']['descripcion']." : ".$iva." $$. </h4></strong>"
             ."<strong><h4>TOTAL : ".$total." $$. </h4></strong>"
                    
 ?>
