@@ -1,9 +1,3 @@
-tmp/cache/*
-tmp/cache/persistent/*
-tmp/cache/models/*
-tmp/logs/*
-tmp/sessions/*
-tmp/tests/*
 	tmp/cache/models/cake_model_default_articulos
 	tmp/cache/models/cake_model_default_balanzas
 	tmp/cache/models/cake_model_default_clientes
