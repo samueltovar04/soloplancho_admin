@@ -1,0 +1,165 @@
+/*
+ _____  __  __  ____                __                   
+/\___ \/\ \/\ \/\  _`\             /\ \                  
+\/__/\ \ \ \_\ \ \ \/\_\    ___    \_\ \     __    ____  
+   _\ \ \ \  _  \ \ \/_/_  / __`\  /'_` \  /'__`\ /',__\ 
+  /\ \_\ \ \ \ \ \ \ \L\ \/\ \L\ \/\ \L\ \/\  __//\__, `\
+  \ \____/\ \_\ \_\ \____/\ \____/\ \___,_\ \____\/\____/
+   \/___/  \/_/\/_/\/___/  \/___/  \/__,_ /\/____/\/___/ 
+                                                         
+http://www.jhcodes.com/
+Jesus Herrera - jesuxherrera@jhcodes.com
+*/
+
+@media(max-width:767px){
+
+/*Navbar*/
+
+
+/* Windows */
+
+.windows{
+	position: fixed;
+	width: 90%;
+        display: none;
+}
+
+.app{
+  width: 45%;
+  float: left;
+  margin-left: 5%;
+}
+
+
+.navbar-nav .open .dropdown-menu {
+  border-radius: 0px;
+  background: #FFF;
+}
+
+.panel-body{
+	width: 95%;
+}
+
+.nav > li > a > img {
+    max-width: none;
+    padding-top: 0px;
+    top: -9px;
+    position: relative;
+}
+
+.nav > li >  h4 {
+    max-width: none;
+    padding-top: 0px;
+    color: #FFF;
+    top: -62px;
+    left: 70px;
+    position: relative;
+}
+
+}
+@media(min-width:768px){
+
+/* Navbar @media (min-width: 500px) and (max-width:800px) {….}*/
+.navbar-nav>li>a {
+  padding-top: 2px;
+  padding-bottom: 0px;
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+
+.nav > li > h4 {
+    max-width: none;
+    padding-top: 0px;
+    top: -32px;
+    left: 70px;
+    position: relative;
+    color: #FFF;
+}
+
+.nav > li > a > img {
+    max-width: none;
+    padding-top: 0px;
+    top: 2px;
+    position: relative;
+}
+
+.windows{
+	position: fixed;
+	width: 92%;
+	display:none;
+}
+
+
+.navbar-nav>li>.dropdown-menu {
+  margin-top: 5px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.panel-body{
+	width: 96%;
+}
+
+.app{
+  width: 45%;
+  float: left;
+  margin-left: 5%;
+}
+
+
+}
+@media(min-width:992px){
+
+.windows{
+	position: fixed;
+	width: 92%;
+	display:none;
+}
+.panel-body{
+	width: 98%;
+}
+
+.app{
+  width: 11%;
+  float: left;
+}
+
+}
+@media(min-width:1200px){
+
+.windows{
+	position: fixed;
+	width: 90%;
+	display:none;
+}
+
+.panel-body{
+	width: 100%;
+}
+
+
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* In Landscape */
+
+.app{
+  width: 20%;
+ // float: left;
+  margin-left: 5%;
+}
+
+}
+
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) { 
+/* In Potrait */
+
+.app{
+  width: 23%;
+ // float: left;
+  margin-left: 5%;
+}
+
+}
+
+
