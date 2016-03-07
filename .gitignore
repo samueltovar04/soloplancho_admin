@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 config/core.php
->>>>>>> 41e5f2358eabbdec4a92378cd4ed109eef309a2e
 tmp/cache/models/cake_model_default_articulos
 tmp/cache/models/cake_model_default_balanzas
 tmp/cache/models/cake_model_default_clientes
@@ -22,7 +19,3 @@ tmp/cache/cake_toolbar_cache*
 tmp/logs/error.log
 tmp/logs/debug.log
 config/database.php
-<<<<<<< HEAD
-config/core.php
-=======
->>>>>>> 41e5f2358eabbdec4a92378cd4ed109eef309a2e
