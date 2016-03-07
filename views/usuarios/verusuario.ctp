@@ -39,7 +39,7 @@
                                         'error' => array('attributes' => 
                                             array('wrap' => 'span', 'class' => 'alert-danger')))
                     )); 
-                 echo $this->Form->input('Usuario.id_usuario',array('label' =>'id','type'=>'text','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"ID",'onKeyPress'=>'return numeros(event)'));
+                 echo $this->Form->input('Usuario.id_usuario',array('label' =>'id','type'=>'hidden','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"ID",'onKeyPress'=>'return numeros(event)'));
      		
                      echo $this->Form->input('Usuario.cedula',array('label' =>'Cédula','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Cédula",'onKeyPress'=>'return numeros(event)'));
      		    echo $this->Form->input('Usuario.fullname',array('label' =>'Nombre ó Razón Social','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Nombre Completo ó Razón Social"));

@@ -1,0 +1,4 @@
+2016-03-02 23:45:46 Notice: Notice (8): A session had already been started - ignoring session_start() in [/home/cmalav02/public_html/soloplancho/controllers/entradas_controller.php, line 48]
+2016-03-03 23:31:59 Notice: Notice (8): Undefined variable: ced in [/home/cmalav02/public_html/soloplancho/controllers/clientes_controller.php, line 142]
+2016-03-06 02:44:00 Notice: Notice (8): Undefined variable: pp in [/home/cmalav02/public_html/soloplancho/views/ordenes/busquedaordenes.ctp, line 84]
+2016-03-07 00:48:17 Notice: Notice (8): A session had already been started - ignoring session_start() in [/home/tovar_samuel/public_html/soloplancho/controllers/entradas_controller.php, line 48]

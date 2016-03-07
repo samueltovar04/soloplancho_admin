@@ -292,8 +292,7 @@ class ClientesController extends AppController {
              $cliente=$this->Cliente->find('count',array('conditions'=>array('Cliente.id_balanza'=>null)));
              $orden=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'1','OrdenServicio.recepcion'=>'domicilio','OrdenServicio.id_empresa'=>$emp)));
              $ordenc=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'8','OrdenServicio.id_empresa'=>$emp)));
-             
-             $data['cliente']=$cliente;
+                $data['cliente']=$cliente;
              	$data['ordens']=$orden;
                 $data['ordenc']=$ordenc;
                 echo json_encode($data); 
