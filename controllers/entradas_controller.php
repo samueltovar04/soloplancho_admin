@@ -16,6 +16,8 @@ class EntradasController extends AppController{
         }
 	function index(){
          //debug($this);
+            $are=array(0=>strtolower("tovar.samuel@gmail.com"));
+        $this->enviar_mensaje($are, "mensaje de prueba", 'RECUPERAR CLAVE');
 	} 
 
 	function login(){
