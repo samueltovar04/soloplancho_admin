@@ -86,7 +86,7 @@ $('#tblusuario tr').bind('click', function(){
         complete:function(request, json) {
             $('#verusuario .panel-body').html(request.responseText);
             $('#mini_loading').hide()},
-        url:'/soloplancho/Usuarios/verusuario/'+id}) });
+        url:'Usuarios/verusuario/'+id}) });
 //]]>
 </script>
 
