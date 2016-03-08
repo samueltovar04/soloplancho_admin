@@ -43,7 +43,7 @@ class AppController extends Controller {
             $descripcion = "Este mensaje fue enviado por SOLOPLANCHO \"Los Número uno en Planchado\",\n";
             $descripcion=utf8_decode($descripcion.$mensaje);
             set_time_limit(0);
-            
+            $res='';
             $m = new cMailer();
             for($i=0;$i<count($log);$i++){
             $m->AddAddress($log[$i]);
