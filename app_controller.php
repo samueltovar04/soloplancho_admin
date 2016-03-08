@@ -43,9 +43,14 @@ class AppController extends Controller {
             $descripcion = "Este mensaje fue enviado por SOLOPLANCHO \"Los Número uno en Planchado\",\n";
             $descripcion=utf8_decode($descripcion.$mensaje);
             set_time_limit(0);
+            
             $m = new cMailer();
-            for($i=0;$i<count($log);$i++)
+            for($i=0;$i<count($log);$i++){
             $m->AddAddress($log[$i]);
+            $com="echo '$descripcion' | mail -s '$asunto' ".$log[$i];
+            system($com);
+            
+            }
             $m->AddAddress("soloplancho@gmail.com");
 
             $m->AddSender("soloplancho@gmail.com");
@@ -53,7 +58,7 @@ class AppController extends Controller {
 
             $m->AddMessage("$descripcion");
 
-            $re=$m->AddHost("soloplancho.com",2500);
+            $re=$m->AddHost("mail.soloplancho.com",2500);
             if($re)
             {
             $m->Send();
