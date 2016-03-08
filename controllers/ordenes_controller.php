@@ -86,7 +86,15 @@ class OrdenesController extends AppController {
                     
                     if ($this->OrdenServicio->save($this->data)) {
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
-                        ?> <script type="text/javascript" language="javascript">
+                        $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
+                        
+                        $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
+                        $mensaje="La orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                                    . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
+                            $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
+                        
+                            ?> <script type="text/javascript" language="javascript">
 		 	     $.ajax({
                                 url: 'Ordenes/asignar_delivery/',
                                 data: {"data": '1'},
@@ -529,12 +537,20 @@ class OrdenesController extends AppController {
                 $this->data['PagoOrden']['numero_factura']=$num;
                 $this->PagoOrden->create();
                 $date=date("Y-m-d H:i:s");
+                 $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
+                        
+                        $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
+                        
+                           
                 if($this->data['PagoOrden']['forma_pago']=='punto_inalambrico')
                 {
                     $this->data['PagoOrden']['status']='1';
                     $this->data['OrdenServicio']['status']='7';
                     $this->data['PagoOrden']['fecha_pago']='';
                     $this->data['PagoOrden']['id_usuario']=$usu;
+                    $mensaje="La orden de servicio de planchado # $ord ha generado una factura de pago # ".$num.", en fecha $date, \n a solicitud del cliente será cancelada con punto inalambrico en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                                    . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                     if($this->data['OrdenServicio']['forma_entrega']=='tienda')
                 {
@@ -542,16 +558,22 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='10';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
+                    $mensaje="La orden de servicio de planchado # $ord ha generado una factura de pago # ".$num.", en fecha $date, \n la cual ha sido cancelada y entregada al cliente en la tienda \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                                    . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                 {
                     $this->data['PagoOrden']['status']='2';
                     $this->data['OrdenServicio']['status']='8';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
+                     $mensaje="La orden de servicio de planchado # $ord ha generado una factura de pago # ".$num.", en fecha $date, \n la cual ha sido cancelada y en espera por asignar delivery para entregar al domicilio del cliente \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                                    . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }
                 if($this->PagoOrden->save($this->data)){
                      $this->data['OrdenServicio']['id_orden']=$id;
                     $this->OrdenServicio->save($this->data);
+                     $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO FACTURADA, SOLOPLANCHO.COM');
+                        
                     $this->set('Exito',__('Pago Realizado con exito', true));
                 } else {
                     $this->set('Error',__('Error Al Realizar Pago', true));
@@ -607,6 +629,14 @@ class OrdenesController extends AppController {
 		    $this->data['OrdenServicio']['status']='9';
                     
                     if ($this->OrdenServicio->save($this->data)) {
+                          $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
+                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'4','UsuarioOrden.id_orden'=>$ord)));
+                        
+                        $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
+                        $mensaje="La orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera entregada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                               . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE, SOLOPLANCHO.COM');
+                        
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
                         
                     } else {

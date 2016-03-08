@@ -71,7 +71,10 @@ class ClientesController extends AppController {
                             $PNG_TEMP_DIR = 'img/qrcode/temp'.DIRECTORY_SEPARATOR;
                             $filename = $PNG_TEMP_DIR.'test'.md5($this->data['Cliente']['cedula'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
                             QRcode::png(base64_encode(base64_encode($cedula)), $filename, $errorCorrectionLevel, $matrixPointSize, 2); 
-
+                            $are=array(0=>strtolower(strtolower(trim($this->data['Cliente']['email']))));
+                            $mensaje="Bienvenido a nuestra empresa soloplancho\n usted puede realizar solicitudes por nuestra apps o en nuestra web http://cliente.soloplancho.com\n"
+                                    . "Su usuario el el email: ".strtolower(trim($this->data['Cliente']['email'])). " y Clave: ".trim($this->data['Cliente']['password']);
+                            $this->enviar_mensaje($are, $mensaje, 'REGISTRO APPS SOLOPLANCHO.COM');
                             $this->set('Exito',' cliente registrado con exito');
                             $this->data=null;
                              
@@ -180,6 +183,7 @@ class ClientesController extends AppController {
                                 $this->set('Exito','Balanza asignada con exito');
                                  $this->Cliente->recursive = 3;
                                 $this->data = $this->Cliente->read(null, $id);
+                                
                             }else {
                                 $this->set('Error','error actualizando balanza cliente');
                                  $this->data['Balanza']['codigo2']= $this->data['Balanza']['codigo'];
@@ -228,12 +232,12 @@ class ClientesController extends AppController {
                         $this->data['OrdenServicio']['fecha_solicitud']=$date;
                          $this->data['OrdenServicio']['fecha_entrega']=$date;
                     if($this->OrdenServicio->save($this->data)){
-                        $id=$this->OrdenServicio->id;
+                        $ido=$this->OrdenServicio->id;
                         $this->OrdenArticulo->create();
                         $this->OrdenArticulo->primaryKey = '';
                         foreach ($this->data['OrdenArticulo'] as $key => $value) {
                           if(!empty($value)){
-                            $d['OrdenArticulo']['id_orden']=$id;
+                            $d['OrdenArticulo']['id_orden']=$ido;
                             $d['OrdenArticulo']['id_articulo']=$key;
                             $d['OrdenArticulo']['cantidad']=$value;
                             if($this->OrdenArticulo->saveAll($d))
@@ -242,6 +246,11 @@ class ClientesController extends AppController {
                             }
                             }
                         }
+                        $cli=$this->Cliente->find('first',array('fields'=>'email','conditions'=>array('Cliente.id'=>$id)));
+                        $are=array(0=>strtolower(strtolower(trim($cli['Cliente']['email']))));
+                            $mensaje="Usted ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                                    . "Desde su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
+                            $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO PARA PLANCHADO, SOLOPLANCHO');
                         $this->set('Exito','orden de servicio crearda con exito');
                     }  else {
                         $this->set('Error','error actualizando dirección cliente');

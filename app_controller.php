@@ -46,9 +46,9 @@ class AppController extends Controller {
             $m = new cMailer();
             for($i=0;$i<count($log);$i++)
             $m->AddAddress($log[$i]);
-            $m->AddAddress("tovar.samuel@gmail.com");
+            $m->AddAddress("soloplancho@gmail.com");
 
-            $m->AddSender("tovar.samuel@gmail.com");
+            $m->AddSender("soloplancho@gmail.com");
             $m->AddSubject("$asunto");
 
             $m->AddMessage("$descripcion");
