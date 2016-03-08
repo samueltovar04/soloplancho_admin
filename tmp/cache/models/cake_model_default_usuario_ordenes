@@ -1,2 +1,2 @@
-1457412634
+1457412674
 a:5:{s:8:"id_orden";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;}s:10:"id_usuario";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;}s:12:"fecha_asigna";a:4:{s:4:"type";s:8:"datetime";s:4:"null";b:0;s:7:"default";N;s:6:"length";N;}s:12:"fecha_cumple";a:4:{s:4:"type";s:8:"datetime";s:4:"null";b:1;s:7:"default";N;s:6:"length";N;}s:6:"status";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";s:1:"1";s:6:"length";i:11;}}

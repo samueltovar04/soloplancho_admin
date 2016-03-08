@@ -1,2 +1,2 @@
-1457412634
+1457412674
 a:5:{s:10:"id_balanza";a:5:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;s:3:"key";s:7:"primary";}s:6:"codigo";a:7:{s:4:"type";s:6:"string";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:40;s:3:"key";s:6:"unique";s:7:"collate";s:17:"latin1_swedish_ci";s:7:"charset";s:6:"latin1";}s:6:"status";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";s:1:"1";s:6:"length";i:11;}s:14:"fecha_registro";a:4:{s:4:"type";s:8:"datetime";s:4:"null";b:0;s:7:"default";s:17:"CURRENT_TIMESTAMP";s:6:"length";N;}s:10:"id_usuario";a:4:{s:4:"type";s:7:"integer";s:4:"null";b:0;s:7:"default";N;s:6:"length";i:11;}}
