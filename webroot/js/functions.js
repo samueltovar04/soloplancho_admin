@@ -54,6 +54,18 @@ event.preventDefault();
 
 });
 
+$(".recuperar_clave").on( "click", function() {
+    $('#modal_recuperarclave').modal('show');
+     $.ajax({
+                url: 'Entradas/recuperarclave/',
+                data: {"data": '1'},
+                type: 'post'
+            }).done(function(data) {
+               $("#mini_loading").hide();
+               $("#modal_recuperarclave .modal-body").html(data);
+            }).error(function(data){ $("#mini_loading").hide();});
+});
+
 $(".cambioclave").on( "click", function() {
     $('#modal_cambioclave').modal('show');
      $.ajax({

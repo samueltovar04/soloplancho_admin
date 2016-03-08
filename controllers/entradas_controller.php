@@ -50,6 +50,10 @@ class EntradasController extends AppController{
   }
            
 }
+
+function recuperarclave(){
+    $this->layout = 'ajax';
+}
 	function cerrar(){
             session_start();
             session_destroy();

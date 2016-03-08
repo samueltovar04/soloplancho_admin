@@ -25,7 +25,7 @@ if(isset($Exito)){echo $cargar->msj_exito($Exito);}
                     </div> 
 		</fieldset>
 	<div><div class="pwstrength_viewport_progress"></div>
-             <a href="#">Recuperar Clave</a>
+             <a href="#recuperar_clave" class="recuperar_clave">Recuperar Clave</a>
         </div>
 	<footer>
              <?php echo $form->submit(__('Entrar', true),array('class'=>"btn btn-lg btn-primary btn-block"));?>
