@@ -28,13 +28,13 @@ echo $javascript->link('funciones')."\n";
 			<?php echo $content_for_layout; ?>
 
 		</div>
-		<div id="footer"> <div class="form-links">
+            <div id="footer"> <div class="form-links"><h2>
 			<?php echo $this->Html->link(
 					__('www.soloplancho.com'),
-					'https://sites.google.com/site/soloplanchocolombia/precios',
+					'https://www.soloplancho.com',
 					array('target' => '_blank', 'escape' => false)
 				);
-			?>
+			?></h2>
                             </div>
 		</div>
 	</div>

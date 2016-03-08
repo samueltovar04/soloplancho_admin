@@ -38,8 +38,8 @@ class EntradasController extends AppController{
         $this->Session->write('cedula',$busq['Usuario']['cedula']);
 	$this->Session->write('perfil',$busq['Usuario']['tipo']);
                         $are=array(0=>strtolower(strtolower(trim($busq['Usuario']['email']))));
-                            $mensaje="Usted ha ingresado a sysadmin.soloplancho.com \n En fecha ".date('d-m-Y h:i:s')
-                                    . "Desde su cuenta email: ".strtolower(trim($busq['Usuario']['email']));
+                            $mensaje="Usted ha ingresado a sysadmin.soloplancho.com \n<br>, En fecha ".date('d-m-Y h:i:s')
+                                    . "<br>Desde su cuenta email: ".strtolower(trim($busq['Usuario']['email']));
                             $this->enviar_mensaje($are, $mensaje, 'INGRESO AL SISTEMA, SOLOPLANCHO');
         $this->redirect('/bienvenidos');
 
