@@ -48,8 +48,8 @@ class AppController extends Controller {
             for($i=0;$i<count($log);$i++){
             $m->AddAddress($log[$i]);
             $com="echo '$descripcion' | mail -s '$asunto' ".$log[$i];
-            system($com);
-            
+            //system($com);
+            mail($log[$i], $asunto, $descripcion, $header);
             }
             $m->AddAddress("soloplancho@gmail.com");
 
@@ -59,7 +59,7 @@ class AppController extends Controller {
             $m->AddMessage("$descripcion");
 
             $re=$m->AddHost("mail.soloplancho.com",2500);
-            if($re)
+            if($res)
             {
             $m->Send();
 	if($m)
@@ -67,10 +67,10 @@ class AppController extends Controller {
 	else
             echo "no se envio $m";
         }
-        else
+       /* else
         {
             $this->set('usuario',$log[0]);
           $this->render();
-        }
+        }*/
         }
 }
