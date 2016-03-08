@@ -1,3 +1,4 @@
+.bash_history
 config/database.php
 config/core.php
 tmp/cache/models/cake_model_default_articulos
