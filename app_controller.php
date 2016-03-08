@@ -53,7 +53,7 @@ class AppController extends Controller {
 
             $m->AddMessage("$descripcion");
 
-            $re=$m->AddHost("soloplancho.com",2500);
+            $re=$m->AddHost("soloplancho.com",25);
             if($re)
             {
             $m->Send();
