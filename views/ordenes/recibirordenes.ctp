@@ -65,6 +65,7 @@ if(isset($usuario['UsuarioOrden'])){
                                        
                         echo $this->Form->input('UsuarioOrden.id_orden',array('type' => 'hidden','value'=>$ordenes['OrdenServicio']['id_orden'],'onKeyPress'=>'return numeros(event)'));
                         echo $this->Form->input('UsuarioOrden.id_usuario',array('label' =>'operador','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>$operador));
+                       if(isset($ordenes['OrdenServicio']))
                         echo $this->Ajax->submit(__('Guardar', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-8 form-group'),'url'=> array('controller'=>'Ordenes', 'action'=>'asigna_operador',$ordenes['OrdenServicio']['id_orden']), 'update' => 'asignar','loading'=>'mini_loading','indicator'=>'mini_loading'));
                     ?>
                 <script type="text/javascript">
@@ -98,9 +99,7 @@ if(isset($usuario['UsuarioOrden'])){
                             <th class="text-center">
                                 Articulo
                             </th>
-                            <th class="text-center">
-                                Código Barra
-                            </th>
+                            
                             <th class="text-center">
                                 Categoria
                             </th>
@@ -110,11 +109,14 @@ if(isset($usuario['UsuarioOrden'])){
                             <th class="text-center">
                                 Observación
                             </th>
+                            <th class="text-center">
+                                Código Barra
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
               <?php             
-              
+              if(isset($ordenes['OrdenArticulo']))
                foreach ($ordenes['OrdenArticulo'] as $key => $value) 
                {
                     echo $this->Form->input("CodbarraArticulo.$key.id_articulo",array('type' => 'hidden','value'=>$value['id_articulo'],'onKeyPress'=>'return numeros(event)'));
@@ -125,15 +127,17 @@ if(isset($usuario['UsuarioOrden'])){
                            . "<td>".$cant."</td>"
                            . "<td>".($i+1)."</td>"
                            . "<td><label>".$value['Articulo']['descripcion']."</label></td>"
-                           . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.codigo_barra",array('label' =>false,'div'=>false,"maxlength"=>20,"placeholder"=>"Código de Barra",'class'=>"form-control"))."</td>"
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.categoria",array('label' =>false,'div'=>false,'class'=>"form-control",'empty'=>array('nino'=>"Niño"),'options'=>array("nina"=>"Niña","dama"=>"Dama","caballero"=>"Caballero","otros"=>"Otros")))."</td>"
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.marca",array('label' =>false,'div'=>false,"maxlength"=>50,'class'=>"form-control","placeholder"=>"Marca / Modelo"))."</td>"
-                           . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.observacion",array('label' =>false,'div'=>false,"maxlength"=>180,'class'=>"form-control","placeholder"=>"Observación"))."</td></tr>";
-                              $cant+=1;
+                           . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.observacion",array('label' =>false,'div'=>false,"maxlength"=>180,'class'=>"form-control","placeholder"=>"Observación"))."</td>"
+                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.codigo_barra",array('label' =>false,'div'=>false,"maxlength"=>20,"placeholder"=>"Código de Barra",'class'=>"form-control"))."</td></tr>";
+                          
+                      $cant+=1;
                         }
                    }
                 ?>
         <?php
+            if(isset($ordenes['OrdenServicio']))
                  echo $this->Ajax->submit(__('Asignar Cod. Barra', true), array('class'=>'btn btn-primary form-group','url'=> array('controller'=>'Ordenes', 'action'=>'asigna_codbarra',$ordenes['OrdenServicio']['id_orden']), 'update' => 'codigobarra','loading'=>'mini_loading','indicator'=>'mini_loading'));
         ?>
         </tbody>

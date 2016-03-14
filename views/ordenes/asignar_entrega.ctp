@@ -5,6 +5,11 @@
 <div role="tabpanel">
     <div class="row pull-right">
         <?php
+        
+          echo $this->Html->link('FACTURA',
+          array('controller'=>'Ordenes', 'action'=>'impfactura', $ordenes['OrdenServicio']['id_orden'] ),
+          array('target'=>'_blank','class'=>'fa fa-user-plus btn btn-primary'));
+        
            echo $this->Ajax->link('Atras',
           array('controller'=>'Ordenes', 'action'=>'ordenes_canceladas'),
           array('class'=>'fa fa-arrow-left btn btn-default','update' => 'ordencancelar .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading','beforeSend'=>'$("#ordencancelarv").find(".panel-body").children().remove();

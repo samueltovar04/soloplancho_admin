@@ -167,15 +167,19 @@ class OrdenesController extends AppController {
             $emp = $this->Session->read('id_empresa');
             $this->OrdenServicio->recursive = 2;
             $orden=$this->OrdenServicio->find('first',array(
-                'conditions'=>array('Cliente.cedula'=>base64_decode(base64_decode($ced)),'OrdenServicio.status'=>'3')
+                'conditions'=>array('Cliente.cedula'=>base64_decode(base64_decode($ced)),'OrdenServicio.status'=>array('3','4','6'))
             ));
             $id=$orden['OrdenServicio']['id_orden'];
             $usu=$this->UsuarioOrden->find('first',array('conditions'=>array('UsuarioOrden.id_orden'=>$id,'UsuarioOrden.status'=>'2')));
+            if(isset($orden['OrdenArticulo'])){
             foreach ($orden['OrdenArticulo'] as $key => $value) 
             {
                 $art=$this->CodbarraArticulo->find('count',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.id_articulo'=>$value['id_articulo'])));
                 $orden['OrdenArticulo'][$key]['guarda']=$art;
                 
+            }
+            }else{
+                $this->set('Error',__('Cliente sin Orden por recibir', true));
             }
             $this->set('ordenes',$orden);
             $this->set('usuario',$usu);
@@ -281,9 +285,11 @@ class OrdenesController extends AppController {
             
             if(!empty($this->data)){
                 $this->CodbarraArticulo->create();
+                $this->CodbarraArticulo->primaryKey='';
                $orden=$this->data['CodbarraArticulo']['id_orden'];
                unset($this->data['CodbarraArticulo']['id_orden']);
-                foreach ($this->data['CodbarraArticulo'] as $key => $value) 
+               $n=$this->data;
+                foreach ($n['CodbarraArticulo'] as $key => $value) 
                 { 
                     $art=$value['id_articulo'];
                     $cant=$value['cantidad'];
@@ -297,12 +303,38 @@ class OrdenesController extends AppController {
                       $d['CodbarraArticulo']['categoria']=$articulo['categoria'];
                       $d['CodbarraArticulo']['marca']=$articulo['marca'];
                       $d['CodbarraArticulo']['observacion']=$articulo['observacion'];
-                      if(!empty($articulo['codigo_barra'])){
-                        $this->CodbarraArticulo->saveAll($d);
+                      
+                      $codb=$this->CodbarraArticulo->find('first',array('fields'=>'id_orden,id_articulo','conditions'=>array('CodbarraArticulo.codigo_barra'=>$articulo['codigo_barra'],'CodbarraArticulo.status'=>'1')));
+                      
+                      if(!isset($codb['CodbarraArticulo']['id_orden'])){
+                        if(!empty($articulo['marca']))
+                            if(!empty($articulo['codigo_barra'])){
+                                $this->CodbarraArticulo->saveAll($d);
+                                $this->data=NULL;
+                                ?> <script type="text/javascript" language="javascript">
+                                     document.getElementById('categoria10').focus();
+                                 </script>
+                            <?php
+                            }else{
+                                $this->set('Error',__('Campos Vácios', true));
+                                $this->data['CodbarraArticulo']['1']['0']['codigo_barra']='';
+                                 ?> <script type="text/javascript" language="javascript">
+		 	     document.getElementById('codigobarra10').focus();
+                           </script>
+                        <?php
+                            }
+                      }else{
+                          $this->set('Error',__('Código de barra ya existe para otro artículo', true));
+                      
+                            $this->data['CodbarraArticulo']['1']['0']['codigo_barra']='';
+                        ?> <script type="text/javascript" language="javascript">
+		 	     document.getElementById('codigobarra10').focus();
+                           </script>
+                        <?php
                       }
                   }
                 }
-            
+                
             }
             $this->data['CodbarraArticulo']['id_orden']=$orden;
             $this->OrdenServicio->recursive = 2;
@@ -438,10 +470,15 @@ class OrdenesController extends AppController {
                     $this->CodbarraArticulo->query($upd);
                     $codok=$this->CodbarraArticulo->find('count',array('conditions'=>array('CodbarraArticulo.id_orden'=>$ido,'CodbarraArticulo.status'=>'1')));
                         if($codok=='0'){
+                            $upd="update orden_servicios set status='7' where  id_orden='$ido'";
+                            $this->CodbarraArticulo->query($upd);
+                            //enviar correo con factura
+                        }else{
                             $upd="update orden_servicios set status='6' where  id_orden='$ido'";
                             $this->CodbarraArticulo->query($upd);
                         }
                      ?> <script type="text/javascript" language="javascript">
+                        
 		 	    $.ajax({
                                 url: 'Ordenes/verifica_codbarrav/<?=$ido ?>',
                                 data: {"data": '1'},
@@ -464,6 +501,11 @@ class OrdenesController extends AppController {
             $orden=$this->OrdenServicio->find('first',array(
                 'conditions'=>array('OrdenServicio.id_orden'=>$this->data['CodbarraArticulo']['id_orden'])
             ));
+            ?> <script type="text/javascript" language="javascript">
+                         $('#verificacodbarra').val('');
+                         $('#verificacodbarra').focus();
+                </script>
+            <?php
             $this->set('ordenes',$orden);
         }
         
@@ -477,7 +519,7 @@ class OrdenesController extends AppController {
             $emp = $this->Session->read('id_empresa');
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
-                        'OrdenServicio.status'=>array('6','7')
+                        'OrdenServicio.status'=>array('7')
                     );
             $this->OrdenServicio->recursive = 2;
             $ordenes=$this->paginate('OrdenServicio',$this->con);
@@ -537,7 +579,7 @@ class OrdenesController extends AppController {
                 $this->data['PagoOrden']['numero_factura']=$num;
                 $this->PagoOrden->create();
                 $date=date("Y-m-d H:i:s");
-                 $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
@@ -549,7 +591,7 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='7';
                     $this->data['PagoOrden']['fecha_pago']='';
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                    $mensaje="La orden de servicio de planchado # $ord ha generado una factura de pago # ".$num.", en fecha $date, \n a solicitud del cliente será cancelada con punto inalambrico en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                    $mensaje="La orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n a solicitud del cliente será cancelada con punto inalambrico en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                     if($this->data['OrdenServicio']['forma_entrega']=='tienda')
@@ -558,7 +600,7 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='10';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                    $mensaje="La orden de servicio de planchado # $ord ha generado una factura de pago # ".$num.", en fecha $date, \n la cual ha sido cancelada y entregada al cliente en la tienda \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                    $mensaje="La orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n la cual ha sido cancelada y entregada al cliente en la tienda \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                 {
@@ -566,14 +608,18 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='8';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                     $mensaje="La orden de servicio de planchado # $ord ha generado una factura de pago # ".$num.", en fecha $date, \n la cual ha sido cancelada y en espera por asignar delivery para entregar al domicilio del cliente \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                     $mensaje="La orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n la cual ha sido cancelada y en espera por asignar delivery para entregar al domicilio del cliente \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }
                 if($this->PagoOrden->save($this->data)){
                      $this->data['OrdenServicio']['id_orden']=$id;
                     $this->OrdenServicio->save($this->data);
-                     $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO FACTURADA, SOLOPLANCHO.COM');
-                        
+                    if($this->data['PagoOrden']['status']==1){
+                     $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR CANCELAR, SOLOPLANCHO.COM');
+                }else {
+                    $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CANCELADA, SOLOPLANCHO.COM');
+ 
+                 }   
                     $this->set('Exito',__('Pago Realizado con exito', true));
                 } else {
                     $this->set('Error',__('Error Al Realizar Pago', true));
@@ -652,6 +698,34 @@ class OrdenesController extends AppController {
             $resu=$this->Usuario->find('list',array('fields'=>'id_usuario,fullname','conditions'=>array('Usuario.status'=>'1','Usuario.tipo'=>'3','Usuario.id_empresa'=>$emp)));
             $this->set('delivery',$resu);
             $this->set('id',$id);
+        }
+        
+        function impfactura($id=null){
+            if(!empty($id)){
+            $emp = $this->Session->read('id_empresa');
+            $this->OrdenServicio->recursive = 2;
+            $orden=$this->OrdenServicio->find('first',array(
+                'conditions'=>array('OrdenServicio.id_orden'=>$id)
+            ));
+            $usu=$this->UsuarioOrden->find('all',array('conditions'=>array('UsuarioOrden.id_orden'=>$id,'UsuarioOrden.status'=>array('1','2','3','4','5'))));
+            $pag=$this->PagoOrden->find('first',array('conditions'=>array('PagoOrden.id_orden'=>$id)));
+            $pago=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'costo','status'=>'1')));
+            $iva=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
+            
+            $this->set('impuesto',$iva);
+            $this->set('costo',$pago);
+            $this->set('pagorden',$pag);
+            $codb=$this->CodbarraArticulo->find('all',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.status'=>'2')));
+                
+            $this->set('ordenes',$orden);
+            $this->set('usuario',$usu);
+            $this->set('codbarra',$codb);
+            $this->set('orden',$id);
+            $this->layout='pdf';
+            $this->render('pdf_facturar');
+            }  else {
+                $this->redirect('/Bienvenidos');
+            }
         }
 }
 ?>

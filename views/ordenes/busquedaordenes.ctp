@@ -62,6 +62,11 @@
 ?>
   <div class="row pull-right">
         <?php
+         echo $this->Html->link('FACTURA',
+          array('controller'=>'Ordenes', 'action'=>'impfactura', $ordenes['OrdenServicio']['id_orden'] ),
+          array('target'=>'_blank','class'=>'fa fa-user-plus btn btn-primary'));
+        
+        
            echo $this->Ajax->link('Atras',
           array('controller'=>'Ordenes', 'action'=>'buscar_ordenes'),
           array('class'=>'fa fa-arrow-left btn btn-default','update' => 'buscarorden .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading','beforeSend'=>'$("#buscarresul").find(".panel-body").children().remove();

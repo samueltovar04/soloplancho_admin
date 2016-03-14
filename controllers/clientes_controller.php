@@ -230,7 +230,7 @@ class ClientesController extends AppController {
                         $this->data['OrdenServicio']['cantidad_piezas']=$can;
                         $date=date("Y-m-d H:i:s");
                         $this->data['OrdenServicio']['fecha_solicitud']=$date;
-                         $this->data['OrdenServicio']['fecha_entrega']=$date;
+                        // $this->data['OrdenServicio']['fecha_entrega']=$date;
                     if($this->OrdenServicio->save($this->data)){
                         $ido=$this->OrdenServicio->id;
                         $this->OrdenArticulo->create();
@@ -246,7 +246,7 @@ class ClientesController extends AppController {
                             }
                             }
                         }
-                        $cli=$this->Cliente->find('first',array('fields'=>'email','conditions'=>array('Cliente.id'=>$id)));
+                        $cli=$this->Cliente->find('first',array('fields'=>'email','conditions'=>array('Cliente.reg_id'=>$id)));
                         $are=array(0=>strtolower(strtolower(trim($cli['Cliente']['email']))));
                             $mensaje="Usted ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Desde su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
