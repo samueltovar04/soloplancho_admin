@@ -1,7 +1,7 @@
 <?php
 App::import('Vendor', 'tcpdf/config/lang/eng');
 App::import('Vendor', 'tcpdf/tcpdf');
-
+App::import('Vendor', 'attach_mailer', false);
 
 class HOJASOL extends tcpdf
 {
@@ -120,7 +120,32 @@ $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
 $pdf->lastPage();
 $filename='factura_'.$fact.'.pdf';
+$path='/tmp/';
 
-$pdf->Output($filename,'I');
+$id=$ordenes['OrdenServicio']['id_orden'];
+ if($id<10){
+                $num='000000'.$id;
+            }elseif($id<100){
+                $num='00000'.$id;
+            }elseif($id<1000){
+                $num='0000'.$id;
+            }elseif($id<10000){
+                $num='000'.$id;
+            }elseif($id<100000){
+                $num='00'.$id;
+            }elseif($id<1000000){
+                $num='0'.$id;
+            }elseif($id<10000000){
+                $num=$id;
+            }
+            $date=date("Y-m-d H:i:s");
+$mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app cancelarla. Con cualquiera de nuestras diferentes formas de pago y envios \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                                    . "Su cuenta email: ".strtolower(trim($ordenes['Cliente']['email']));
+$pdf->Output($path.$filename,'F');
+
+ $mail= NEW attach_mailer ("soloplancho@gmail.com",$ordenes['Cliente']['email'],"FACTURA SEGUN ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);
+$mail->create_attachment_part($path.$filename);
+echo $mail->process_mail();
+//$this->Html->mail_attachment($filename, $path, $ordenes['Cliente']['email'],$mensaje, "FACTURA SEGUN ORDEN #".$ordenes['OrdenServicio']['id_orden'])
 
 ?>

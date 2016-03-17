@@ -5,8 +5,8 @@
             $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
             
             $iva=$precio*$impuesto['Configuracion']['valor'];
-            $monto=$precio-$iva;
-            $total=$precio;
+            $monto=$precio;
+            $total=$precio+$iva;
              $pp="Sin Pago";
             if(isset($pagorden['PagoOrden'])){
                 if($pagorden['PagoOrden']['status']=='1'){
@@ -62,9 +62,9 @@
 ?>
   <div class="row pull-right">
         <?php
-         echo $this->Html->link('FACTURA',
+         echo $this->Html->link('IMPRIMIR FACTURA',
           array('controller'=>'Ordenes', 'action'=>'impfactura', $ordenes['OrdenServicio']['id_orden'] ),
-          array('target'=>'_blank','class'=>'fa fa-user-plus btn btn-primary'));
+          array('target'=>'_blank','class'=>'fa fa-print btn btn-primary'));
         
         
            echo $this->Ajax->link('Atras',

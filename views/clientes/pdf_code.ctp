@@ -2,17 +2,37 @@
 App::import('Vendor', 'tcpdf/config/lang/eng');
 App::import('Vendor', 'tcpdf/tcpdf');
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
- 
+class HOJASOL extends tcpdf
+{
+
+    function Header()
+    {
+	$this->SetMargins(2,5,2);	
+        $this->SetDisplayMode(75) ;
+
+    }
+
+    function Footer()
+    {
+	$this->setFooterMargin(0);
+	$this->SetY(0);
+    }
+}
+$pdf = new HOJASOL('P', 'mm', array(52,72), true, 'UTF-8', false);
+ $pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('SETB');
+$pdf->SetTitle('QRCODE');
+$pdf->SetSubject('SETB');
+$pdf->SetKeywords('SETB');
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
- 
+ $pdf->SetAutoPageBreak(TRUE, 0);
 // add a page
 $pdf->AddPage();
  
 $style = array(
     'border' => true,
-    'padding' => 4,
+    'padding' => 2,
     'fgcolor' => array(0,0,0),
     'bgcolor' => false, //array(255,255,255)
 );
@@ -27,7 +47,7 @@ $PNG_TEMP_DIR = 'img/qrcode/temp'.DIRECTORY_SEPARATOR;
 $pdf->setJPEGQuality(75);
 
 // Image example
-$pdf->Image($filename , 80, 10, 50 ,50, '', '', '', true, 100);
+$pdf->Image($filename , 0, 0, 50 ,50, '', '', '', true, 100);
 $style = array(
     'position' => 'C',
     'align' => 'C',
@@ -41,11 +61,11 @@ $style = array(
     'bgcolor' => false, //array(255,255,255),
     'text' => true,
     'font' => 'helvetica',
-    'fontsize' => 6,
+    'fontsize' => 0.1,
     'stretchtext' => 6
 );
 $cedula=  base64_decode(base64_decode($cedula));
- $pdf->write1DBarcode($cedula, 'C128A', '', 60, '',16, 0.4, $style, '');
+ $pdf->write1DBarcode($cedula, 'C128A', '', 60, '',6, 0.4, $style, '');
 
 $pdf->lastPage();
 $pdf->Output('Codigobarra_'.$cedula.'.pdf', 'I');

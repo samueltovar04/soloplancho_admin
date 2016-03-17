@@ -6,9 +6,9 @@
     <div class="row pull-right">
         <?php
         
-          echo $this->Html->link('FACTURA',
+          echo $this->Html->link('IMPRIMIR FACTURA',
           array('controller'=>'Ordenes', 'action'=>'impfactura', $ordenes['OrdenServicio']['id_orden'] ),
-          array('target'=>'_blank','class'=>'fa fa-user-plus btn btn-primary'));
+          array('target'=>'_blank','class'=>'fa fa-print btn btn-primary'));
         
            echo $this->Ajax->link('Atras',
           array('controller'=>'Ordenes', 'action'=>'ordenes_canceladas'),
