@@ -119,8 +119,8 @@ $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
 $pdf->lastPage();
-$filename='factura_'.$fact.'.pdf';
-$path='/tmp/';
+$filename="factura_$fact.pdf";
+$path='/home/tovar_samuel/public_html/soloplancho/webroot/';
 
 $id=$ordenes['OrdenServicio']['id_orden'];
  if($id<10){
