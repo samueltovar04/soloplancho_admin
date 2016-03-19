@@ -76,13 +76,13 @@ $pdf->SetFont('helvetica','B',8);
             $desc=$desc.' con un obsequio de '.$ordenes['OrdenServicio']['peso_descuento']
                     .'Lb. ya reflejados en Factura';
         }
-        $valor=$costo['Configuracion']['valor'];
-        $dto=$ordenes['OrdenServicio']['peso_descuento'];
-         $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+            $valor=$costo['Configuracion']['valor'];
+            $dto=$ordenes['OrdenServicio']['peso_descuento'];
+            $precio=$pagorden['PagoOrden']['precio_pago']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
             $diva=$impuesto['Configuracion']['descripcion'];
-            $iva=$precio*$impuesto['Configuracion']['valor'];
-            $monto=$precio-$iva;
-            $total=$precio;
+            $iva=$pagorden['PagoOrden']['iva'];
+            $monto=$precio;
+            $total=$pagorden['PagoOrden']['total'];
             
 
 $tabla='<table cellpadding="0" cellspacing="0"  width="180px">

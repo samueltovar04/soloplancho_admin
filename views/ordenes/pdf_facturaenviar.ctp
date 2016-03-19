@@ -78,11 +78,11 @@ $pdf->SetFont('helvetica','B',8);
         }
         $valor=$costo['Configuracion']['valor'];
         $dto=$ordenes['OrdenServicio']['peso_descuento'];
-         $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+         $precio=$pagorden['PagoOrden']['precio_pago']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
             $diva=$impuesto['Configuracion']['descripcion'];
-            $iva=$precio*$impuesto['Configuracion']['valor'];
-            $monto=$precio-$iva;
-            $total=$precio;
+            $iva=$pagorden['PagoOrden']['iva'];
+            $monto=$precio;
+            $total=$pagorden['PagoOrden']['total'];
             
 
 $tabla='<table cellpadding="0" cellspacing="0"  width="180px">
