@@ -1,6 +1,7 @@
 .bash_history
 config/database.php
 config/core.php
+nbproject/*
 tmp/cache/models/cake_model_default_articulos
 tmp/cache/models/cake_model_default_balanzas
 tmp/cache/models/cake_model_default_clientes
@@ -17,6 +18,8 @@ tmp/cache/persistent/cake_core_debug_kit_es-es
 tmp/cache/persistent/cake_core_dir_map
 tmp/cache/persistent/cake_core_file_map
 tmp/cache/persistent/cake_core_object_map
+tmp/cache/persistent/*
 tmp/cache/cake_toolbar_cache*
+tmp/cache/*
 tmp/logs/error.log
 tmp/logs/debug.log

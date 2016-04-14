@@ -37,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-              <?php             
+              <?php             $m=1;
               if(isset($ordenes['OrdenArticulo']))
                foreach ($ordenes['OrdenArticulo'] as $key => $value) 
                {
@@ -52,8 +52,9 @@
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.categoria",array('id'=>"categoria$key$i",'label' =>false,'div'=>false,'class'=>"form-control",'empty'=>array('nino'=>"Niño"),'options'=>array("nina"=>"Niña","dama"=>"Dama","caballero"=>"Caballero","otros"=>"Otros")))."</td>"
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.marca",array('label' =>false,'div'=>false,"maxlength"=>50,'class'=>"form-control","placeholder"=>"Marca / Modelo"))."</td>"
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.observacion",array('label' =>false,'div'=>false,"maxlength"=>180,'class'=>"form-control","placeholder"=>"Observación"))."</td>"
-                           . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.codigo_barra",array('id'=>"codigobarra$key$i",'label' =>false,'div'=>false,"maxlength"=>20,"placeholder"=>"Código de Barra",'class'=>"form-control"))."</td></tr>";
+                           . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.codigo_barra",array('id'=>"codigobarra0$m",'label' =>false,'div'=>false,"maxlength"=>20,"placeholder"=>"Código de Barra",'class'=>"form-control"))."</td></tr>";
                               $cant+=1;
+                              $m++; 
                         }
                    }
                 ?>

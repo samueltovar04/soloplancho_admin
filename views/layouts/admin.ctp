@@ -25,7 +25,7 @@ echo $javascript->link('bootstrap.min')."\n";
 echo $javascript->link('jquery.knob.min')."\n";
 echo $javascript->link('qrcodelib')."\n";
 echo $javascript->link('WebCodeCam')."\n";
-echo $javascript->link('main')."\n";
+//echo $javascript->link('main')."\n";
 
 echo $javascript->link('moment')."\n";
 echo $javascript->link('chart.min')."\n";
@@ -212,7 +212,7 @@ echo $javascript->link('functions')."\n";
 		$(".navcliente .badge").html(data.cliente);
                 if(data.cliente > 0){
 			$('<audio id="audio_cl"><source src="sonidos/glass.ogg" type="audio/ogg">, <source src="sonidos/glass.mp3" type="audio/mpeg"></audio>').appendTo("body");
-			//$('#audio_cl')[0].play();
+			$('#audio_cl')[0].play();
 		}
 		$(".navorden .badge").html(data.ordens);
 		if(data.ordens > 0){

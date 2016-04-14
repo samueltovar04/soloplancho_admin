@@ -246,14 +246,14 @@ class ClientesController extends AppController {
                             }
                             }
                         }
-                        $cli=$this->Cliente->find('first',array('fields'=>'email','conditions'=>array('Cliente.reg_id'=>$id)));
+                        $cli=$this->Cliente->find('first',array('fields'=>'fullname,email','conditions'=>array('Cliente.reg_id'=>$id)));
                         $are=array(0=>strtolower(strtolower(trim($cli['Cliente']['email']))));
-                            $mensaje="Usted ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                            $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tUsted ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Desde su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                             $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO PARA PLANCHADO, SOLOPLANCHO');
                         $this->set('Exito','orden de servicio crearda con exito');
                     }  else {
-                        $this->set('Error','error actualizando dirección cliente');
+                        $this->set('Error','error creando orden de servicio');
                     }
                 }
         }
@@ -299,7 +299,7 @@ class ClientesController extends AppController {
         function mostrarbadge(){
              $emp = $this->Session->read('id_empresa');
              $cliente=$this->Cliente->find('count',array('conditions'=>array('Cliente.id_balanza'=>null)));
-             $orden=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'1','OrdenServicio.recepcion'=>'domicilio','OrdenServicio.id_empresa'=>$emp)));
+             $orden=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'1','OrdenServicio.recepcion'=>array('domicilio','drop-off'),'OrdenServicio.id_empresa'=>$emp)));
              $ordenc=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'8','OrdenServicio.id_empresa'=>$emp)));
                 $data['cliente']=$cliente;
              	$data['ordens']=$orden;
