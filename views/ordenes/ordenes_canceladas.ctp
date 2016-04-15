@@ -12,6 +12,9 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#buscaorden" aria-controls="buscaorden" role="tab" data-toggle="tab">Datos de las Ordenes</a></li>
+          <li role="presentation" ><a href="#canceladasdia" aria-controls="canceladasdia" role="tab" data-toggle="tab">Pagos del Día</a></li>
+          <li role="presentation" ><a href="#canceladasmes" aria-controls="canceladasmes" role="tab" data-toggle="tab">Pagos del Mes</a></li>
+          <li role="presentation" ><a href="#entregadas" aria-controls="entregadas" role="tab" data-toggle="tab">Ordenes Entregadas</a></li>
           
         </ul>
         <!-- Tab panes -->
@@ -40,11 +43,11 @@
 			<th><?php echo $this->Paginator->sort('Fecha Solicitud','fecha_solicitud');?></th>
 			<th><?php echo $this->Paginator->sort('Status','OrdenServicio.status');?></th>
                       
-	</tr></thead><tbody id='tblordenc'>
+            </tr></thead><tbody id='tblordenc'>
 	<?php
 	$i = 0;
        	foreach ($ordenes as $orden):
-          
+                   
 		$class = "fondo1";
                     if($i++%2==0){
                    $class = "fondo2";
@@ -64,7 +67,7 @@
     if($orden['OrdenServicio']['status']=='11'){ $status='>Observación'; $class='danger-color';}
     
     if($orden['OrdenServicio']['status']=='20'){ $status='Anulada'; $class='danger-color';}
-             
+             if(!empty($orden['OrdenServicio']['forma_entrega'])){
 ?>
         <tr<?php echo " class='".$class."' ";   echo "id='".$orden['OrdenServicio']['id_orden']."'"?> >
             <td><?php echo $orden['OrdenServicio']['id_orden']; ?>&nbsp;</td>
@@ -78,7 +81,9 @@
                
 
 	</tr>
-<?php endforeach; ?>
+<?php 
+             }
+endforeach; ?>
 	</tbody></table>
 	<p>
 	<?php
@@ -98,7 +103,106 @@
                </div>
             
           </div>
+            
+        <div role="tabpanel" class="tab-pane" id="canceladasdia">
+            
+              <div class="panel panel-info">
+               <span class="title-window-panel">
+                 <i class="fa fa-user-plus"></i>Ordenes Canceladas en el día
+               </span>
+                  <div class="panel-body">
+                      <pre> <?php
+                            
+                              print_r($pagosdia);
+                              ?></pre>
+                  </div>
+              </div>
         </div>
+            
+        <div role="tabpanel" class="tab-pane" id="canceladasmes">
+            
+              <div class="panel panel-info">
+               <span class="title-window-panel">
+                 <i class="fa fa-user-plus"></i>Ordenes Canceladas en el mes
+               </span>
+                  <div class="panel-body">
+                       <pre> <?php
+                            
+                              print_r($pagosmes);
+                              ?></pre>
+                  </div>
+              </div>
+        </div>
+            
+        <div role="tabpanel" class="tab-pane" id="entregadas">
+            
+              <div class="panel panel-info">
+               <span class="title-window-panel">
+                 <i class="fa fa-user-plus"></i>Ordenes Entregadas al Cliente
+               </span>
+                  <div class="panel-body">
+
+<div  style="border:1px">
+     <table id='tblMain' class="table table-bordered table-hover" cellpadding="0" cellspacing="0"  width="100%">
+	<thead><tr>
+                <th><?php echo $this->Paginator->sort('# Orden','OrdenServicio.id_orden');?></th>
+           		<th><?php echo $this->Paginator->sort('Peso Libras','peso_libras');?></th>
+			<th><?php echo $this->Paginator->sort('Costo','precio_orden');?></th>
+			<th><?php echo $this->Paginator->sort('Cantidad Piezas','cantidad_piezas');?></th>
+                        <th><?php echo $this->Paginator->sort('Recepcion','recepcion');?></th>
+			<th><?php echo $this->Paginator->sort('Entrega','forma_entrega');?></th>
+			<th><?php echo $this->Paginator->sort('Fecha Solicitud','fecha_solicitud');?></th>
+			<th><?php echo $this->Paginator->sort('Status','OrdenServicio.status');?></th>
+                      
+            </tr></thead><tbody id='tblordenc'>
+	<?php
+	$i = 0;
+       	foreach ($ordenes_entregadas as $orden):
+                   
+		$class = "fondo1";
+                    if($i++%2==0){
+                   $class = "fondo2";
+                    }
+    
+    if($orden['OrdenServicio']['status']=='1'){ $status='Nueva Orden'; $class='primary-color';}
+    if($orden['OrdenServicio']['status']=='2'){ $status='Asignada Delivery'; $class='success-color';}
+    if($orden['OrdenServicio']['status']=='3'){ $status='Entregada Delivery'; $class='warning-color';}
+    if($orden['OrdenServicio']['status']=='4'){ $status='En Tienda';$class='info-color'; }
+    if($orden['OrdenServicio']['status']=='5'){ $status='Asignada Operador'; $class='operador-color';}
+    if($orden['OrdenServicio']['status']=='6'){ $status='Planchada'; $class='planchada-color';}
+    if($orden['OrdenServicio']['status']=='7'){ $status='Pendiente Pago'; $class='pendienp-color'; }
+    if($orden['OrdenServicio']['status']=='8'){ $status='Cancelada'; $class='cancelada-color'; }
+    if($orden['OrdenServicio']['status']=='9'){ $status='Enviada Cliente'; $class='enviada-color';}
+    if($orden['OrdenServicio']['status']=='10'){ $status='Entregada Cliente'; $class='entragada-color';}
+    
+    if($orden['OrdenServicio']['status']=='11'){ $status='>Observación'; $class='danger-color';}
+    
+    if($orden['OrdenServicio']['status']=='20'){ $status='Anulada'; $class='danger-color';}
+             if(!empty($orden['OrdenServicio']['forma_entrega'])){
+?>
+        <tr<?php echo " class='".$class."' ";   echo "id='".$orden['OrdenServicio']['id_orden']."'"?> >
+            <td><?php echo $orden['OrdenServicio']['id_orden']; ?>&nbsp;</td>
+		<td><?php echo $orden['OrdenServicio']['peso_libras']; ?>&nbsp;</td>
+		<td><?php echo $orden['OrdenServicio']['precio_orden']; ?>&nbsp;</td>
+                <td><?php echo $orden['OrdenServicio']['cantidad_piezas']; ?>&nbsp;</td>
+                <td><?php echo $orden['OrdenServicio']['recepcion']; ?>&nbsp;</td>
+		<td><?php echo $orden['OrdenServicio']['forma_entrega']; ?>&nbsp;</td>
+		<td><?php echo $orden['OrdenServicio']['fecha_solicitud']; ?>&nbsp;</td>
+                <td><?php echo $status; ?>&nbsp;</td>
+               
+
+	</tr>
+<?php 
+             }
+endforeach; ?>
+	</tbody></table>
+
+             </div>
+                  </div>
+              </div>
+        </div>    
+        
+   </div>
 </div>
  <script type="text/javascript">
         //<![CDATA[

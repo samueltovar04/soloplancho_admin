@@ -15,6 +15,8 @@
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#datoscliente2" aria-controls="datoscliente2" role="tab" data-toggle="tab">Asignar Operador</a></li>
         <li role="presentation"><a href="#codigobarra" aria-controls="codigobarra" role="tab" data-toggle="tab">Asignar Código de Barra</a></li>
+        <li role="presentation"><a href="#enviarcorreo" aria-controls="enviarcorreo" role="tab" data-toggle="tab">Notificar Por Correo</a></li>
+
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="datoscliente2">
@@ -143,7 +145,7 @@ if(isset($usuario['UsuarioOrden'])){
                         </tr>
                     </thead>
                     <tbody>
-              <?php             
+              <?php        $m=1;     
               if(isset($ordenes['OrdenArticulo']))
                foreach ($ordenes['OrdenArticulo'] as $key => $value) 
                {
@@ -158,8 +160,8 @@ if(isset($usuario['UsuarioOrden'])){
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.categoria",array('label' =>false,'div'=>false,'class'=>"form-control",'empty'=>array('nino'=>"Niño"),'options'=>array("nina"=>"Niña","dama"=>"Dama","caballero"=>"Caballero","otros"=>"Otros")))."</td>"
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.marca",array('label' =>false,'div'=>false,"maxlength"=>50,'class'=>"form-control","placeholder"=>"Marca / Modelo"))."</td>"
                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.observacion",array('label' =>false,'div'=>false,"maxlength"=>180,'class'=>"form-control","placeholder"=>"Observación"))."</td>"
-                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.codigo_barra",array('label' =>false,'div'=>false,"maxlength"=>20,"placeholder"=>"Código de Barra",'class'=>"form-control"))."</td></tr>";
-                          
+                            . "<td>".$this->Form->input("CodbarraArticulo.$key.$i.codigo_barra",array('id'=>"codigobarra0$m",'label' =>false,'div'=>false,"maxlength"=>20,"placeholder"=>"Código de Barra",'class'=>"form-control"))."</td></tr>";
+                         $m++; 
                       $cant+=1;
                         }
                    }
@@ -172,7 +174,31 @@ if(isset($usuario['UsuarioOrden'])){
       </table> 
                  
             </div>
+         </div>
+          <div role="tabpanel" class="tab-pane" id="enviarcorreo">
+            <div class="panel-body">
+                <div class="row pull-10">
+                    
+                        <div class="input-group">
+                            <span class="input-group-addon">Observación de preda(s) Dañada(s) o extraviada(s) en la orden</span>
+                            <span class="">
+                            <?php echo $this->Form->create('OrdenServicio');
+                
+                                echo $this->Form->input('OrdenServicio.id_orden',array('type' => 'hidden','value'=>$ordenes['OrdenServicio']['id_orden'],'onKeyPress'=>'return numeros(event)'));
+                                echo $this->Form->input('OrdenServicio.observacion',array('label' =>false,'div'=>false,'class'=>"form-control",'onKeyPress'=>'return letras(event)'));
+                            ?>
+                            </span>
+                            <span class="input-group-btn">
+                            <?php
+                                echo $this->Ajax->submit(__('Notificar correo al Cliente', true), array('div'=>false,'class'=>'btn btn-primary form-group','url'=> array('controller'=>'Ordenes', 'action'=>'enviar_notificacion',$ordenes['OrdenServicio']['id_orden']), 'update' => 'enviarcorreo','loading'=>'mini_loading','indicator'=>'mini_loading'));
+                            ?> 
+                            </span>
+                                
+                        </div>
+                    
+                </div>
             </div>
+         </div>
         </div>
     </div>
 </div>

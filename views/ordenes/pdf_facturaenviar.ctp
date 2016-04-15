@@ -77,19 +77,36 @@ $pdf->SetFont('helvetica','B',8);
                     .'Lb. ya reflejados en Factura';
         }
         $valor=$costo['Configuracion']['valor'];
-        $dto=$ordenes['OrdenServicio']['peso_descuento'];
-         $precio=$pagorden['PagoOrden']['precio_pago']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+        $dto=$ordenes['OrdenServicio']['peso_descuento']*$valor;
+         $precio=$ordenes['OrdenServicio']['precio_orden']-$dto;
             $diva=$impuesto['Configuracion']['descripcion'];
-            $iva=$pagorden['PagoOrden']['iva'];
+            $iva=$precio*$impuesto['Configuracion']['valor'];
             $monto=$precio;
-            $total=$pagorden['PagoOrden']['total'];
+            $total=$precio+$iva;
             
-
+$id=$ordenes['OrdenServicio']['id_orden'];
+ if($id<10){
+                $num='000000'.$id;
+            }elseif($id<100){
+                $num='00000'.$id;
+            }elseif($id<1000){
+                $num='0000'.$id;
+            }elseif($id<10000){
+                $num='000'.$id;
+            }elseif($id<100000){
+                $num='00'.$id;
+            }elseif($id<1000000){
+                $num='0'.$id;
+            }elseif($id<10000000){
+                $num=$id;
+            }
+            $date=date("Y-m-d H:i:s");
+            
 $tabla='<table cellpadding="0" cellspacing="0"  width="180px">
     
         <tr rowspan="2">
             <th><h4><center><b>SÓLO PLANCHO</b></center></h4></th>
-            <th align="right"><font size="6">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
+            <th align="right"><font size="6">FACTURA #  '.$num.'<br />FECHA: '.$date.'</font></th>
         </tr>
         <tr><th colspan="2" align="left"><font size="9"> '.$emp.'</font></th></tr>
         <tr><th colspan="2" align="left"><font size="9">NIT: '.$nit.'</font></th></tr>
@@ -119,26 +136,10 @@ $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
 $pdf->lastPage();
-$filename='factura_'.$fact.'.pdf';
-$path='/tmp/';
+$filename="factura_$num.pdf";
+$path='/var/www/html/';
 
-$id=$ordenes['OrdenServicio']['id_orden'];
- if($id<10){
-                $num='000000'.$id;
-            }elseif($id<100){
-                $num='00000'.$id;
-            }elseif($id<1000){
-                $num='0000'.$id;
-            }elseif($id<10000){
-                $num='000'.$id;
-            }elseif($id<100000){
-                $num='00'.$id;
-            }elseif($id<1000000){
-                $num='0'.$id;
-            }elseif($id<10000000){
-                $num=$id;
-            }
-            $date=date("Y-m-d H:i:s");
+
 $mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app cancelarla. Con cualquiera de nuestras diferentes formas de pago y envios \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($ordenes['Cliente']['email']));
 $pdf->Output($path.$filename,'F');

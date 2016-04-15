@@ -21,7 +21,7 @@ class OrdenesController extends AppController {
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'OrdenServicio.status'=>array('1','2'),
-                        'OrdenServicio.recepcion'=>'domicilio'
+                        'OrdenServicio.recepcion'=>array('drop-off','domicilio')
                     );
             $this->OrdenServicio->recursive = 2;
             $ordenes=$this->paginate('OrdenServicio',$this->con);
@@ -38,8 +38,8 @@ class OrdenesController extends AppController {
             $this->con['OrdenServicio.recepcion']='domicilio';*/
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
-                        'OrdenServicio.status'=>array('1'),
-                        'OrdenServicio.recepcion'=>'domicilio'
+                        'OrdenServicio.status'=>array('1','2'),
+                        'OrdenServicio.recepcion'=>array('drop-off','domicilio')
                     );
             $this->OrdenServicio->recursive = 2;
             $ordenes=$this->paginate('OrdenServicio',$this->con);
@@ -86,11 +86,11 @@ class OrdenesController extends AppController {
                     
                     if ($this->OrdenServicio->save($this->data)) {
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
-                        $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                        $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="La orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                             $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
                         
@@ -124,14 +124,14 @@ class OrdenesController extends AppController {
             $emp = $this->Session->read('id_empresa');
             $this->con['OrdenServicio.id_empresa']=$emp;	
             $this->con['OrdenServicio.status']=array('3','4','5');
-            $this->con['OrdenServicio.recepcion']='domicilio';
+            $this->con['OrdenServicio.recepcion']=array('drop-off','domicilio');
             $this->OrdenServicio->recursive = 2;
             $ordenes=$this->paginate('OrdenServicio',$this->con);
 
             $this->set('ordenes',$ordenes);
             $this->con['OrdenServicio.id_empresa']=$emp;	
             $this->con['OrdenServicio.status']=array('1','4','5');
-            $this->con['OrdenServicio.recepcion']=array('drop-off','personal');
+            $this->con['OrdenServicio.recepcion']=array('personal');
            
             $ordenesc=$this->paginate('OrdenServicio',$this->con);
             $this->set('ordenesc',$ordenesc);
@@ -238,7 +238,7 @@ class OrdenesController extends AppController {
                 $de="insert into usuario_ordenes (id_usuario,id_orden,fecha_asigna,status) VALUES('$usu','$ord','$date','2')";
                 $q=$this->UsuarioOrden->query($de);
                 $costo=$this->Configuracion->find('first',array('conditions'=>array('Configuracion.status'=>'1','Configuracion.codigo'=>'costo')));
-                $peso_viejo=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email,OrdenServicio.peso_libras','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
+                $peso_viejo=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email,OrdenServicio.peso_libras','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
                 if ($q) {
                    
                     $this->data['OrdenServicio']['precio_orden']=$costo['Configuracion']['valor']*$this->data['OrdenServicio']['peso_libras'];
@@ -248,7 +248,7 @@ class OrdenesController extends AppController {
                     if(($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10)<$this->data['OrdenServicio']['peso_libras'] || ($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10)>$this->data['OrdenServicio']['peso_libras'])
                         {
                          ($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10).' > '.$this->data['OrdenServicio']['peso_libras'].' || '.($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10).' <'.$this->data['OrdenServicio']['peso_libras'];
-                           $this->data['OrdenServicio']['observacion']='Se le notifica que el peso de la Orden de Servicio # '
+                           $this->data['OrdenServicio']['observacion']="Estimado(a) ".$peso_viejo['Cliente']['fullname']."\n\n\t\tSe le notifica que el peso de la Orden de Servicio # "
                                 .$ord.' es de : '.$this->data['OrdenServicio']['peso_libras'].' Lbs. , notando una pequeña diferencia'
                                 .' con la colocada online por usted de '.$peso_viejo['OrdenServicio']['peso_libras'].' Lbs. , de igual manera seguiremos con el proceso normal de su orden.'; 
                            $are=array(0=>strtolower(trim($peso_viejo['Cliente']['email'])));
@@ -303,14 +303,16 @@ class OrdenesController extends AppController {
                $orden=$this->data['CodbarraArticulo']['id_orden'];
                unset($this->data['CodbarraArticulo']['id_orden']);
                $n=$this->data;
+               $gd=0;
                 foreach ($n['CodbarraArticulo'] as $key => $value) 
                 { 
+                   
                     $art=$value['id_articulo'];
                     $cant=$value['cantidad'];
                     unset($value['id_articulo']);
-                     unset($value['cantidad']);
-                  foreach  ($value as  $articulo){
-                      //pr($key);
+                    unset($value['cantidad']);
+                    foreach  ($value as  $articulo){
+                      $gd++;
                       $d['CodbarraArticulo']['id_orden']=$orden;
                       $d['CodbarraArticulo']['id_articulo']=$art;
                       $d['CodbarraArticulo']['codigo_barra']=$articulo['codigo_barra'];
@@ -318,36 +320,50 @@ class OrdenesController extends AppController {
                       $d['CodbarraArticulo']['marca']=$articulo['marca'];
                       $d['CodbarraArticulo']['observacion']=$articulo['observacion'];
                       
-                      $codb=$this->CodbarraArticulo->find('first',array('fields'=>'id_orden,id_articulo','conditions'=>array('CodbarraArticulo.codigo_barra'=>$articulo['codigo_barra'],'CodbarraArticulo.status'=>'1')));
+                      $codb=$this->CodbarraArticulo->find('first',array('fields'=>'id_orden,id_articulo','conditions'=>array('CodbarraArticulo.codigo_barra'=>$articulo['codigo_barra'])));//si se van a liberar el codigo,'CodbarraArticulo.status'=>'1')));
                       
                       if(!isset($codb['CodbarraArticulo']['id_orden'])){
                         if(!empty($articulo['marca']))
                             if(!empty($articulo['codigo_barra'])){
                                 $this->CodbarraArticulo->saveAll($d);
                                 $this->data=NULL;
-                                ?> <script type="text/javascript" language="javascript">
-                                     document.getElementById('categoria10').focus();
-                                 </script>
-                            <?php
+                               if($gd>2){
+                                 ?> <script type="text/javascript" language="javascript">
+                                     alert(<?php echo $gd ?>);
+                                     $("#mini_loading").hide();
+                                   document.getElementById('codigobarra01').focus();
+                                  
+                                     </script>
+                                    <?php
+                                }
                             }else{
                                 $this->set('Error',__('Campos Vácios', true));
                                 $this->data['CodbarraArticulo']['1']['0']['codigo_barra']='';
+                                if(isset($this->data['CodbarraArticulo']['0']))
+                                    $this->data['CodbarraArticulo']['0']['0']['codigo_barra']='';
                                  ?> <script type="text/javascript" language="javascript">
-		 	     document.getElementById('codigobarra10').focus();
-                           </script>
-                        <?php
+                                  document.getElementById('codigobarra01').focus();
+                                     $("#mini_loading").hide();
+                                    </script>
+                                    <?php
+                                  
                             }
                       }else{
                           $this->set('Error',__('Código de barra ya existe para otro artículo', true));
                       
                             $this->data['CodbarraArticulo']['1']['0']['codigo_barra']='';
-                        ?> <script type="text/javascript" language="javascript">
-		 	     document.getElementById('codigobarra10').focus();
-                           </script>
-                        <?php
+                            if(isset($this->data['CodbarraArticulo']['0']))
+                            $this->data['CodbarraArticulo']['0']['0']['codigo_barra']='';
+                                ?> <script type="text/javascript" language="javascript">
+                                    document.getElementById('codigobarra01').focus();
+                                     $("#mini_loading").hide();
+                             </script>
+                              <?php
+                             
                       }
                   }
                 }
+                
                 
             }
             $this->data['CodbarraArticulo']['id_orden']=$orden;
@@ -360,6 +376,10 @@ class OrdenesController extends AppController {
                 $art=$this->CodbarraArticulo->find('count',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.id_articulo'=>$value['id_articulo'])));
                 $orden['OrdenArticulo'][$key]['guarda']=$art;
             }
+            $this->data['CodbarraArticulo']['1']['0']['codigo_barra']='';
+             if(isset($this->data['CodbarraArticulo']['0']))
+                 $this->data['CodbarraArticulo']['0']['0']['codigo_barra']='';
+                                
             $this->set('ordenes',$orden);
         }
         
@@ -473,7 +493,7 @@ class OrdenesController extends AppController {
         }
         function verifica_codbarra(){
             //pr($this->data);
-           
+           $date=date("Y-m-d H:i:s");
             if(!empty($this->data['CodbarraArticulo']['verificacodbarra'])){
                 $codb=$this->CodbarraArticulo->find('first',array('conditions'=>array('CodbarraArticulo.id_orden'=>$this->data['CodbarraArticulo']['id_orden'],'CodbarraArticulo.codigo_barra'=>$this->data['CodbarraArticulo']['verificacodbarra'],'CodbarraArticulo.status'=>'1')));
                 if($codb){
@@ -485,6 +505,8 @@ class OrdenesController extends AppController {
                     $codok=$this->CodbarraArticulo->find('count',array('conditions'=>array('CodbarraArticulo.id_orden'=>$ido,'CodbarraArticulo.status'=>'1')));
                         if($codok=='0'){
                             $upd="update orden_servicios set status='7' where  id_orden='$ido'";
+                            $this->CodbarraArticulo->query($upd);
+                            $upd="update usuario_ordenes set status='6',fecha_cumple='$date' where  id_orden='$ido' and status='2'";
                             $this->CodbarraArticulo->query($upd);
                             $this->enviarfactura($ido);
                         }else{
@@ -584,10 +606,8 @@ class OrdenesController extends AppController {
                 $num='00'.$id;
             }elseif($id<1000000){
                 $num='0'.$id;
-            }elseif($id<10000000){
-                $num=$id;
             }
-            if(($this->data['PagoOrden']['metodo_pago']=='deposito' || $this->data['PagoOrden']['metodo_pago']=='transferencia') && $this->data['PagoOrden']['forma_pago']=='punto_inalambrico'){
+            if(($this->data['PagoOrden']['metodo_pago']=='deposito' || $this->data['PagoOrden']['metodo_pago']=='transferencia') && $this->data['PagoOrden']['forma_pago']=='datafono'){
                  $this->set('Error',__('Forma Pago solo puede ser en Tienda', true));
             }else
             if(empty($this->data['OrdenServicio']['forma_entrega'])){
@@ -596,7 +616,7 @@ class OrdenesController extends AppController {
                 $this->data['PagoOrden']['numero_factura']=$num;
                 $this->PagoOrden->create();
                 $date=date("Y-m-d H:i:s");
-                $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
@@ -606,9 +626,9 @@ class OrdenesController extends AppController {
                 {
                     $this->data['PagoOrden']['status']='1';
                     $this->data['OrdenServicio']['status']='7';
-                    $this->data['PagoOrden']['fecha_pago']='';
+                    $this->data['PagoOrden']['fecha_pago']=NULL;
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                    $mensaje="La orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n a solicitud del cliente será cancelada por Datafono en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                    $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n a solicitud del cliente será cancelada por Datafono en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                     if($this->data['OrdenServicio']['forma_entrega']=='tienda')
@@ -617,7 +637,7 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='10';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                    $mensaje="La orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n la cual ha sido cancelada y entregada al cliente en la tienda \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                    $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n la cual ha sido cancelada y entregada al cliente en la tienda \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                 {
@@ -625,18 +645,18 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='8';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                     $mensaje="La orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n la cual ha sido cancelada y en espera por asignar delivery para entregar al domicilio del cliente \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                     $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $id, Según fáctura # ".$num.", en fecha $date, \n la cual ha sido cancelada y en espera por asignar delivery para entregar al domicilio del cliente \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }
                 if($this->PagoOrden->save($this->data)){
                      $this->data['OrdenServicio']['id_orden']=$id;
                     $this->OrdenServicio->save($this->data);
                     if($this->data['PagoOrden']['status']==1){
-                     $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR CANCELAR, SOLOPLANCHO.COM');
-                }else {
-                    $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CANCELADA, SOLOPLANCHO.COM');
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR CANCELAR, SOLOPLANCHO.COM');
+                    }else {
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CANCELADA, SOLOPLANCHO.COM');
  
-                 }   
+                    }   
                     $this->set('Exito',__('Pago Realizado con exito', true));
                     
                 } else {
@@ -646,17 +666,7 @@ class OrdenesController extends AppController {
             }
             $this->set('ordenes',$orden);
         }
-        function ordenes_canceladas(){
-            $emp = $this->Session->read('id_empresa');
-            $this->con = array(
-                        'OrdenServicio.id_empresa'=>$emp,
-                        'OrdenServicio.status'=>array('8','9')
-                    );
-            $this->OrdenServicio->recursive = 2;
-            $ordenes=$this->paginate('OrdenServicio',$this->con);
-
-            $this->set('ordenes',$ordenes);
-        }
+        
          function asignar_entrega($id){
              $emp = $this->Session->read('id_empresa');
             $this->OrdenServicio->recursive = 2;
@@ -693,11 +703,11 @@ class OrdenesController extends AppController {
 		    $this->data['OrdenServicio']['status']='9';
                     
                     if ($this->OrdenServicio->save($this->data)) {
-                          $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
+                          $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'4','UsuarioOrden.id_orden'=>$ord)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="La orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera entregada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera entregada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                         $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE, SOLOPLANCHO.COM');
                         
@@ -763,7 +773,7 @@ class OrdenesController extends AppController {
             $this->set('costo',$pago);
             $this->set('pagorden',$pag);
             $codb=$this->CodbarraArticulo->find('all',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.status'=>'2')));
-                
+            
             $this->set('ordenes',$orden);
             $this->set('usuario',$usu);
             $this->set('codbarra',$codb);
@@ -774,6 +784,78 @@ class OrdenesController extends AppController {
             }  else {
                 $this->redirect('/Bienvenidos');
             }
+        }
+        function enviar_notificacion($id=null){
+            $emp = $this->Session->read('id_empresa');
+            $this->OrdenServicio->recursive = 2;
+            $orden=$this->OrdenServicio->find('first',array(
+                'conditions'=>array('OrdenServicio.id_orden'=>$id)
+            ));
+            
+            if(!empty($this->data)){
+                 $mensaje="Estimado(a) ".$orden['Cliente']['fullname']."\n\n\t\tNotificado:\n  ".$this->data['OrdenServicio']['observacion'].", para orden de servicio de planchado # $id \n"
+                               . "Su cuenta email: ".strtolower(trim($orden['Cliente']['email']));
+                        $this->enviar_mensaje(array(0=>$orden['Cliente']['email']), $mensaje, 'Notificado de problema con la orden de servicio o alguna(s) prenda(s) , SOLOPLANCHO.COM');
+                        $this->OrdenServicio->save($this->data);
+            }
+            
+            $this->set('ordenes',$orden);
+        }
+        
+        
+        function ordenes_canceladas(){
+            $emp = $this->Session->read('id_empresa');
+            $this->con = array(
+                        'OrdenServicio.id_empresa'=>$emp,
+                        'OrdenServicio.status'=>array('7','8','9')
+                    );
+            $this->paginate = array(
+                    'recursive'=>-1, // should be used with joins
+                    'joins'=>array(
+                                array(
+                                    'table'=>'pago_ordenes',
+                                    'type'=>'left',
+                                    'alias'=>'PagoOrden',
+                                    'conditions'=>array("PagoOrden.id_orden = OrdenServicio.id_orden and PagoOrden.forma_pago='datafono'")
+                                )
+                            )
+                );
+            $this->OrdenServicio->recursive = 2;
+            $ordenes=$this->paginate('OrdenServicio',$this->con);
+            $date=date("d-m-Y");
+            $this->PagoOrden->recursive = -1;
+            $this->OrdenServicio->recursive = -1;
+            $pagos=$this->PagoOrden->find('all',array('fields'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%d-%m-%Y') AS fecha,metodo_pago,sum(PagoOrden.total) total",'conditions'=>array('PagoOrden.status'=>'2',"DATE_FORMAT(PagoOrden.fecha_pago, '%d-%m-%Y')"=>$date),
+                'joins'=>array(
+                                array(
+                                    'table'=>'orden_servicios',
+                                    'type'=>'left',
+                                    'alias'=>'OrdenServicio',
+                                    'conditions'=>array("PagoOrden.id_orden = OrdenServicio.id_orden and OrdenServicio.id_empresa='$emp'")
+                                )
+                            ),
+                'group'=>'PagoOrden.metodo_pago'));
+            $date2=date("Y");
+            $pagosm=$this->PagoOrden->find('all',array('fields'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%M') AS fecha,metodo_pago,sum(PagoOrden.total) total",'conditions'=>array('PagoOrden.status'=>'2',"DATE_FORMAT(PagoOrden.fecha_pago, '%Y')"=>$date2),
+                'joins'=>array(
+                                array(
+                                    'table'=>'orden_servicios',
+                                    'type'=>'left',
+                                    'alias'=>'OrdenServicio',
+                                    'conditions'=>array("PagoOrden.id_orden = OrdenServicio.id_orden and OrdenServicio.id_empresa='$emp'")
+                                )
+                            ),
+                'group'=>"PagoOrden.metodo_pago,DATE_FORMAT(PagoOrden.fecha_pago, '%M')"));
+            
+            $this->OrdenServicio->recursive = 2;
+            $orden=$this->OrdenServicio->find('all',array(
+                'conditions'=>array('OrdenServicio.id_empresa'=>$emp,'OrdenServicio.status'=>'10')
+            ));
+            
+            $this->set('pagosdia',$pagos);
+            $this->set('pagosmes',$pagosm);
+            $this->set('ordenes',$ordenes);
+            $this->set('ordenes_entregadas',$orden);
         }
 }
 ?>
