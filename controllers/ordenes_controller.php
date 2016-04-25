@@ -834,9 +834,10 @@ class OrdenesController extends AppController {
                                     'conditions'=>array("PagoOrden.id_orden = OrdenServicio.id_orden and OrdenServicio.id_empresa='$emp'")
                                 )
                             ),
-                'group'=>'PagoOrden.metodo_pago'));
-            $date2=date("Y");
-            $pagosm=$this->PagoOrden->find('all',array('fields'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%M') AS fecha,metodo_pago,sum(PagoOrden.total) total",'conditions'=>array('PagoOrden.status'=>'2',"DATE_FORMAT(PagoOrden.fecha_pago, '%Y')"=>$date2),
+                'group'=>'PagoOrden.metodo_pago',
+                'order'=>'PagoOrden.metodo_pago'));
+            $date2=date("m-Y");
+            $pagosm=$this->PagoOrden->find('all',array('fields'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%d-%m-%Y') AS fecha,metodo_pago,sum(PagoOrden.total) total",'conditions'=>array('PagoOrden.status'=>'2',"DATE_FORMAT(PagoOrden.fecha_pago, '%m-%Y')"=>$date2),
                 'joins'=>array(
                                 array(
                                     'table'=>'orden_servicios',
@@ -845,7 +846,24 @@ class OrdenesController extends AppController {
                                     'conditions'=>array("PagoOrden.id_orden = OrdenServicio.id_orden and OrdenServicio.id_empresa='$emp'")
                                 )
                             ),
-                'group'=>"PagoOrden.metodo_pago,DATE_FORMAT(PagoOrden.fecha_pago, '%M')"));
+                'group'=>"PagoOrden.metodo_pago,DATE_FORMAT(PagoOrden.fecha_pago, '%d-%m-%Y')",
+                'order'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%d-%m-%Y'),PagoOrden.metodo_pago"));
+            
+            $this->OrdenServicio->recursive = 2;
+           
+            
+            $date3=date("Y");
+            $pagosa=$this->PagoOrden->find('all',array('fields'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%M') AS fecha,metodo_pago,sum(PagoOrden.total) total",'conditions'=>array('PagoOrden.status'=>'2',"DATE_FORMAT(PagoOrden.fecha_pago, '%Y')"=>$date3),
+                'joins'=>array(
+                                array(
+                                    'table'=>'orden_servicios',
+                                    'type'=>'left',
+                                    'alias'=>'OrdenServicio',
+                                    'conditions'=>array("PagoOrden.id_orden = OrdenServicio.id_orden and OrdenServicio.id_empresa='$emp'")
+                                )
+                            ),
+                'group'=>"PagoOrden.metodo_pago,DATE_FORMAT(PagoOrden.fecha_pago, '%M')",
+                'order'=>"DATE_FORMAT(PagoOrden.fecha_pago, '%m'),PagoOrden.metodo_pago"));
             
             $this->OrdenServicio->recursive = 2;
             $orden=$this->OrdenServicio->find('all',array(
@@ -854,6 +872,7 @@ class OrdenesController extends AppController {
             
             $this->set('pagosdia',$pagos);
             $this->set('pagosmes',$pagosm);
+            $this->set('pagosano',$pagosa);
             $this->set('ordenes',$ordenes);
             $this->set('ordenes_entregadas',$orden);
         }

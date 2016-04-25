@@ -14,6 +14,8 @@
           <li role="presentation" class="active"><a href="#buscaorden" aria-controls="buscaorden" role="tab" data-toggle="tab">Datos de las Ordenes</a></li>
           <li role="presentation" ><a href="#canceladasdia" aria-controls="canceladasdia" role="tab" data-toggle="tab">Pagos del Día</a></li>
           <li role="presentation" ><a href="#canceladasmes" aria-controls="canceladasmes" role="tab" data-toggle="tab">Pagos del Mes</a></li>
+          <li role="presentation" ><a href="#canceladasano" aria-controls="canceladasano" role="tab" data-toggle="tab">Pagos del Año</a></li>
+          
           <li role="presentation" ><a href="#entregadas" aria-controls="entregadas" role="tab" data-toggle="tab">Ordenes Entregadas</a></li>
           
         </ul>
@@ -31,8 +33,8 @@
   $paginator->options(array('url'=>array( 'controller' => 'Ordenes', 'action' => 'ordenes_canceladas'),'update' => 'ordenescanceladas', 'indicator' => 'mini_loading','loading'=>'mini_loading'));
 
  ?>
-<div  style="border:1px">
-     <table id='tblMain' class="table table-bordered table-hover" cellpadding="0" cellspacing="0"  width="100%">
+                      <div  style="border:1px" class=" table-responsive">
+     <table id='tblMain' class="table table-striped table-bordered" cellpadding="0" cellspacing="0"  width="100%">
 	<thead><tr>
                 <th><?php echo $this->Paginator->sort('# Orden','OrdenServicio.id_orden');?></th>
            		<th><?php echo $this->Paginator->sort('Peso Libras','peso_libras');?></th>
@@ -110,11 +112,26 @@ endforeach; ?>
                <span class="title-window-panel">
                  <i class="fa fa-user-plus"></i>Ordenes Canceladas en el día
                </span>
-                  <div class="panel-body">
-                      <pre> <?php
-                            
-                              print_r($pagosdia);
-                              ?></pre>
+                  <div class="panel-body table-responsive">
+                   <table id='tblMain' class="table table-striped table-bordered" cellpadding="0" cellspacing="0"  width="100%">
+                    <thead><tr>
+                        <th>Fecha de Pago</th>
+                        <th>Metodo de Pago</th>
+                        <th>Monto SubTotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                                $total=0;
+                          foreach ($pagosdia as $key => $value) {
+                              $total+=round($value[0]['total'],2);
+                                 
+                                 echo "<tr><td>".$value[0]['fecha']."</td><td>".$value['PagoOrden']['metodo_pago']."</td><td>".round($value[0]['total'],2)."</td></tr>";
+                          }
+                          echo "<tr class='alert-success'><td></td><td><b>Monto Total</b></td><td><b>".round($total, 2)."</b></td></tr>";
+                      ?>
+                   </tbody>
+                   </table>
                   </div>
               </div>
         </div>
@@ -125,25 +142,90 @@ endforeach; ?>
                <span class="title-window-panel">
                  <i class="fa fa-user-plus"></i>Ordenes Canceladas en el mes
                </span>
-                  <div class="panel-body">
-                       <pre> <?php
-                            
-                              print_r($pagosmes);
-                              ?></pre>
+                  <div class="panel-body table-responsive">
+                   <table id='tblMain' class="table table-striped  table-bordered" cellpadding="0" cellspacing="0"  width="100%">
+                    <thead>
+                      <tr>
+                        
+                        <th>Fecha de Pago</th>
+                        <th>Metodo de Pago</th>
+                        <th>Sub Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                            $totalmes=$mes=$total=0;
+                          foreach ($pagosmes as $key => $value) 
+                          {      
+                              if($mes!=$value[0]['fecha']){
+                                  if($total!=0)
+                                   echo "<tr class='alert-success'><td></td><td><b>Monto Total</b></td><td><b>".round($total, 2)."</b></td></tr>";
+                                    
+                                    $totalmes+=$total;
+                                    $total=0;
+                                }
+                                echo "<tr><td>".$value[0]['fecha']."</td><td>".$value['PagoOrden']['metodo_pago']."</td><td>".round($value[0]['total'],2)."</td></tr>";
+                                $total+=round($value[0]['total'],2);
+                                 
+                                 $mes=$value[0]['fecha'];
+                          } 
+                          echo "<tr class='alert-success'><td></td><td><b>Monto Total</b></td><td><b>".round($total, 2)."</b></td></tr>";
+                           echo "<tr class='alert-box'><td></td><td><b> Total en el Mes:</b></td><td><b>".round($totalmes, 2)."</b></td></tr>";
+
+                          ?>
+                   </tbody>
+                   </table>
                   </div>
               </div>
         </div>
             
-        <div role="tabpanel" class="tab-pane" id="entregadas">
+        <div role="tabpanel" class="tab-pane al" id="canceladasano">
+            
+              <div class="panel panel-info">
+               <span class="title-window-panel">
+                 <i class="fa fa-user-plus"></i>Ordenes Canceladas en el Año
+               </span>
+                  <div class="panel-body table-responsive">
+                   <table id='tblMain' class="table table-striped table-bordered" cellpadding="0" cellspacing="0"  width="100%">
+                    <thead>
+                      <tr>
+                        <th>Metodo de Pago</th>
+                        <th>fecha de Pago</th>
+                        <th>Sub Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                            $mes=$total=0;
+                          foreach ($pagosano as $key => $value) 
+                          {      
+                              if($mes!=$value[0]['fecha']){
+                                   echo "<tr class='alert-success'><td></td><td><b>Monto Total</b></td><td><b>".round($total, 2)."</b></td></tr>";
+                                    $total=0;
+                                }
+                                 echo "<tr><td>".$value[0]['fecha']."</td><td>".$value['PagoOrden']['metodo_pago']."</td><td>".round($value[0]['total'],2)."</td></tr>";
+                                $total+=round($value[0]['total'],2);
+                                 
+                                 $mes=$value[0]['fecha'];
+                          } 
+                          echo "<tr class='alert-success'><td></td><td><b>Monto Total</b></td><td><b>".round($total, 2)."</b></td></tr>";
+                      ?>
+                   </tbody>
+                   </table>
+                  </div>
+              </div>
+        </div>
+            
+        <div role="tabpanel" class="tab-pane " id="entregadas">
             
               <div class="panel panel-info">
                <span class="title-window-panel">
                  <i class="fa fa-user-plus"></i>Ordenes Entregadas al Cliente
                </span>
-                  <div class="panel-body">
+                  <div class="panel-body table-responsive">
 
 <div  style="border:1px">
-     <table id='tblMain' class="table table-bordered table-hover" cellpadding="0" cellspacing="0"  width="100%">
+     <table id='tblMain' class="table table-striped table-bordered" cellpadding="0" cellspacing="0"  width="100%">
 	<thead><tr>
                 <th><?php echo $this->Paginator->sort('# Orden','OrdenServicio.id_orden');?></th>
            		<th><?php echo $this->Paginator->sort('Peso Libras','peso_libras');?></th>
@@ -198,9 +280,9 @@ endforeach; ?>
 	</tbody></table>
 
              </div>
-                  </div>
-              </div>
-        </div>    
+            </div>
+         </div>
+      </div>    
         
    </div>
 </div>
