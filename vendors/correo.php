@@ -64,7 +64,7 @@ class cMailer{
 	
 	}
 
-	function AddHost($host,$port=2500){
+	function AddHost($host,$port=25){
            try {
 if (!$this->_ConexionSMTP = fsockopen("$host","$port",$e,$em,5))
 throw new Exception ();
