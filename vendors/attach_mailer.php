@@ -166,6 +166,35 @@ class attach_mailer {
 			$this->msg[] = "Error while sending you mail.";
 		}
 	}
+    function enviar_curl($url, $post_data)
+    {  
+     if($curl_connection = curl_init($url))  
+     {  
+	$post_string = json_encode($post_data); 
+        curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);  
+        curl_setopt($curl_connection, CURLOPT_USERAGENT,  
+        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");  
+        curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);  
+        curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);  
+        curl_setopt($curl_connection, CURLOPT_FOLLOWLOCATION, 1); 
+	curl_setopt($curl_connection, CURLOPT_POSTFIELDS, $post_string); 
+	curl_setopt($curl_connection, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: '.strlen($post_string)));    
+
+     //foreach ( $post_data as $key => $value)  
+     //{  
+     //  $post_items[] = $key . '=' . $value;  
+     //}  
+     //$post_string = implode ('&', $post_items);    
+ 
+     $result = curl_exec($curl_connection);  
+     //muestra los resultados del proceso  
+     //print_r(curl_getinfo($curl_connection));  
+     //echo curl_errno($curl_connection)
+     curl_close($curl_connection);  
+       }  
+     else{   
+     }  
+ }
 }
 	
 ?>

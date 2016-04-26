@@ -86,13 +86,15 @@ class OrdenesController extends AppController {
                     
                     if ($this->OrdenServicio->save($this->data)) {
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
-                        $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                        $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
-                                    . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
-                            $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado\n";
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
+                            
                         
                             ?> <script type="text/javascript" language="javascript">
 		 	     $.ajax({
@@ -238,7 +240,7 @@ class OrdenesController extends AppController {
                 $de="insert into usuario_ordenes (id_usuario,id_orden,fecha_asigna,status) VALUES('$usu','$ord','$date','2')";
                 $q=$this->UsuarioOrden->query($de);
                 $costo=$this->Configuracion->find('first',array('conditions'=>array('Configuracion.status'=>'1','Configuracion.codigo'=>'costo')));
-                $peso_viejo=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email,OrdenServicio.peso_libras','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
+                $peso_viejo=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email,OrdenServicio.peso_libras','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
                 if ($q) {
                    
                     $this->data['OrdenServicio']['precio_orden']=$costo['Configuracion']['valor']*$this->data['OrdenServicio']['peso_libras'];
@@ -252,6 +254,8 @@ class OrdenesController extends AppController {
                                 .$ord.' es de : '.$this->data['OrdenServicio']['peso_libras'].' Lbs. , notando una pequeña diferencia'
                                 .' con la colocada online por usted de '.$peso_viejo['OrdenServicio']['peso_libras'].' Lbs. , de igual manera seguiremos con el proceso normal de su orden.'; 
                            $are=array(0=>strtolower(trim($peso_viejo['Cliente']['email'])));
+                          $arreglo=array('id_cliente'=>$peso_viejo['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO CON PESO DIFERENTE EN TIENDA",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
                            $this->enviar_mensaje($are, $this->data['OrdenServicio']['observacion'], 'ORDEN SERVICIO CON PESO DIFERENTE EN TIENDA, WWW.SOLOPLANCHO.COM');
                             $this->set('Exito',__('El Operador ha sido Asignado y el Cliente se a notificado vía correo por error en las libras de la orden', true));
                         }
@@ -616,7 +620,7 @@ class OrdenesController extends AppController {
                 $this->data['PagoOrden']['numero_factura']=$num;
                 $this->PagoOrden->create();
                 $date=date("Y-m-d H:i:s");
-                $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
+                $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
@@ -652,9 +656,13 @@ class OrdenesController extends AppController {
                      $this->data['OrdenServicio']['id_orden']=$id;
                     $this->OrdenServicio->save($this->data);
                     if($this->data['PagoOrden']['status']==1){
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR CANCELAR, SOLOPLANCHO.COM');
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO  POR CANCELAR, WWW.SOLOPLANCHO.COM",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR CANCELAR, WWW.SOLOPLANCHO.COM');
                     }else {
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CANCELADA, SOLOPLANCHO.COM');
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO CANCELADA, WWW.SOLOPLANCHO.COM",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CANCELADA, WWW.SOLOPLANCHO.COM');
  
                     }   
                     $this->set('Exito',__('Pago Realizado con exito', true));
@@ -703,13 +711,14 @@ class OrdenesController extends AppController {
 		    $this->data['OrdenServicio']['status']='9';
                     
                     if ($this->OrdenServicio->save($this->data)) {
-                          $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
+                          $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
                         $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'4','UsuarioOrden.id_orden'=>$ord)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera entregada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
-                               . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE, SOLOPLANCHO.COM');
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera entregada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado\n";
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE, WWW.SOLOPLANCHO.COM');
                         
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
                         
@@ -793,8 +802,9 @@ class OrdenesController extends AppController {
             ));
             
             if(!empty($this->data)){
-                 $mensaje="Estimado(a) ".$orden['Cliente']['fullname']."\n\n\t\tNotificado:\n  ".$this->data['OrdenServicio']['observacion'].", para orden de servicio de planchado # $id \n"
-                               . "Su cuenta email: ".strtolower(trim($orden['Cliente']['email']));
+                 $mensaje="Estimado(a) ".$orden['Cliente']['fullname']."\n\n\t\tNotificado:\n  ".$this->data['OrdenServicio']['observacion'].", para orden de servicio de planchado # $id \n";
+                 $arreglo=array('id_cliente'=>$orden['Cliente']['reg_id'],'titulo'=>"Notificado de problema con la orden de servicio o alguna(s) prenda(s)",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
                         $this->enviar_mensaje(array(0=>$orden['Cliente']['email']), $mensaje, 'Notificado de problema con la orden de servicio o alguna(s) prenda(s) , SOLOPLANCHO.COM');
                         $this->OrdenServicio->save($this->data);
             }

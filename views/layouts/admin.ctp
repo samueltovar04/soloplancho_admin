@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 <?php
-echo $this->Html->meta('favicon');
+echo $this->Html->meta('favicon.ico','img/soloplancho.png',array('type' => 'icon'));
 echo $this->Html->css('bootstrap.min');
 //echo $this->Html->css('bootstrap-datepicker');
 echo $this->Html->css('jquery-ui');
@@ -46,7 +46,7 @@ echo $javascript->link('functions')."\n";
    <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
      <ul  class="nav navbar-nav col-xs-2">
-            <li ><a class="brand"><?= $this->Html->image('soloplancho.png', ['width'=>'40px','style'=>'padding:0px,margin:0px','class' => 'img-responsive img-rounded'])?></a></li>
+            <li ><a class="brand"><?= $this->Html->image('ico_soloplancho.png', ['width'=>'40px','style'=>'padding:0px,margin:0px','class' => 'img-responsive img-rounded'])?></a></li>
         	    
             <li class="brand"><h4><strong>SoloPlancho</strong></h4></li>
                    

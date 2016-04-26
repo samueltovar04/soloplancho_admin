@@ -33,49 +33,46 @@
 
  App::import('Vendor', 'correo', false);
 class AppController extends Controller {
-       var $components = array('Session',
+   var $components = array('Session',
         'DebugKit.Toolbar' => array('panels' => array('history', 'session')));
-    var $pageTitle = 'SoloPlancho .:Inicio:.';
+   var $pageTitle = 'SoloPlancho .:Inicio:.';
     
-        function enviar_mensaje($log,$mensaje,$asunto)
-        {
-            $header = "From: soloplancho@soloplancho.com \n";
-            $header .= "Mime-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 7bit";
-            $descripcion = "Este mensaje fue enviado por SOLOPLANCHO \"Los Número uno en Planchado\",\n";
-            $descripcion=utf8_decode($descripcion.$mensaje);
-            set_time_limit(0);
-            $res='';
-            $m = new cMailer();
-            for($i=0;$i<count($log);$i++){
+   function enviar_mensaje($log,$mensaje,$asunto)
+   {
+        $header = "From: soloplancho@soloplancho.com \n";
+        $header .= "Mime-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 7bit";
+        $descripcion = "Este mensaje fue enviado por SOLOPLANCHO \"Los Número uno en Planchado\",\n";
+        $descripcion=utf8_decode($descripcion.$mensaje);
+        set_time_limit(0);
+        $res='';
+        $m = new cMailer();
+       for($i=0;$i<count($log);$i++){
             $m->AddAddress($log[$i]);
             $com="echo '$descripcion' | mail -s '$asunto' ".$log[$i];
             //system($com);
             mail($log[$i], $asunto, $descripcion, $header);
-            }
-            $m->AddAddress("soloplancho@gmail.com");
-
-            $m->AddSender("soloplancho@gmail.com");
-            $m->AddSubject("$asunto");
-
-            $m->AddMessage("$descripcion");
-
-            $re=$m->AddHost("localhost",25);
-            if($res)
-            {
-            $m->Send();
-	if($m)
-            echo " Datos Enviados correctamente";
-	else
-            echo "no se envio $m";
+       }
+       $m->AddAddress("soloplancho@gmail.com");
+       $m->AddSender("soloplancho@gmail.com");
+       $m->AddSubject("$asunto");
+       $m->AddMessage("$descripcion");
+       $re=$m->AddHost("localhost",25);
+       if($res)
+       {
+           $m->Send();
+           if($m)
+              echo " Datos Enviados correctamente";
+	   else
+              echo "no se envio $m";
         }
        /* else
         {
             $this->set('usuario',$log[0]);
           $this->render();
         }*/
-        }
+  }
         
-        function mail_attachment($filename, $path, $mailto, $message, $asunto) {
+  function mail_attachment($filename, $path, $mailto, $message, $asunto) {
     $file = $path.$filename;
     $file_size = filesize($file);
     $handle = fopen($file, "r");
@@ -104,5 +101,34 @@ class AppController extends Controller {
     } else {
         echo "mail send ... ERROR!";
     }
-}
+  }
+ function enviar_curl($url, $post_data)
+ {  
+     if($curl_connection = curl_init($url))  
+     {  
+	$post_string = json_encode($post_data); 
+        curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);  
+        curl_setopt($curl_connection, CURLOPT_USERAGENT,  
+        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");  
+        curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);  
+        curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);  
+        curl_setopt($curl_connection, CURLOPT_FOLLOWLOCATION, 1); 
+	curl_setopt($curl_connection, CURLOPT_POSTFIELDS, $post_string); 
+	curl_setopt($curl_connection, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: '.strlen($post_string)));    
+
+     //foreach ( $post_data as $key => $value)  
+     //{  
+     //  $post_items[] = $key . '=' . $value;  
+     //}  
+     //$post_string = implode ('&', $post_items);    
+ 
+     $result = curl_exec($curl_connection);  
+     //muestra los resultados del proceso  
+     //print_r(curl_getinfo($curl_connection));  
+     //echo curl_errno($curl_connection)
+     curl_close($curl_connection);  
+       }  
+     else{   
+     }  
+ }
 }

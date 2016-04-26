@@ -53,6 +53,7 @@ $pdf->SetFont('helvetica','B',8);
         $web=$ordenes['Empresa']['web'];
         $fact=$pagorden['PagoOrden']['numero_factura'];
         $ced=$ordenes['Cliente']['cedula'];
+        $cli_id=$ordenes['Cliente']['reg_id'];
         $nom=$ordenes['Cliente']['fullname'];
         $dircli=$ordenes['Cliente']['DireccionCliente']['calle_av'].' '
                 .$ordenes['Cliente']['DireccionCliente']['localidad'].'<br />Ciudad:  '
@@ -140,12 +141,14 @@ $filename="factura_$num.pdf";
 $path='/var/www/html/';
 
 
-$mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app cancelarla. Con cualquiera de nuestras diferentes formas de pago y envios \n por soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
-                                    . "Su cuenta email: ".strtolower(trim($ordenes['Cliente']['email']));
+$mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app cancelarla. Con cualquiera de nuestras diferentes formas de pago y envios \n http://www.soloplancho.com\n";
 $pdf->Output($path.$filename,'F');
 
- $mail= NEW attach_mailer ("soloplancho@gmail.com",$ordenes['Cliente']['email'],"FACTURA SEGUN ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);
+ $mail= NEW attach_mailer ("soloplancho@gmail.com",$ordenes['Cliente']['email'],"FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);
 $mail->create_attachment_part($path.$filename);
+$arreglo=array('id_cliente'=>$cli_id,'titulo'=>"FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],'mensaje'=>$mensaje);
+$mail->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+
 echo $mail->process_mail();
 //$this->Html->mail_attachment($filename, $path, $ordenes['Cliente']['email'],$mensaje, "FACTURA SEGUN ORDEN #".$ordenes['OrdenServicio']['id_orden'])
 

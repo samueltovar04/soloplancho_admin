@@ -72,9 +72,12 @@ class ClientesController extends AppController {
                             $filename = $PNG_TEMP_DIR.'test'.md5($this->data['Cliente']['cedula'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
                             QRcode::png(base64_encode(base64_encode($cedula)), $filename, $errorCorrectionLevel, $matrixPointSize, 2); 
                             $are=array(0=>strtolower(strtolower(trim($this->data['Cliente']['email']))));
-                            $mensaje="Bienvenido a nuestra empresa soloplancho\n usted puede realizar solicitudes por nuestra apps o en nuestra web http://cliente.soloplancho.com\n"
-                                    . "Su usuario el el email: ".strtolower(trim($this->data['Cliente']['email'])). " y Clave: ".trim($this->data['Cliente']['password']);
-                            $this->enviar_mensaje($are, $mensaje, 'REGISTRO APPS SOLOPLANCHO.COM');
+                            $mensaje="Bienvenido a nuestra empresa soloplancho\n usted puede realizar solicitudes por nuestra apps\n"
+                                    . "Su usuario es el correo: ".strtolower(trim($this->data['Cliente']['email'])). " y Clave: ".trim($this->data['Cliente']['password']);
+                            $arreglo=array('id_cliente'=>$this->data['DireccionCliente']['id_cliente'],'titulo'=>"REGISTRO EXITOSO EN SOLOPLANCHO.COM",'mensaje'=>"Bienvenido a nuestra empresa soloplancho\n usted puede realizar solicitudes por nuestra apps\n");
+			    $this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+
+                            $this->enviar_mensaje($are, $mensaje, 'REGISTRO EXITOSO EN SOLOPLANCHO.COM');
                             $this->set('Exito',' cliente registrado con exito');
                             $this->data=null;
                              
@@ -246,11 +249,14 @@ class ClientesController extends AppController {
                             }
                             }
                         }
-                        $cli=$this->Cliente->find('first',array('fields'=>'fullname,email','conditions'=>array('Cliente.reg_id'=>$id)));
+                        $cli=$this->Cliente->find('first',array('fields'=>'reg_id,fullname,email','conditions'=>array('Cliente.reg_id'=>$id)));
                         $are=array(0=>strtolower(strtolower(trim($cli['Cliente']['email']))));
-                            $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tUsted ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tSe ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
                                     . "Desde su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
-                            $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO PARA PLANCHADO, SOLOPLANCHO');
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO PARA PLANCHADO, SOLOPLANCHO.COM",'mensaje'=>$mensaje);
+			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO PARA PLANCHADO DESDE SOLOPLANCHO.COM');
                         $this->set('Exito','orden de servicio crearda con exito');
                     }  else {
                         $this->set('Error','error creando orden de servicio');
@@ -307,91 +313,4 @@ class ClientesController extends AppController {
                 echo json_encode($data); 
                 exit; 
         }
-
-	function add() {
-		if (!empty($this->data)) {
-                
-                $this->Cliente->create();
-                if(empty($this->data['Cliente']['cedula'])){
-                  $this->set('Error','Cédula Obligatoria');
-                }else{
-                    if($this->Cliente->save($this->data)){
-                        $this->data['DireccionCliente']['id_cliente']=$this->Cliente->id;
-                        if($this->DireccionCliente->save($this->data)){
-                            $this->set('Exito',' cliente registrado con exito');
-                            }  else {
-                                $this->set('Error','error registrando cliente');
-                            }
-                        }  else {
-                            $this->set('Error','error registrando cliente');
-                        }
-                }       
-            } 
-                
-	}
-
-	function edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->set('Error',__('No hay Datos', true));
-			$this->index();
-                               $this->render('vista_clientes');
-		}
-		if (!empty($this->data)) {
-                   $res=$resul=array();
-                   $res=$this->Cliente->find('first',array('conditions'=>array('Cliente.id_edo !='=>$this->data['Cliente']['id_edo'],'Cliente.co_stat_data !='=>'E','Cliente.nb_edo'=> strtoupper(trim($this->data['Cliente']['nb_edo'])))));
-                                              
-                    
-                   if($res>0 && !empty($this->data['Cliente']['nb_edo']))
-                   {
-                      $this->set('Error',__('Nombre del Estado ya Existe', true)); 
-                   }else if($resul>0 && !empty($this->data['Cliente']['co_edo_asap'])){
-                       $this->set('Error',__('Código del Estado ya Existe', true)); 
-                   }
-                   else
-                   {
-                    if($this->data['Cliente']['co_stat_data']=='N')
-                    $this->data['Cliente']['co_stat_data']='N';
-                    else
-                        if($this->data['Cliente']['co_stat_data']=='E')
-                    $this->data['Cliente']['co_stat_data']='E';
-                    else
-                        $this->data['Cliente']['co_stat_data']='M';
-                   $this->data['Cliente']['co_edo_asap']=  strtoupper(trim($this->data['Cliente']['co_edo_asap']));
-                   $this->data['Cliente']['nb_captl_edo']=  strtoupper(trim($this->data['Cliente']['nb_captl_edo']));
-                   $this->data['Cliente']['nb_edo']=  strtoupper(trim($this->data['Cliente']['nb_edo']));
-	
-                    if ($this->Cliente->save($this->data)) {
-                            $this->Cliente->query('COMMIT');
-				$this->set('Exito',__('El Estado ha sido Modificado.', true));
-			
-                                $this->busqueda($this->data['Cliente']['co_edo_asap']);
-                                $this->render('busqueda');
-                        } else {
-				$this->set('Error',__('El Estado no puede ser Modificado.', true));
-			}
-                    }
-                    
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Cliente->read(null, $id);
-		}
-	}
-
-	function delete($id = null) {
-		if (!$id) {
-			$this->set('Error',__('No existe este ID', true));
-			$this->index();
-                        $this->render('index');
-		}
-                $this->data['Cliente']['id_edo']=$id;
-                        $this->data['Cliente']['co_stat_data']='E';
-		if ($this->Cliente->save($this->data)) {
-                    $this->Cliente->query('COMMIT');
-			$this->set('Exito',__('Estado Borrado', true));
-			
-		}else
-		$this->set('Error',__('Estado no puede ser Borrado', true));
-		$this->busqueda();
-                        $this->render('busqueda');
-	}
 }
