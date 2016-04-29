@@ -5,6 +5,9 @@
 	        box-sizing: border-box;
 	outline: none;
 }
+.modal-backdrop{
+    position: inherit !important;
+}
 .alert{
   width: 80%;
   position: absolute;

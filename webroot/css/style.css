@@ -4,6 +4,9 @@
   .fondo2{
             background-color:#ddd;
         }
+        .modal-backdrop{
+    position: inherit !important;
+}
    .info {
             text-transform: capitalize;
         }

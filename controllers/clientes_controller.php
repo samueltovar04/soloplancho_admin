@@ -233,6 +233,9 @@ class ClientesController extends AppController {
                         $this->data['OrdenServicio']['cantidad_piezas']=$can;
                         $date=date("Y-m-d H:i:s");
                         $this->data['OrdenServicio']['fecha_solicitud']=$date;
+                        if($this->data['OrdenServicio']['recepcion']=='domicilio'){
+                            $this->data['OrdenServicio']['status']='2';
+                        }
                         // $this->data['OrdenServicio']['fecha_entrega']=$date;
                     if($this->OrdenServicio->save($this->data)){
                         $ido=$this->OrdenServicio->id;
