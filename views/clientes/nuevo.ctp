@@ -79,13 +79,9 @@
                    echo $this->Form->input('DireccionCliente.estado',array('maxlength'=>'50','label' =>'Estado','readonly'=>'true','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Estado"));
 
                    echo $this->Form->input('DireccionCliente.ciudad',array('maxlength'=>'50','label' =>'Ciudad','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Ciudad"));
-     		   echo $this->Form->input('DireccionCliente.localidad',array('maxlength'=>'90','label' =>'Urbanismo ó Localidad','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Urbanismo ó Localidad"));
+     		   echo $this->Form->input('DireccionCliente.direccion',array('maxlength'=>'200','label' =>'Dirección','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Dirección Completa"));
      		
-                   echo $this->Form->input('DireccionCliente.calle_av',array('maxlength'=>'90','label' =>'Av. Calle ó Carrera','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Número de Celular"));
-     		
-                   echo $this->Form->input('DireccionCliente.edificio',array('maxlength'=>'50','label' =>'Edificio','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Descripción de Edificio"));
-     	           echo $this->Form->input('DireccionCliente.numero',array('maxlength'=>'8','label' =>'# Casa ó Apto','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Número Casa ó Apartamento"));
-     	          
+                      	          
             ?>
                     </div>
                              

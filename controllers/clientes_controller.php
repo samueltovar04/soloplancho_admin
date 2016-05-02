@@ -58,6 +58,9 @@ class ClientesController extends AppController {
                    if(empty($this->data['DireccionCliente']['ciudad'])){
                   $this->set('Error','Ciudad en Dirección Obligatoria');
                 }else
+                     if(empty($this->data['DireccionCliente']['direccion'])){
+                  $this->set('Error','Campo Dirección Obligatorio');
+                }else
                     {
                     $date=date("Y-m-d H:i:s");
                      $this->data['Cliente']['reg_date']=$date;

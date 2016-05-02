@@ -14,25 +14,7 @@ class DireccionCliente extends AppModel {
 				//'last' => false // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),'localidad' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' =>'Campo Obligatorio',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			))
-            ,'calle_av' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' =>'Campo Obligatorio',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			)),
-            'numero' => array(
+		),'direccion' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				'message' =>'Campo Obligatorio',
