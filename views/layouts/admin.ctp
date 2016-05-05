@@ -36,6 +36,10 @@ echo $javascript->link('functions')."\n";
 
 		echo $scripts_for_layout;
 ?>
+<script async defer
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBGHoFXvXLG_Pzwu9EjrQXhuN-y3mwz140&signed_in=true" type="text/javascript">
+  
+    </script>
 </head>
 
  <body class="wall-3">

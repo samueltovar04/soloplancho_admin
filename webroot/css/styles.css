@@ -5,6 +5,11 @@
 	        box-sizing: border-box;
 	outline: none;
 }
+#map{
+    position: inherit !important;
+    width: 400px;
+    height: 300px;
+}
 .modal-backdrop{
     position: inherit !important;
 }

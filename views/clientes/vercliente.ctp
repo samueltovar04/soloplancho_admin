@@ -2,6 +2,7 @@
      if(isset($Exito)){echo $cargar->msj_exito($Exito);}
     if(isset($Error)){echo $cargar->msj_error($Error);}
  ?>
+
 <div role="tabpanel">
     <div class="row pull-right">
         <?php
@@ -16,6 +17,8 @@
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#datoscliente" aria-controls="datoscliente" role="tab" data-toggle="tab">Datos de Cliente</a></li>
           <li role="presentation"><a href="#dircliente" aria-controls="dircliente" role="tab" data-toggle="tab">Dirección</a></li>
+          <li role="presentation"><a href="#dirclientegoogle" aria-controls="dirclientegoogle" role="tab" data-toggle="tab">Mapa Google</a></li>
+          
           <li role="presentation"><a href="#balanzaasig" aria-controls="balanzaasig" role="tab" data-toggle="tab">Asignar Balanza</a></li>
 
           <li role="presentation"><a href="#hacerorden" aria-controls="hacerorden" role="tab" data-toggle="tab">Orden de Servicio</a></li>
@@ -77,6 +80,42 @@ echo $this->Html->image($filename, ['width'=>'150px','class' => 'img-responsive 
             
                     <form method="post" action=""></form>
           </div>
+         <div role="tabpanel" class="tab-pane" id="dirclientegoogle">
+           <!-- fondo de pantalla -->        
+           <div class="panel panel-default">
+                <span class="title-window-panel"> 
+                  <i class="fa fa-home"></i> Maps de Goolge
+                </span>
+             <div class="panel-body">
+                 <div  class="row">
+                    <div id="map" ></div>
+                        <script>
+
+function initMap() {
+  var myLatLng = {lat: <?php echo $this->data['Cliente']['latitud']; ?>, lng: <?php echo $this->data['Cliente']['longitud']; ?>};
+  
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: myLatLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'soloplancho'
+  });
+}
+    </script>
+        <script
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBGHoFXvXLG_Pzwu9EjrQXhuN-y3mwz140&callback=initMap" type="text/javascript">
+  
+    </script>
+                 </div>
+             </div>
+           </div>
+         </div>
           
           <div role="tabpanel" class="tab-pane" id="dircliente">
            <!-- fondo de pantalla -->        
@@ -86,7 +125,6 @@ echo $this->Html->image($filename, ['width'=>'150px','class' => 'img-responsive 
                 </span>
              <div class="panel-body">
                  <div class="row">
-
                 <?php   
                    echo $this->Form->create('DireccionCliente',array(
                                         'inputDefaults' => array(
@@ -112,6 +150,7 @@ echo $this->Html->image($filename, ['width'=>'150px','class' => 'img-responsive 
              </div>
            </div>
            <form method="post" action=""></form>
+    
           </div>
                
           <div role="tabpanel" class="tab-pane" id="balanzaasig">
