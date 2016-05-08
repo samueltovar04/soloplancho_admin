@@ -34,8 +34,7 @@
             <br />Correo: ".$ordenes['Cliente']['email']." </div>";
     echo "<div class='col-lg-4'>
             <strong>Dirección del Ciente</strong><br>".
-            $ordenes['Cliente']['DireccionCliente']['calle_av']." ".
-            $ordenes['Cliente']['DireccionCliente']['localidad']."<br>Ciudad: ".
+            $ordenes['Cliente']['DireccionCliente']['direccion']."<br>Ciudad: ".
             $ordenes['Cliente']['DireccionCliente']['ciudad']."</div>";
             
              $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);

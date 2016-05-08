@@ -235,8 +235,8 @@ class OrdenesController extends AppController {
                 $up="update orden_servicios set peso_cliente=peso_libras where id_orden='$ord'";
                 $u=$this->UsuarioOrden->query($up);
                 //status 2 usuario inactivo 10 operador usuario delivery 1  inactivo 0
-                $up="update usuario_ordenes set status='10' where status='2' and id_orden='$ord'";
-                $u=$this->UsuarioOrden->query($up);
+                $up2="update usuario_ordenes set status='10' where status='2' and id_orden='$ord'";
+                $u=$this->UsuarioOrden->query($up2);
                 $de="insert into usuario_ordenes (id_usuario,id_orden,fecha_asigna,status) VALUES('$usu','$ord','$date','2')";
                 $q=$this->UsuarioOrden->query($de);
                 $costo=$this->Configuracion->find('first',array('conditions'=>array('Configuracion.status'=>'1','Configuracion.codigo'=>'costo')));

@@ -6,8 +6,7 @@
             <br />Correo: ".$ordenes['Cliente']['email']." </div>";
     echo "<div class='col-lg-4'>
             <strong>Dirección del Ciente</strong><br>".
-            $ordenes['Cliente']['DireccionCliente']['calle_av']." ".
-            $ordenes['Cliente']['DireccionCliente']['localidad']."<br>Ciudad: ".
+            $ordenes['Cliente']['DireccionCliente']['direccion']."<br>Ciudad: ".
             $ordenes['Cliente']['DireccionCliente']['ciudad']."</div>";
 
     echo "<div class='col-lg-4'><strong>Orden # ".$ordenes['OrdenServicio']['id_orden']."</strong><br />"

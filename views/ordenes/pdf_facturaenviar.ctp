@@ -55,11 +55,10 @@ $pdf->SetFont('helvetica','B',8);
         $ced=$ordenes['Cliente']['cedula'];
         $cli_id=$ordenes['Cliente']['reg_id'];
         $nom=$ordenes['Cliente']['fullname'];
-        $dircli=$ordenes['Cliente']['DireccionCliente']['calle_av'].' '
-                .$ordenes['Cliente']['DireccionCliente']['localidad'].'<br />Ciudad:  '
+        $dircli=$ordenes['Cliente']['DireccionCliente']['direccion'].'<br />Ciudad:  '
                 .$ordenes['Cliente']['DireccionCliente']['ciudad'];
         $fechap=$pagorden['PagoOrden']['fecha_pago'];
-        $libras=$ordenes['OrdenServicio']['peso_libras'];
+        $libras=$ordenes['OrdenServicio']['peso_libras']-$ordenes['OrdenServicio']['peso_descuento'];
          $pp='Sin Pago';
             if(isset($pagorden['PagoOrden'])){
                 if($pagorden['PagoOrden']['status']=='1'){

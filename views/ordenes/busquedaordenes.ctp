@@ -80,8 +80,8 @@
         <tr><td><?php echo $ordenes['Cliente']['cedula']." ".$ordenes['Cliente']['fullname'].
                 "<br>Teĺefono Movil: ".$ordenes['Cliente']['movil'].
                 "<br>Correo: ".$ordenes['Cliente']['email']; ?></td>
-            <td><?php echo $ordenes['Cliente']['DireccionCliente']['calle_av']." ".
-                        $ordenes['Cliente']['DireccionCliente']['localidad']."<br>Ciudad: ".
+            <td><?php echo 
+                        $ordenes['Cliente']['DireccionCliente']['direccion']."<br>Ciudad: ".
                         $ordenes['Cliente']['DireccionCliente']['ciudad']; ?>
             </td>
         </tr>
