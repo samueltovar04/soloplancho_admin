@@ -159,10 +159,13 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                 <td><?php echo $status; ?>&nbsp;</td>
                <td><?php echo $orden['UsuarioOrden']['fecha_asigna']; ?>&nbsp;</td>
                <td><?php echo $orden['UsuarioOrden']['fecha_cumple']; ?>&nbsp;</td>
-               <td><?php if($orden['UsuarioOrden']['status']=1 || $orden['UsuarioOrden']['status']=4){ 
-                   echo "No Cumple".$orden['UsuarioOrden']['status'];
-               }  else {
-                    echo "Si Cumple".$orden['UsuarioOrden']['status'];
+               <td><?php if($orden['UsuarioOrden']['status']==1 || $orden['UsuarioOrden']['status']==4){ 
+                   echo "No Cumple";
+               }else if($orden['UsuarioOrden']['status']==0 || $orden['UsuarioOrden']['status']==10){
+                   echo "Reasignada";
+               }                
+               else {
+                    echo "Si Cumple";
                }
 ?>&nbsp;</td>
 
@@ -261,7 +264,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                <td><?php echo $orden['UsuarioOrden']['fecha_cumple']; ?>&nbsp;</td>
                <td><?php if($orden['UsuarioOrden']['status']==1 || $orden['UsuarioOrden']['status']==4){ 
                    echo "No Cumple";
-               }else if($orden['UsuarioOrden']['status']==0){
+               }else if($orden['UsuarioOrden']['status']==0 || $orden['UsuarioOrden']['status']==10){
                    echo "Reasignada";
                }                
                else {
