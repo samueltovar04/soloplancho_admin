@@ -226,6 +226,7 @@ class OrdenesController extends AppController {
         function asigna_operador($id=null){
             
             $this->UsuarioOrden->create();
+          if(!empty($this->data['OrdenServicio']['peso_libras'])){
             if(!empty($this->data['UsuarioOrden']['id_usuario']))
             {
                 $date=date("Y-m-d H:i:s");
@@ -242,19 +243,20 @@ class OrdenesController extends AppController {
                 $costo=$this->Configuracion->find('first',array('conditions'=>array('Configuracion.status'=>'1','Configuracion.codigo'=>'costo')));
                 $peso_viejo=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email,OrdenServicio.peso_libras','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
                 if ($q) {
-                   
-                    $this->data['OrdenServicio']['precio_orden']=$costo['Configuracion']['valor']*$this->data['OrdenServicio']['peso_libras'];
-                    $this->data['OrdenServicio']['peso_libras']=$this->data['OrdenServicio']['peso_libras'];  
+ 
                     $this->data['OrdenServicio']['id_orden']=$ord;
 		    $this->data['OrdenServicio']['status']='5';
+                  if(!empty($this->data['OrdenServicio']['peso_libras'])){
                     if(($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10)<$this->data['OrdenServicio']['peso_libras'] || ($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10)>$this->data['OrdenServicio']['peso_libras'])
                         {
-                         ($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10).' > '.$this->data['OrdenServicio']['peso_libras'].' || '.($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10).' <'.$this->data['OrdenServicio']['peso_libras'];
-                           $this->data['OrdenServicio']['observacion']="Estimado(a) ".$peso_viejo['Cliente']['fullname']."\n\n\t\tSe le notifica que el peso de la Orden de Servicio # "
+                       echo  ($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10).' > '.$this->data['OrdenServicio']['peso_libras'].' || '.($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10).' <'.$this->data['OrdenServicio']['peso_libras'];
+                       $this->data['OrdenServicio']['precio_orden']=$costo['Configuracion']['valor']*$this->data['OrdenServicio']['peso_libras'];
+                       $this->data['OrdenServicio']['peso_libras']=$this->data['OrdenServicio']['peso_libras'];   
+                       $this->data['OrdenServicio']['observacion']="Estimado(a) ".$peso_viejo['Cliente']['fullname']."\n\n\t\tSe le notifica que el peso de la Orden de Servicio # "
                                 .$ord.' es de : '.$this->data['OrdenServicio']['peso_libras'].' Lbs. , notando una pequeña diferencia'
                                 .' con la colocada online por usted de '.$peso_viejo['OrdenServicio']['peso_libras'].' Lbs. , de igual manera seguiremos con el proceso normal de su orden.'; 
                            $are=array(0=>strtolower(trim($peso_viejo['Cliente']['email'])));
-                          $arreglo=array('id_cliente'=>$peso_viejo['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO CON PESO DIFERENTE EN TIENDA",'mensaje'=>$mensaje);
+                          $arreglo=array('id_cliente'=>$peso_viejo['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO CON PESO DIFERENTE EN TIENDA",'mensaje'=>$this->data['OrdenServicio']['observacion']);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
                            $this->enviar_mensaje($are, $this->data['OrdenServicio']['observacion'], 'ORDEN SERVICIO CON PESO DIFERENTE EN TIENDA, WWW.SOLOPLANCHO.COM');
                             $this->set('Exito',__('El Operador ha sido Asignado y el Cliente se a notificado vía correo por error en las libras de la orden', true));
@@ -262,6 +264,7 @@ class OrdenesController extends AppController {
                         else{
                             $this->data['OrdenServicio']['observacion']='';
                         }
+                  }
                     if ($this->OrdenServicio->save($this->data)) {
                         
                         $this->set('Exito',__('El Operador ha sido Asignado', true));
@@ -294,6 +297,9 @@ class OrdenesController extends AppController {
             }else {
 		$this->set('Error',__('Seleccione Operador', true));
             }
+        }else{
+                      $this->set('Error',__('No se encontro peso, verifique el sistema de Balanza', true));
+                  }
             $emp = $this->Session->read('id_empresa');
             $resu=$this->Usuario->find('list',array('fields'=>'id_usuario,fullname','conditions'=>array('Usuario.status'=>'1','Usuario.tipo'=>'4','Usuario.id_empresa'=>$emp)));
             $this->set('operador',$resu);
