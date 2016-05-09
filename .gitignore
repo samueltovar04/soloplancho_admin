@@ -3,6 +3,7 @@ webroot/img/qrcode/temp/*
 config/database.php
 config/core.php
 nbproject/*
+nbproject/private/*
 tmp/cache/models/cake_model_default_articulos
 tmp/cache/models/cake_model_default_balanzas
 tmp/cache/models/cake_model_default_clientes
