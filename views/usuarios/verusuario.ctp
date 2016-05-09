@@ -160,9 +160,9 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                <td><?php echo $orden['UsuarioOrden']['fecha_asigna']; ?>&nbsp;</td>
                <td><?php echo $orden['UsuarioOrden']['fecha_cumple']; ?>&nbsp;</td>
                <td><?php if($orden['UsuarioOrden']['status']=1 || $orden['UsuarioOrden']['status']=4){ 
-                   echo "No Cumple";
+                   echo "No Cumple".$orden['UsuarioOrden']['status'];
                }  else {
-                    echo "Si Cumple";
+                    echo "Si Cumple".$orden['UsuarioOrden']['status'];
                }
 ?>&nbsp;</td>
 
