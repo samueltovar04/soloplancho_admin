@@ -6,24 +6,23 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
  ?>
 
      <table id='tblMain' class="table table-bordered table-hover" cellpadding="0" cellspacing="0"  width="100%">
-	<thead><tr>
+	<thead>
+            <tr>
                 <th><?php echo $this->Paginator->sort('# Orden','OrdenServicio.id_orden');?></th>
-           		<th><?php echo $this->Paginator->sort('Peso Libras','OrdenServicio.peso_libras');?></th>
-			<th><?php echo $this->Paginator->sort('Costo','OrdenServicio.precio_orden');?></th>
-			<th><?php echo $this->Paginator->sort('Cantidad Piezas','OrdenServicio.cantidad_piezas');?></th>
-			<th><?php echo $this->Paginator->sort('Recepción','OrdenServicio.recepcion');?></th>
-			
-                        <th><?php echo $this->Paginator->sort('Entrega','OrdenServicio.forma_entrega');?></th>
-			<th><?php echo $this->Paginator->sort('Fecha Solicitud','OrdenServicio.fecha_solicitud');?></th>
-			<th><?php echo $this->Paginator->sort('Fecha Entrega','OrdenServicio.fecha_entrega');?></th>
-
-                        <th><?php echo $this->Paginator->sort('Status','OrdenServicio.status');?></th>
-                        <th><?php echo $this->Paginator->sort('Fecha Asignada','UsuarioOrden.fecha_asigna');?></th>
-                        <th><?php echo $this->Paginator->sort('Fecha Cumplimiento','UsuarioOrden.fecha_cumple');?></th>
-<th></th>
-
-                        
-	</tr></thead><tbody id='tblordend'>
+           	<th><?php echo $this->Paginator->sort('Peso Libras','OrdenServicio.peso_libras');?></th>
+		<th><?php echo $this->Paginator->sort('Costo','OrdenServicio.precio_orden');?></th>
+		<th><?php echo $this->Paginator->sort('Cantidad Piezas','OrdenServicio.cantidad_piezas');?></th>
+		<th><?php echo $this->Paginator->sort('Recepción','OrdenServicio.recepcion');?></th>
+		<th><?php echo $this->Paginator->sort('Entrega','OrdenServicio.forma_entrega');?></th>
+		<th><?php echo $this->Paginator->sort('Fecha Solicitud','OrdenServicio.fecha_solicitud');?></th>
+		<th><?php echo $this->Paginator->sort('Fecha Entrega','OrdenServicio.fecha_entrega');?></th>
+                <th><?php echo $this->Paginator->sort('Status','OrdenServicio.status');?></th>
+                <th><?php echo $this->Paginator->sort('Fecha Asignada','UsuarioOrden.fecha_asigna');?></th>
+                <th><?php echo $this->Paginator->sort('Fecha Cumplimiento','UsuarioOrden.fecha_cumple');?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id='tblordend'>
 	<?php
 	$i = 0;
        	foreach ($ordenes as $orden):
@@ -62,9 +61,9 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                <td><?php echo $orden['UsuarioOrden']['fecha_asigna']; ?>&nbsp;</td>
                <td><?php echo $orden['UsuarioOrden']['fecha_cumple']; ?>&nbsp;</td>
                <td><?php if($orden['UsuarioOrden']['status']=1 || $orden['UsuarioOrden']['status']=4){ 
-                   echo "No Cumple";
+                   echo "No Cumple".$orden['UsuarioOrden']['status'];
                }  else {
-                    echo "Si Cumple";
+                    echo "Si Cumple".$orden['UsuarioOrden']['status'];
                }
 ?>&nbsp;</td>
 
