@@ -1,4 +1,5 @@
 .bash_history
+webroot/img/qrcode/temp/*
 config/database.php
 config/core.php
 nbproject/*
@@ -14,6 +15,9 @@ tmp/cache/models/cake_model_default_orden_servicios
 tmp/cache/models/cake_model_default_soloplancho_list
 tmp/cache/models/cake_model_default_usuario_ordenes
 tmp/cache/models/cake_model_default_usuarios
+tmp/cache/persistent/cake_core_default_
+tmp/cache/persistent/cake_core_default_en-us
+tmp/cache/persistent/cake_core_default_es-es
 tmp/cache/persistent/cake_core_debug_kit_es-es
 tmp/cache/persistent/cake_core_dir_map
 tmp/cache/persistent/cake_core_file_map

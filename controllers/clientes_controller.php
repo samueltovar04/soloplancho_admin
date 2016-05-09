@@ -10,31 +10,28 @@ class ClientesController extends AppController {
 	var $helpers = array('Html','Form' => array('className' => 'BootstrapForm'),'Cargar','Ajax','Js','Paginator'=>array('ajax'=>'Ajax'));
         var $layout = 'ajax';
 	function index() {
-		
            $this->redirect('/Bienvenidos');
 	}
-        
+
         function vista_clientes(){
-            $this->con['Cliente.status']='1';	
+            $this->con['Cliente.status']='1';
             $this->Cliente->recursive = 2;
             $edo=$this->paginate('Cliente',$this->con);
-            //pr($edo);
             $this->set('Clientes',$edo);
         }
-        
+
         function vista_clientes_nuevos(){
           $this->paginate = array('limit' => 20,'order'=>'Cliente.reg_id ASC');
           $con=array('Cliente.status=1 and Cliente.id_balanza IS NULL');
             $this->Cliente->recursive = 2;
             $edo=$this->paginate('Cliente',$con);
-            //pr($edo);
             $this->set('Clientes',$edo);
             $this->render("vista_clientes");
         }
-        
+
         function nuevo(){
            if (!empty($this->data)) {
-                
+
                 $this->Cliente->create();
                 if(empty($this->data['Cliente']['cedula'])){
                   $this->set('Error','Cédula Obligatoria');
@@ -83,20 +80,19 @@ class ClientesController extends AppController {
                             $this->enviar_mensaje($are, $mensaje, 'REGISTRO EXITOSO EN SOLOPLANCHO.COM');
                             $this->set('Exito',' cliente registrado con exito');
                             $this->data=null;
-                             
+
                             }  else {
                                 $this->set('Error','error registrando cliente');
                             }
                         }  else {
                             $this->set('Error','error registrando cliente');
                         }
-                    
-                }       
+                }
             }
         }
-        
+
         function editarcli($id = null){
-             
+
 		if (empty($this->data)) {
                         $this->Cliente->recursive = 3;
 			$this->data = $this->Cliente->read(null, $id);
@@ -105,7 +101,7 @@ class ClientesController extends AppController {
                     $res=$resul=array();
                     $res=$this->Cliente->find('first',array('conditions'=>array('Cliente.reg_id !='=>trim($this->data['Cliente']['reg_id']),'Cliente.status !='=>'0','Cliente.cedula'=> trim($this->data['Cliente']['cedula']))));
                     $resul=$this->Cliente->find('first',array('conditions'=>array('Cliente.reg_id !='=>trim($this->data['Cliente']['reg_id']),'Cliente.email'=> trim($this->data['Cliente']['email']))));
-                    
+
                     if($res){
                         $this->set('Error','Ya Existe un cliente con la misma cédula');
                     }else
@@ -130,15 +126,15 @@ class ClientesController extends AppController {
                 }
                 $this->set('id',$id);
         }
-        
+
         function editardir($id = null){
-             
+
 		if (empty($this->data)) {
                         $this->Cliente->recursive = 3;
 			$this->data = $this->Cliente->read(null, $id);
                 }else{
                     $this->DireccionCliente->create();
-                    
+
                     if($this->DireccionCliente->save($this->data)){
                             $this->set('Exito','dirección cliente actualizado con exito');
                         }  else {
@@ -156,7 +152,7 @@ class ClientesController extends AppController {
                 $this->redirect('/Bienvenidos');
             }
         }
-                
+
          function asigna_balanza($id = null){
              //pr($this->data);
              if(empty($this->data['Balanza']['codigo2'])){
@@ -173,23 +169,21 @@ class ClientesController extends AppController {
                         $cod=$this->data['Balanza']['codigo'];
                 if($res){
                     $this->set('Error','Ya Existe código Balanza');
-                   
                 }else{
                     $this->Balanza->create();
                     $date=date("Y-m-d H:i:s");
                      $this->data['Balanza']['fecha_registro']=$date;
-                     
                      $this->data['Balanza']['codigo']=$this->data['Balanza']['codigo2'];
                     if($this->Balanza->save($this->data)){
                             $this->Cliente->create();
                             //$this->data['Cliente']['reg_id']=$this->data['Balanza']['id_usuario'];
                             $this->data['Cliente']['id_balanza']=$this->Balanza->id;
-                            
+
                             if($this->Cliente->save($this->data)){
                                 $this->set('Exito','Balanza asignada con exito');
                                  $this->Cliente->recursive = 3;
                                 $this->data = $this->Cliente->read(null, $id);
-                                
+
                             }else {
                                 $this->set('Error','error actualizando balanza cliente');
                                  $this->data['Balanza']['codigo2']= $this->data['Balanza']['codigo'];
@@ -200,16 +194,16 @@ class ClientesController extends AppController {
                              $this->data['Balanza']['codigo2']= $this->data['Balanza']['codigo'];
                         $this->data['Balanza']['codigo']=$cod;
                         }
-                       
+
                 }
              }
                 $resu=$this->Usuario->find('list',array('fields'=>'id_usuario,fullname','conditions'=>array('Usuario.status'=>'1','Usuario.tipo'=>'3')));
 		$this->set('delivery',$resu);
                 $this->set('id',$id);
         }
-        
+
         function crear_orden($id = null){
-           
+
             $emp = $this->Session->read('id_empresa');
             $res=$this->Articulo->find('all',array('conditions'=>array('Articulo.status'=>'1')));
 	    $this->set('articulos',$res);
@@ -224,7 +218,7 @@ class ClientesController extends AppController {
                         $this->set('Error','Recepción Obligatorio');
                 }else
                     {
-                     
+
                     $this->OrdenServicio->create();
                     $can=0;
                     foreach ($this->data['OrdenArticulo'] as $key => $value) {
@@ -269,7 +263,7 @@ class ClientesController extends AppController {
                     }
                 }
         }
-                
+
         function vercliente($id = null) {
 		if (!$id) {
 			$this->set('Error',__('Listado de Clientes', false));
@@ -291,7 +285,6 @@ class ClientesController extends AppController {
                 $costo=$this->Configuracion->find('first',array('conditions'=>array('Configuracion.status'=>'1','Configuracion.codigo'=>'costo')));
 		$this->OrdenServicio->recursive = 2;
                 $ordenes=$this->paginate('OrdenServicio',$this->con);
-        
                 $this->set('ordenes',$ordenes);
                 $this->set('cedula',$this->data['Cliente']['cedula']);
                 $this->set('costo',$costo['Configuracion']['valor']);
@@ -316,7 +309,7 @@ class ClientesController extends AppController {
                 $data['cliente']=$cliente;
              	$data['ordens']=$orden;
                 $data['ordenc']=$ordenc;
-                echo json_encode($data); 
-                exit; 
+                echo json_encode($data);
+                exit;
         }
 }
