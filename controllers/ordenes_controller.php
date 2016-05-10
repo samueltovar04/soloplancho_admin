@@ -87,10 +87,10 @@ class OrdenesController extends AppController {
                     if ($this->OrdenServicio->save($this->data)) {
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
                         $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
-                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('UsuarioOrden.status'=>'1','UsuarioOrden.id_orden'=>$id)));
+                        $deli=$this->Usuario->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('Usuario.id_usuario'=>$this->data['UsuarioOrden']['id_usuario'])));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio en un lapso menor a tres horas\n por soloplancho empresa líder en planchado\n";
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa orden de servicio de planchado # $ord ha sido asignada al delivery ".$deli['Usuario']['fullname'].", sera retirada en su domicilio\n por soloplancho empresa líder en planchado\n";
                         $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
                         $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
