@@ -310,7 +310,7 @@ class ClientesController extends AppController {
                 $data['cliente']=$cliente;
              	$data['ordens']=$orden;
                 $data['ordenc']=$ordenc;
-                $data['rechazo']=$rechazo;
+                //$data['rechazo']=$rechazo;
                 echo json_encode($data);
                 exit;
         }
