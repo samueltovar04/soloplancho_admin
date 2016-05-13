@@ -92,7 +92,7 @@ echo $this->Html->image($filename, ['width'=>'150px','class' => 'img-responsive 
                         <script>
 
 function initMap() {
-  var myLatLng = {lat: <?php if(empty($this->data['Cliente']['latitud'])) "10.89839839"; else echo $this->data['Cliente']['latitud']; ?>, lng: <?php if(empty($this->data['Cliente']['longitud'])) "-6.66787896"; else echo $this->data['Cliente']['longitud']; ?>};
+  var myLatLng = {lat: <?php if(empty($this->data['Cliente']['latitud'])) echo "10.89839839"; else echo $this->data['Cliente']['latitud']; ?>, lng: <?php if(empty($this->data['Cliente']['longitud'])) echo "-6.66787896"; else echo $this->data['Cliente']['longitud']; ?>};
   
 
   var map = new google.maps.Map(document.getElementById('map'), {
