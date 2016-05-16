@@ -140,10 +140,10 @@ $filename="factura_$num.pdf";
 $path='/var/www/html/';
 
 
-$mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app cancelarla. Con cualquiera de nuestras diferentes formas de pago y envios \n http://www.soloplancho.com\n";
+$mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app pagarla. Con cualquiera de nuestras diferentes formas de pago y envios \n http://www.soloplancho.com\n";
 $pdf->Output($path.$filename,'F');
 
- $mail= NEW attach_mailer ("soloplancho@gmail.com",$ordenes['Cliente']['email'],"FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);
+ $mail= NEW attach_mailer ("SoloPlancho","soloplancho@gmail.com",$ordenes['Cliente']['email'],"soloplancho@gmail.com","","FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);
 $mail->create_attachment_part($path.$filename);
 $arreglo=array('id_cliente'=>$cli_id,'titulo'=>"FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],'mensaje'=>$mensaje);
 $mail->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
