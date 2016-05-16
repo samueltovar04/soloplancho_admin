@@ -44,32 +44,32 @@ class AppController extends Controller {
         $descripcion = "Este mensaje fue enviado por SOLOPLANCHO \"Los Número uno en Planchado\",\n";
         $descripcion=utf8_decode($descripcion.$mensaje);
         set_time_limit(0);
-        $res='';
+        $re='';
         $m = new cMailer();
        for($i=0;$i<count($log);$i++){
             $m->AddAddress($log[$i]);
             $com="echo '$descripcion' | mail -s '$asunto' ".$log[$i];
             //system($com);
-            mail($log[$i], $asunto, $descripcion, $header);
+            //mail($log[$i], $asunto, $descripcion, $header);
        }
        $m->AddAddress("soloplancho@gmail.com");
        $m->AddSender("soloplancho@gmail.com");
        $m->AddSubject("$asunto");
        $m->AddMessage("$descripcion");
-       $re=$m->AddHost("localhost",25);
-       if($res)
-       {
-           $m->Send();
-           if($m)
-              echo " Datos Enviados correctamente";
-	   else
-              echo "no se envio $m";
-        }
-       /* else
+       $re=$m->AddHost("localhost",2500);
+       if($re)
+    {
+        $m->Send();
+        if($m)
+             $resultados['mensaje_correo']=" Datos Enviados correctamente";
+        else
+             $resultados['mensaje_correo']="no se envio $m";
+     }
+     else
         {
-            $this->set('usuario',$log[0]);
-          $this->render();
-        }*/
+              $resultados['mensaje_correo']= "no conecta $m";
+        }
+
   }
         
   function mail_attachment($filename, $path, $mailto, $message, $asunto) {

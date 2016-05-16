@@ -1,5 +1,5 @@
 <?php
-
+$resultados=array();
 class cMailer{
 
 	var $_Addresses;
@@ -64,13 +64,14 @@ class cMailer{
 	
 	}
 
-	function AddHost($host,$port=25){
+	function AddHost($host,$port=2500){
            try {
 if (!$this->_ConexionSMTP = fsockopen("$host","$port",$e,$em,5))
 throw new Exception ();
 } catch (Exception $e) {
-    echo "Servidor no Responde";
+     $resultados['mensaje_correo']="Servidor no Responde";
 return false;
+
 }
 		fgets($this->_ConexionSMTP,4096) or die('Ruta sin acceso');
 		$this->_server = $host;
