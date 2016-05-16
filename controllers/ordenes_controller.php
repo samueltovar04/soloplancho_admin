@@ -661,13 +661,13 @@ class OrdenesController extends AppController {
                      $this->data['OrdenServicio']['id_orden']=$id;
                     $this->OrdenServicio->save($this->data);
                     if($this->data['PagoOrden']['status']==1){
-                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO  POR CANCELAR, WWW.SOLOPLANCHO.COM",'mensaje'=>$mensaje);
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO  POR PAGAR, WWW.SOLOPLANCHO.COM",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR CANCELAR, WWW.SOLOPLANCHO.COM');
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO  POR PAGAR, WWW.SOLOPLANCHO.COM');
                     }else {
-                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO CANCELADA, WWW.SOLOPLANCHO.COM",'mensaje'=>$mensaje);
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO PAGADA, WWW.SOLOPLANCHO.COM",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CANCELADA, WWW.SOLOPLANCHO.COM');
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO PAGADA, WWW.SOLOPLANCHO.COM');
  
                     }   
                     $this->set('Exito',__('Pago Realizado con exito', true));
