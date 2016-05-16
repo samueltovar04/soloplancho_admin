@@ -135,7 +135,7 @@ $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
-//$pdf->lastPage();
+$pdf->lastPage();
 $filename="factura_$num.pdf";
 $path='/var/www/html/';
 $pdf->Output($path.$filename,'F');
