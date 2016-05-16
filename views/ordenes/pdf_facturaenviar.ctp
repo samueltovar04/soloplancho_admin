@@ -135,13 +135,13 @@ $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
-$pdf->lastPage();
+//$pdf->lastPage();
 $filename="factura_$num.pdf";
 $path='/var/www/html/';
-
+$pdf->Output($path.$filename,'F');
 
 $mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app pagarla. Con cualquiera de nuestras diferentes formas de pago y envios \n http://www.soloplancho.com\n";
-$pdf->Output($path.$filename,'F');
+
 
  $mail= NEW attach_mailer ("SoloPlancho","soloplancho@gmail.com",$ordenes['Cliente']['email'],"soloplancho@gmail.com","","FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);
 $mail->create_attachment_part($path.$filename);
