@@ -148,8 +148,8 @@ $mail->create_attachment_part($path.$filename);
 $arreglo=array('id_cliente'=>$cli_id,'titulo'=>"FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],'mensaje'=>$mensaje);
 $mail->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
 
-$mail->process_mail();
-print_r($mail->msg);
-//$mail->mail_attachment($filename, $path, $ordenes['Cliente']['email'],$mensaje, "FACTURA SEGUN ORDEN #".$ordenes['OrdenServicio']['id_orden']);
+//$mail->process_mail();
+//print_r($mail->msg);
+$mail->mail_attachment($filename, $path, $ordenes['Cliente']['email'],$mensaje, "FACTURA SEGUN ORDEN #".$ordenes['OrdenServicio']['id_orden']);
  
 ?>
