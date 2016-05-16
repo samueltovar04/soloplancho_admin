@@ -338,7 +338,7 @@ class OrdenesController extends AppController {
                                 $this->data=NULL;
                                if($gd>2){
                                  ?> <script type="text/javascript" language="javascript">
-                                     alert(<?php echo $gd ?>);
+                                     
                                      $("#mini_loading").hide();
                                    document.getElementById('codigobarra01').focus();
                                   

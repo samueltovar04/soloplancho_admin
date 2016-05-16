@@ -13,7 +13,7 @@
 ?>
          </div>
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#datoscliente2" aria-controls="datoscliente2" role="tab" data-toggle="tab">Asignar Operador</a></li>
+        <li role="presentation" class="active"><a href="#datoscliente2" aria-controls="datoscliente2" role="tab" data-toggle="tab">Peso Balanza/Asignar Operador</a></li>
         <li role="presentation"><a href="#codigobarra" aria-controls="codigobarra" role="tab" data-toggle="tab">Asignar Código de Barra</a></li>
         <li role="presentation"><a href="#enviarcorreo" aria-controls="enviarcorreo" role="tab" data-toggle="tab">Notificar Por Correo</a></li>
 

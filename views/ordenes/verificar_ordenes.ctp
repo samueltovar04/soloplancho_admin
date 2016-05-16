@@ -176,7 +176,7 @@
                         for (p in error) {
                                 message += p + ': ' + error[p] + '\n';
                         }
-                        alert(message);
+                        //alert(message);
                         
             }
         });
