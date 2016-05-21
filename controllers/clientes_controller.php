@@ -200,6 +200,7 @@ class ClientesController extends AppController {
                 $resu=$this->Usuario->find('list',array('fields'=>'id_usuario,fullname','conditions'=>array('Usuario.status'=>'1','Usuario.tipo'=>'3')));
 		$this->set('delivery',$resu);
                 $this->set('id',$id);
+                $this->set('token',$this->token_id());
         }
 
         function crear_orden($id = null){
@@ -290,6 +291,7 @@ class ClientesController extends AppController {
                 $this->set('costo',$costo['Configuracion']['valor']);
                 $this->set('id',$id);
                 $this->set('idemp',$emp);
+                $this->set('token',$this->token_id());
 	}
         function ordenescliente($id = null){
 

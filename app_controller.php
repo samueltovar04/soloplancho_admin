@@ -132,4 +132,21 @@ class AppController extends Controller {
      else{   
      }  
  }
+ 
+ function token_id()
+{
+ // add limit
+$id_length = 12;
+
+// add any character / digit
+$alfa = "abcdefghijklmnopqrstuvwxyz1234567890";
+$token = "";
+for($i = 1; $i < $id_length; $i ++) {
+
+  // generate randomly within given character/digits
+  @$token .= $alfa[rand(1, strlen($alfa))];
+
+}    
+return $token;
+}
 }
