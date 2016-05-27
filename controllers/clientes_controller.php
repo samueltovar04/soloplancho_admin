@@ -172,8 +172,8 @@ class ClientesController extends AppController {
                 }else{
                     $this->Balanza->create();
                     $date=date("Y-m-d H:i:s");
-                     $this->data['Balanza']['fecha_registro']=$date;
-                     $this->data['Balanza']['codigo']=$this->data['Balanza']['codigo2'];
+                    $this->data['Balanza']['fecha_registro']=$date;
+                    $this->data['Balanza']['codigo']=$this->data['Balanza']['codigo2'];
                     if($this->Balanza->save($this->data)){
                             $this->Cliente->create();
                             //$this->data['Cliente']['reg_id']=$this->data['Balanza']['id_usuario'];
@@ -181,8 +181,15 @@ class ClientesController extends AppController {
 
                             if($this->Cliente->save($this->data)){
                                 $this->set('Exito','Balanza asignada con exito');
-                                 $this->Cliente->recursive = 3;
+                                $this->Cliente->recursive = 3;
                                 $this->data = $this->Cliente->read(null, $id);
+                                $are=array(0=>strtolower(trim($this->data['Cliente']['email'])));
+                            $mensaje="Bienvenido a nuestra empresa soloplancho\n su Kit fue enviado a su domicilio \n para realizar solicitudes desde nuestra apps\n"
+                                    . "Su usuario es el correo: ".strtolower(trim($this->data['Cliente']['email'])). " y Clave: ".trim($this->data['Cliente']['password']);
+                            $arreglo=array('id_cliente'=>$this->data['Cliente']['reg_id'],'titulo'=>"KIT ENVIADO POR SOLOPLANCHO.COM",'mensaje'=>"Bienvenido a nuestra empresa soloplancho\n su Kit fue enviado a su domicilio \n para realizar  solicitudes por nuestra apps\n");
+			    $this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+
+                            $this->enviar_mensaje($are, $mensaje, 'KIT ENVIADO EN SOLOPLANCHO.COM');
 
                             }else {
                                 $this->set('Error','error actualizando balanza cliente');

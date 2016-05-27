@@ -19,7 +19,7 @@
           <li role="presentation"><a href="#dircliente" aria-controls="dircliente" role="tab" data-toggle="tab">Dirección</a></li>
           <li role="presentation"><a href="#dirclientegoogle" aria-controls="dirclientegoogle" role="tab" data-toggle="tab">Mapa Google</a></li>
           
-          <li role="presentation"><a href="#balanzaasig" aria-controls="balanzaasig" role="tab" data-toggle="tab">Asignar Balanza</a></li>
+          <li role="presentation"><a href="#balanzaasig" aria-controls="balanzaasig" role="tab" data-toggle="tab">Asignar Kit+Balanza</a></li>
 
           <li role="presentation"><a href="#hacerorden" aria-controls="hacerorden" role="tab" data-toggle="tab">Orden de Servicio</a></li>
            <li role="presentation"><a href="#listaorden" aria-controls="listaorden" role="tab" data-toggle="tab">Lista Ordenes de Servicio</a></li>
@@ -157,7 +157,7 @@ function initMap() {
                   
            <div id="asignarbalanza" class="panel panel-default">
                 <span class="title-window-panel"> 
-                  <i class="fa fa-tags"></i> Asignar Balanza
+                  <i class="fa fa-tags"></i> Asignar Kit+Balanza
                 </span>
              <div class="panel-body">
                 <?php   
@@ -174,7 +174,7 @@ function initMap() {
                  <div class="col-md-9">
               <div class="panel panel-info">
                 <span class="title-window-panel"> 
-                  <i class="fa fa-user-times"></i> Cliente ya Posee balanza si se requiere una nueva, ingrese la información
+                  <i class="fa fa-user-times"></i> Cliente ya Posee kit si se requiere una nueva, ingrese la información
                 </span>
                    </div>
            </div>
@@ -188,7 +188,7 @@ function initMap() {
                    echo $this->Form->input('Balanza.codigo2',array('readonly'=>'true','value'=>$token,'maxlength'=>'20','label' =>'Código Balanza','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control", 'placeholder'=>"Código de la balanza"));
      		   echo $this->Form->input('Balanza.id_usuario',array('label' =>'Nombre Delivery','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array($delivery)));
      		 
-                   echo $this->Ajax->submit(__('Asignar Balanza', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-12 form-group'),'url'=> array('controller'=>'Clientes', 'action'=>'asigna_balanza',$id), 'update' => 'asignarbalanza .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading'));
+                   echo $this->Ajax->submit(__('Asignar Kit', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-12 form-group'),'url'=> array('controller'=>'Clientes', 'action'=>'asigna_balanza',$id), 'update' => 'asignarbalanza .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading'));
 
                 ?>  
              </div>
