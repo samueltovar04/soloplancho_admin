@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/cmalav02/public_html/soloplancho/views/clientes/crear_orden.ctp</file>
             <file>file:/home/cmalav02/public_html/soloplancho/views/ordenes/buscar_ordenes.ctp</file>
+            <file>file:/home/cmalav02/public_html/soloplancho/views/clientes/asigna_balanza.ctp</file>
             <file>file:/home/cmalav02/public_html/soloplancho/views/entradas/recuperarclave.ctp</file>
+            <file>file:/home/cmalav02/public_html/soloplancho/views/clientes/vercliente.ctp</file>
             <file>file:/home/cmalav02/public_html/soloplancho/views/ordenes/qrordenesbuscar.ctp</file>
             <file>file:/home/cmalav02/public_html/soloplancho/controllers/ordenes_controller.php</file>
             <file>file:/home/cmalav02/public_html/soloplancho/views/layouts/admin.ctp</file>

@@ -90,7 +90,7 @@ class OrdenesController extends AppController {
                         $deli=$this->Usuario->find('first',array('fields'=>'Usuario.fullname,Usuario.email','conditions'=>array('Usuario.id_usuario'=>$this->data['UsuarioOrden']['id_usuario'])));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn ateción a su orden de servicio # $ord ha sido asignada a nuestro representante domiciliario ".$deli['Usuario']['fullname'].", sera retirada en su domicilio\n Muchas gracias por su atención .\n\"No manejamos dinero en efectvo\"\n";
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord ha sido asignada a nuestro representante domiciliario ".$deli['Usuario']['fullname'].", sera retirada en su domicilio\n Muchas gracias por su atención .\n\"No manejamos dinero en efectivo\"\n";
                         $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
                         $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
@@ -244,7 +244,7 @@ class OrdenesController extends AppController {
  
                     $this->data['OrdenServicio']['id_orden']=$ord;
 		    $this->data['OrdenServicio']['status']='5';
-                  if(!empty($this->data['OrdenServicio']['peso_libras'])){
+                 /* if(!empty($this->data['OrdenServicio']['peso_libras'])){
                     if(($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10)<$this->data['OrdenServicio']['peso_libras'] || ($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10)>$this->data['OrdenServicio']['peso_libras'])
                     {
                        ($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10).' > '.$this->data['OrdenServicio']['peso_libras'].' || '.($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10).' <'.$this->data['OrdenServicio']['peso_libras'];
@@ -263,7 +263,7 @@ class OrdenesController extends AppController {
                     }else{
                             $this->data['OrdenServicio']['observacion']='';
                     }
-                  }
+                  }*/
                     if ($this->OrdenServicio->save($this->data)) {
                         
                         $this->set('Exito',__('El Operador ha sido Asignado', true));
