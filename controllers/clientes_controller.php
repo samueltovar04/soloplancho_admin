@@ -72,8 +72,9 @@ class ClientesController extends AppController {
                             $filename = $PNG_TEMP_DIR.'test'.md5($this->data['Cliente']['cedula'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
                             QRcode::png(base64_encode(base64_encode($cedula)), $filename, $errorCorrectionLevel, $matrixPointSize, 2); 
                             $are=array(0=>strtolower(strtolower(trim($this->data['Cliente']['email']))));
-                            $mensaje="Bienvenido a nuestra empresa soloplancho\n usted puede realizar solicitudes por nuestra apps\n"
-                                    . "Su usuario es el correo: ".strtolower(trim($this->data['Cliente']['email'])). " y Clave: ".trim($this->data['Cliente']['password']);
+
+                            $mensaje="Estimada(o)\n\tLe damos la mas cordial bienvenida a SoloPlancho. ​Por favor elabore su Orden de Servicio (OS) vía APP.\nConsultas:Tel:xxxxx web: www.soloplancho.com"
+                                    . "Su cuenta de correo: ".strtolower(trim($this->data['Cliente']['email'])). "Su usuario de ingreso es su Cédula ".$this->data['Cliente']['cedula']." y Clave: ".trim($this->data['Cliente']['password']);
                             $arreglo=array('id_cliente'=>$this->data['DireccionCliente']['id_cliente'],'titulo'=>"REGISTRO EXITOSO EN SOLOPLANCHO.COM",'mensaje'=>"Bienvenido a nuestra empresa soloplancho\n usted puede realizar solicitudes por nuestra apps\n");
 			    $this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
 
@@ -259,8 +260,8 @@ class ClientesController extends AppController {
                         }
                         $cli=$this->Cliente->find('first',array('fields'=>'reg_id,fullname,email','conditions'=>array('Cliente.reg_id'=>$id)));
                         $are=array(0=>strtolower(strtolower(trim($cli['Cliente']['email']))));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tSe ha registrado la orden # $ido\n en soloplancho empresa líder en planchado también visite nuestra web http://www.soloplancho.com\n"
-                                    . "Desde su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\t\tMuchas gracias por su OS:$ido.​ Pronto le enviaremos información. \n tel.:xxxxx web: http://www.soloplancho.com\n"
+                                    . "su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                         $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO PARA PLANCHADO, SOLOPLANCHO.COM",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
 

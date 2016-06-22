@@ -19,8 +19,8 @@
           <li role="presentation"><a href="#dircliente" aria-controls="dircliente" role="tab" data-toggle="tab">Dirección</a></li>
           <li role="presentation"><a href="#dirclientegoogle" aria-controls="dirclientegoogle" role="tab" data-toggle="tab">Mapa Google</a></li>
           
-          <li role="presentation"><a href="#balanzaasig" aria-controls="balanzaasig" role="tab" data-toggle="tab">Asignar Kit</a></li>
-
+         <!-- <li role="presentation"><a href="#balanzaasig" aria-controls="balanzaasig" role="tab" data-toggle="tab">Asignar Kit</a></li>
+-->
           <li role="presentation"><a href="#hacerorden" aria-controls="hacerorden" role="tab" data-toggle="tab">Orden de Servicio</a></li>
            <li role="presentation"><a href="#listaorden" aria-controls="listaorden" role="tab" data-toggle="tab">Lista Ordenes de Servicio</a></li>
 
