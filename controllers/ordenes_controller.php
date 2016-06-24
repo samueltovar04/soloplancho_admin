@@ -653,7 +653,7 @@ class OrdenesController extends AppController {
                     $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n "
                         ."Esta lista para ser entregada. Según sus instrucciones Ud seleccionó recoger y pagar en Nuestra tienda"
                         ."Favor\npagar On line,\ncon depósito,\nPSE,o transferencia.\n​(*)"
-​                       .'" PREFERIMOS LOS PAGOS ELECTRONICOS, CONTRIBUYE CON EL AMBIENTE "' 
+                        .'" PREFERIMOS LOS PAGOS ELECTRONICOS, CONTRIBUYE CON EL AMBIENTE "' 
                         ."\nConsultas: web http://www.soloplancho.com\n"
                         . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
