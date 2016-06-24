@@ -87,15 +87,15 @@ class OrdenesController extends AppController {
                     if ($this->OrdenServicio->save($this->data)) {
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
                         $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
-                        $deli=$this->Usuario->find('first',array('fields'=>'Usuario.fullname,Usuario.email,Usuario.movil','conditions'=>array('Usuario.id_usuario'=>$this->data['UsuarioOrden']['id_usuario'])));
+                        $deli=$this->Usuario->find('first',array('fields'=>'Usuario.fullname,Usuario.cedula,Usuario.email,Usuario.movil','conditions'=>array('Usuario.id_usuario'=>$this->data['UsuarioOrden']['id_usuario'])));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
                         
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atenci&oacute;n a su orden de servicio # $ord , la misma ha sido asignada a nuestro IKARO:"
-                                . "".$deli['Usuario']['fullname']." Celular: ".$deli['Usuario']['movil'].", para ser retirada en su domicilio.\n web: www.soloplancho.com";
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord , la misma ha sido asignada a nuestro IKARO:"
+                                . "".$deli['Usuario']['fullname']." Cédula: ".$deli['Usuario']['cedula']." Celular: ".$deli['Usuario']['movil'].", para ser retirada en su domicilio.\n  www.soloplancho.com";
                         $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY, SOLOPLANCHO.COM');
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A IKARO, SOLOPLANCHO.COM');
                             
                         
                             ?> <script type="text/javascript" language="javascript">
@@ -639,7 +639,7 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='7';
                     $this->data['PagoOrden']['fecha_pago']=NULL;
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                    $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n"
+                    $mensaje="Estimada(o) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n"
                             . " a solicitud del cliente será cancelada por Datafono en su domicilio \n "
                             .'(​" POR SEGURIDAD SOLO ACEPTAMOS PAGOS ELECTRONICOS ")\n'
                             . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
@@ -650,11 +650,11 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='10';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                    $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n "
+                    $mensaje="Estimada(o) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n "
                         ."Esta lista para ser entregada. Según sus instrucciones Ud seleccionó recoger y pagar en Nuestra tienda"
-                        ."Favor\npagar On line,\ncon depósito,\nPSE,o transferencia.\n​(*)"
-                        .'" PREFERIMOS LOS PAGOS ELECTRONICOS, CONTRIBUYE CON EL AMBIENTE "' 
-                        ."\nConsultas: web http://www.soloplancho.com\n"
+                        ."Favor\npagar On line,\ncon depósito,\n,o transferencia.\n​(*)"
+                        .'" PREFERIMOS SOLO LOS PAGOS ELECTRONICOS, CONTRIBUYE CON EL AMBIENTE "' 
+                        ."\nhttp://www.soloplancho.com\n"
                         . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }else
                 {
@@ -662,10 +662,10 @@ class OrdenesController extends AppController {
                     $this->data['OrdenServicio']['status']='8';
                     $this->data['PagoOrden']['fecha_pago']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
-                     $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n "
-                        ."Esta lista para ser entregada. Según sus instrucciones Ud seleccionó pagar On line,con depósito,PSE,o transferencia.\n"
-                        .'" PREFERIMOS LOS PAGOS ELECTRONICOS, CONTRIBUYE CON EL AMBIENTE "' 
-                        ."\nConsultas: web http://www.soloplancho.com\n"
+                     $mensaje="Estimada(o) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n "
+                        ."Esta lista para ser entregada. Según sus instrucciones Ud seleccionó pagar On line,con depósito,o transferencia.\n"
+                        .'" PREFERIMOS SOLO LOS PAGOS ELECTRONICOS, CONTRIBUYE CON EL AMBIENTE "' 
+                        ."\n http://www.soloplancho.com\n"
                         . "Su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
                 }
                 if($this->PagoOrden->save($this->data)){
@@ -728,14 +728,14 @@ class OrdenesController extends AppController {
                     
                     if ($this->OrdenServicio->save($this->data)) {
                           $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$ord)));
-                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.email,Usuario.movil','conditions'=>array('UsuarioOrden.status'=>'4','UsuarioOrden.id_orden'=>$ord)));
+                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.cedula,Usuario.email,Usuario.movil','conditions'=>array('UsuarioOrden.status'=>'4','UsuarioOrden.id_orden'=>$ord)));
                         
                         $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $ord lista para ser entregada en su domicilo por nuestro IKARO: ".$deli['Usuario']['fullname']." celular:".$deli['Usuario']['movil']."\n"
-                                ."Consultas: web http://www.soloplancho.com";
-                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE",'mensaje'=>$mensaje);
+                        $mensaje="Estimada(o) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $ord lista para ser entregada en su domicilo por nuestro IKARO: ".$deli['Usuario']['fullname']." cédula:".$deli['Usuario']['cedula']." celular:".$deli['Usuario']['movil']."\n"
+                                ."http://www.soloplancho.com";
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A IKARO PARA ENTREGA AL CLIENTE",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A DELIVERY PARA ENTREGA AL CLIENTE, WWW.SOLOPLANCHO.COM');
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A IKARO PARA ENTREGA AL CLIENTE, WWW.SOLOPLANCHO.COM');
                         
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
                         

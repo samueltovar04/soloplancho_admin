@@ -133,14 +133,14 @@ $tabla='<table cellpadding="0" cellspacing="0"  width="180px">
 $pdf->Image(K_PATH_IMAGES.'recicla.png',9,79,6,6);
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
-$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
+//$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
 
 $pdf->lastPage();
 $filename="factura_$num.pdf";
 $path='/var/www/html/';
 $pdf->Output($path.$filename,'F');
 
-$mensaje="La orden de servicio de planchado # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", \n debe ingresar en la app pagarla. Con cualquiera de nuestras diferentes formas de pago y envios \n http://www.soloplancho.com\n";
+$mensaje="La OS # ".$ordenes['OrdenServicio']['id_orden'].", Según fáctura # ".$num.", monto : $total esta lista \n agradecemos cancelar con cualquiera de nuestras diferentes formas de pago\n y metodo de entrega de su preferencia , por IKARO o en Tienda \n http://www.soloplancho.com\n";
 
 
  $mail= NEW attach_mailer ("SoloPlancho","soloplancho@gmail.com",$ordenes['Cliente']['email'],"soloplancho@gmail.com","","FACTURA PARA LA ORDEN #".$ordenes['OrdenServicio']['id_orden'],$mensaje);

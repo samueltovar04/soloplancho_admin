@@ -41,7 +41,7 @@ class AppController extends Controller {
    {
         $header = "From: soloplancho@soloplancho.com \n";
         $header .= "Mime-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 7bit";
-        $descripcion = "Este mensaje fue enviado por SOLOPLANCHO \"Los Número uno en Planchado\",\n";
+        $descripcion = "Este mensaje fue enviado por SOLOPLANCHO,\n";
         $descripcion=utf8_decode($descripcion.$mensaje);
         set_time_limit(0);
         $re='';
@@ -98,9 +98,9 @@ class AppController extends Controller {
     $nmessage .= $content.$eol;
     $nmessage .= "--".$uid."--";
     if (mail($mailto, $asunto, $nmessage, $header)) {
-        echo "mail send ... OK"; // or use booleans here
+        echo "mail enviado ... OK"; // or use booleans here
     } else {
-        echo "mail send ... ERROR!";
+        echo "mail enviado ... ERROR!";
     }
   }
  function enviar_curl($url, $post_data)
