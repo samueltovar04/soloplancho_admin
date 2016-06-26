@@ -38,7 +38,7 @@ class OrdenesController extends AppController {
             $this->con['OrdenServicio.recepcion']='domicilio';*/
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
-                        'OrdenServicio.status'=>array('1','2'),
+                        'OrdenServicio.status'=>array('1'),
                         'OrdenServicio.recepcion'=>array('drop-off','domicilio')
                     );
             $this->OrdenServicio->recursive = 2;
