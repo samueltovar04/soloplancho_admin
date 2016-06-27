@@ -5,7 +5,7 @@ class ClientesController extends AppController {
          var $paginate = array('limit' => 20,'order'=>'Cliente.cedula ASC');
 	var $name = 'Clientes';
         var  $con=array();
-        var $uses=array('Cliente','DireccionCliente','Balanza','OrdenArticulo','Articulo','Usuario','Configuracion','OrdenServicio');
+        var $uses=array('Cliente','DireccionCliente','OrdenArticulo','Articulo','Usuario','Configuracion','OrdenServicio');
         var $components = array('RequestHandler');
 	var $helpers = array('Html','Form' => array('className' => 'BootstrapForm'),'Cargar','Ajax','Js','Paginator'=>array('ajax'=>'Ajax'));
         var $layout = 'ajax';
