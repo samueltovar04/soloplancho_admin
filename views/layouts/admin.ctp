@@ -7,7 +7,7 @@
 <?php
 echo $this->Html->meta('favicon.ico','img/soloplancho.png',array('type' => 'icon'));
 echo $this->Html->css('bootstrap.min');
-//echo $this->Html->css('bootstrap-datepicker');
+echo $this->Html->css('bootstrap-switch.min');
 echo $this->Html->css('jquery-ui');
 //echo $this->Html->css('dataTables.bootstrap.min');
 echo $this->Html->css('bootstrapValidator.min');
@@ -21,7 +21,7 @@ echo $javascript->link('jquery.min')."\n";
 echo $javascript->link('jquery-ui.min')."\n";
 echo $javascript->link('bootstrap.min')."\n";
 //echo $javascript->link('dataTables.bootstrap.min')."\n";
-//echo $javascript->link('bootstrap-datepicker.min')."\n";
+echo $javascript->link('bootstrap-switch.min')."\n";
 echo $javascript->link('jquery.knob.min')."\n";
 echo $javascript->link('qrcodelib')."\n";
 echo $javascript->link('WebCodeCam')."\n";

@@ -26,6 +26,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
 			<th><?php echo $this->Paginator->sort('Correo','email');?></th>
 			<th><?php echo $this->Paginator->sort('Télefono','telefono');?></th>
 			<th><?php echo $this->Paginator->sort('Movil','movil');?></th>
+                        <th><?php echo $this->Paginator->sort('Estado','status');?></th>
 			
 	</tr></thead><tbody id='tblcliente'>
 	<?php
@@ -43,6 +44,20 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                 <td><?php echo $Cliente['Cliente']['email']; ?>&nbsp;</td>
 		<td><?php echo $Cliente['Cliente']['telefono']; ?>&nbsp;</td>
 		<td><?php echo $Cliente['Cliente']['movil']; ?>&nbsp;</td>
+                <td><?php echo $Cliente['Cliente']['status'].' ';//.$form->input('Cliente.status', array('id'=>'status','type' => 'checkbox','value'=>$Cliente['Cliente']['status'] ,'label' => false));
+                if($Cliente['Cliente']['status']) $true='true'; else $true='false';
+                echo $this->Form->input('status', array(
+    'div' => false,
+    'label' => false,
+    'hiddenField' => false,
+                    'checked'=>$true,
+                    'value'=>$Cliente['Cliente']['status'],
+                    'type'=>'checkbox',
+    'before' => '<label>',
+    'after' => '<span class="toggle"></span></label>'
+));
+                ?>
+                    </td>
 
 	</tr>
 <?php endforeach; ?>
@@ -62,8 +77,25 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
 	</div>
         <script type="text/javascript">
         //<![CDATA[
-        
-$('#busquedaorden').focus();
+        $("[id='status']").bootstrapSwitch();
+        $('input[id="status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+            var tr=$(this).parent().parent().parent().parent().parent();
+            var id = tr.attr('id');
+            $.ajax({
+                async:true, 
+                type:'post', 
+                beforeSend:function(request) {
+                    $('#mini_loading').show();
+                }, 
+                complete:function(request, json) { 
+                    //console.log(request);
+                    $('#mini_loading').hide()},
+                url:'Clientes/activacliente/'+id+'/'+state});
+            //console.log($(this).parent().parent().parent().parent().parent().attr('id')); // DOM element
+            //console.log(event); // jQuery event
+            //console.log(state); // true | false
+            });
+        $('#busquedaorden').focus();
 
     $('#tblcliente tr').bind('click', function(){ 
     var row=$(this).parent();

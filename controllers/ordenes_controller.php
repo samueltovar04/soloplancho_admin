@@ -252,9 +252,10 @@ class OrdenesController extends AppController {
                        ($peso_viejo['OrdenServicio']['peso_libras']+$peso_viejo['OrdenServicio']['peso_libras']*0.10).' > '.$this->data['OrdenServicio']['peso_libras'].' || '.($peso_viejo['OrdenServicio']['peso_libras']-$peso_viejo['OrdenServicio']['peso_libras']*0.10).' <'.$this->data['OrdenServicio']['peso_libras'];
                        $up="update orden_servicios set peso_cliente=peso_libras where id_orden='$ord' and peso_cliente is null";
                        $u=$this->UsuarioOrden->query($up);
+                  * */
                        $this->data['OrdenServicio']['precio_orden']=$costo['Configuracion']['valor']*$this->data['OrdenServicio']['peso_libras'];
                        $this->data['OrdenServicio']['peso_libras']=$this->data['OrdenServicio']['peso_libras'];   
-                       $this->data['OrdenServicio']['observacion']="Estimado(a) ".$peso_viejo['Cliente']['fullname']."\n\n\t\tSe le notifica que el peso de la Orden de Servicio # "
+                    /*   $this->data['OrdenServicio']['observacion']="Estimado(a) ".$peso_viejo['Cliente']['fullname']."\n\n\t\tSe le notifica que el peso de la Orden de Servicio # "
                                 .$ord.' es de : '.$this->data['OrdenServicio']['peso_libras'].' Lbs. , notando una pequeña diferencia'
                                 .' con la colocada online por usted de '.$peso_viejo['OrdenServicio']['peso_libras'].' Lbs. , de igual manera seguiremos con el proceso normal de su orden.'; 
                            $are=array(0=>strtolower(trim($peso_viejo['Cliente']['email'])));

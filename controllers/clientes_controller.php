@@ -22,11 +22,18 @@ class ClientesController extends AppController {
 
         function vista_clientes_nuevos(){
           $this->paginate = array('limit' => 20,'order'=>'Cliente.reg_id ASC');
-          $con=array('Cliente.status=1');
+          $con=array('Cliente.status=0');
             $this->Cliente->recursive = 2;
             $edo=$this->paginate('Cliente',$con);
             $this->set('Clientes',$edo);
             $this->render("vista_clientes");
+        }
+        function activacliente($id,$status){
+            $this->data['Cliente']['reg_id']=$id;
+            if($status=='true') $status=1; else $status=0;
+                    $this->data['Cliente']['status']=$status;
+            $this->Cliente->save($this->data);
+           // $id.$status;
         }
 
         function nuevo(){
