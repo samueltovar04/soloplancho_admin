@@ -14,15 +14,15 @@ class ClientesController extends AppController {
 	}
 
         function vista_clientes(){
-            $this->con['Cliente.status']='1';
+            //$this->con['Cliente.status']='1';
             $this->Cliente->recursive = 2;
-            $edo=$this->paginate('Cliente',$this->con);
+            $edo=$this->paginate('Cliente');//,$this->con);
             $this->set('Clientes',$edo);
         }
 
         function vista_clientes_nuevos(){
           $this->paginate = array('limit' => 20,'order'=>'Cliente.reg_id ASC');
-          $con=array('Cliente.status=1 and Cliente.id_balanza IS NULL');
+          $con=array('Cliente.status=1');
             $this->Cliente->recursive = 2;
             $edo=$this->paginate('Cliente',$con);
             $this->set('Clientes',$edo);
