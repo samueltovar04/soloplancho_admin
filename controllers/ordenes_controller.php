@@ -135,7 +135,7 @@ class OrdenesController extends AppController {
             $this->set('ordenes',$ordenes);
             $this->con['OrdenServicio.id_empresa']=$emp;	
             $this->con['OrdenServicio.status']=array('1','4','5');
-            $this->con['OrdenServicio.recepcion']=array('personal');
+            $this->con['OrdenServicio.recepcion']=array('tienda');
            
             $ordenesc=$this->paginate('OrdenServicio',$this->con);
             $this->set('ordenesc',$ordenesc);
@@ -161,7 +161,7 @@ class OrdenesController extends AppController {
             $this->set('delivery',$resu);
             $this->con['OrdenServicio.id_empresa']=$emp;	
             $this->con['OrdenServicio.status']=array('1','4','5');
-            $this->con['OrdenServicio.recepcion']='personal';
+            $this->con['OrdenServicio.recepcion']='tienda';
            
             $ordenesc=$this->paginate('OrdenServicio',$this->con);
             $this->set('ordenesc',$ordenesc);
