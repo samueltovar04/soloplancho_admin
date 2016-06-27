@@ -4,10 +4,10 @@ class Cliente extends AppModel {
         var $useTable = 'clientes';
 	var $primaryKey = 'reg_id';
 	var $displayField = 'fullname';
-        var $belongsTo =array('Balanza'=> array(
+      /*  var $belongsTo =array('Balanza'=> array(
 'className' => 'Balanza',
 'foreignKey' => 'id_balanza'
-));
+));*/
         var $hasOne =array('DireccionCliente'=> array(
 'className' => 'DireccionCliente',
 'foreignKey' => 'id_cliente'
