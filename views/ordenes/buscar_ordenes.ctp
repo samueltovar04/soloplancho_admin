@@ -30,7 +30,8 @@
                       <?php
   $paginator->options(array('url'=>array( 'controller' => 'Ordenes', 'action' => 'resultado_buscar'),'update' => 'buscarord .panel-body', 'indicator' => 'mini_loading','loading'=>'mini_loading'));
 
- ?>
+ ?>            
+
 <div  style="border:1px">
      <table id='tblMain' class="table table-bordered table-hover" cellpadding="0" cellspacing="0"  width="100%">
 	<thead><tr>
@@ -124,7 +125,33 @@
         
           
    <script type="text/javascript">
-        //<![CDATA[       
+        //<![CDATA[   
+        
+        $('#busquedaorden').focus();     
+  $('#tblordenbuscar tr').on('click', function(){ 
+    var row=$(this).parent();
+    var orden = $("#tblordenbuscar").children().eq($(this).index());  
+    var id = orden.attr('id');
+    $.ajax({
+        async:true, 
+        type:'post', 
+        beforeSend:function(request) {
+            $('#mini_loading').show();
+            $("#buscarorden").find(".panel-body").children().remove();
+            $("#buscarorden").hide(1000);
+            $("#buscarresul").removeClass("animated zoomOut");
+            $("#buscarresul").fadeIn(500);
+        }, 
+        complete:function(request, json) {
+            $('#buscarresul .panel-body').html(request.responseText); 
+            $('#mini_loading').hide();
+        },
+        url:'Ordenes/busquedaordenes/'+id}) 
+    });
+             
+          $('.qrcode i').on('click', function(){ 
+      $('#modal_qrcode').modal('show');
+  });
  $('#qr-canvas').WebCodeCam({
             ReadQRCode: true, // false or true
             ReadBarecode: true, // false or true
@@ -188,37 +215,3 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-
-
-<script type="text/javascript">
-//<![CDATA[
-  $('.qrcode i').on('click', function(){ 
-      $('#modal_qrcode').modal('show');
-  });
-  $('#busquedaorden').focus();     
-  $('#tblordenbuscar tr').on('click', function(){ 
-    var row=$(this).parent();
-    var orden = $("#tblordenbuscar").children().eq($(this).index());  
-    var id = orden.attr('id');
-    $.ajax({
-        async:true, 
-        type:'post', 
-        beforeSend:function(request) {
-            $('#mini_loading').show();
-            $("#buscarorden").find(".panel-body").children().remove();
-            $("#buscarorden").hide(1000);
-            $("#buscarresul").removeClass("animated zoomOut");
-            $("#buscarresul").fadeIn(500);
-        }, 
-        complete:function(request, json) {
-            $('#buscarresul .panel-body').html(request.responseText); 
-            $('#mini_loading').hide();
-        },
-        url:'Ordenes/busquedaordenes/'+id}) 
-    });
-             
-//]]>
-</script>
-            

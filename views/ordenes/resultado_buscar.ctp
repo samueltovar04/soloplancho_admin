@@ -13,7 +13,7 @@
 			<th><?php echo $this->Paginator->sort('Fecha Solicitud','fecha_solicitud');?></th>
 			<th><?php echo $this->Paginator->sort('Status','OrdenServicio.status');?></th>
                       
-	</tr></thead><tbody id='tblorden'>
+	</tr></thead><tbody id='tblordenbuscar'>
 	<?php
 	$i = 0;
        	foreach ($ordenes as $orden):
@@ -66,3 +66,29 @@
 		<?php echo $this->Paginator->next(__('siguiente', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
              </div>
+ <script type="text/javascript">
+        //<![CDATA[   
+        
+        $('#busquedaorden').focus();     
+  $('#tblordenbuscar tr').on('click', function(){ 
+    var row=$(this).parent();
+    var orden = $("#tblordenbuscar").children().eq($(this).index());  
+    var id = orden.attr('id');
+    $.ajax({
+        async:true, 
+        type:'post', 
+        beforeSend:function(request) {
+            $('#mini_loading').show();
+            $("#buscarorden").find(".panel-body").children().remove();
+            $("#buscarorden").hide(1000);
+            $("#buscarresul").removeClass("animated zoomOut");
+            $("#buscarresul").fadeIn(500);
+        }, 
+        complete:function(request, json) {
+            $('#buscarresul .panel-body').html(request.responseText); 
+            $('#mini_loading').hide();
+        },
+        url:'Ordenes/busquedaordenes/'+id}) 
+    });
+    
+    </script>
