@@ -5,7 +5,7 @@ class ClientesController extends AppController {
          var $paginate = array('limit' => 20,'order'=>'Cliente.cedula ASC');
 	var $name = 'Clientes';
         var  $con=array();
-        var $uses=array('Cliente','DireccionCliente','OrdenArticulo','Articulo','Usuario','Configuracion','OrdenServicio');
+        var $uses=array('Cliente','DireccionCliente','OrdenArticulo','Articulo','Usuario','Configuracion','OrdenServicio','UsuarioOrden');
         var $components = array('RequestHandler');
 	var $helpers = array('Html','Form' => array('className' => 'BootstrapForm'),'Cargar','Ajax','Js','Paginator'=>array('ajax'=>'Ajax'));
         var $layout = 'ajax';
@@ -265,14 +265,17 @@ class ClientesController extends AppController {
                             }
                             }
                         }
-                        $cli=$this->Cliente->find('first',array('fields'=>'reg_id,fullname,email','conditions'=>array('Cliente.reg_id'=>$id)));
-                        $are=array(0=>strtolower(strtolower(trim($cli['Cliente']['email']))));
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\t\tMuchas gracias por su OS:$ido.​ Pronto le enviaremos información. \n http://www.soloplancho.com\n"
-                                    . "su cuenta email: ".strtolower(trim($cli['Cliente']['email']));
-                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO PARA PLANCHADO, SOLOPLANCHO.COM",'mensaje'=>$mensaje);
+                        $cli=$this->Cliente->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('Cliente.reg_id'=>$id)));
+                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.cedula,Usuario.email,Usuario.movil','conditions'=>array('UsuarioOrden.id_orden'=>$ido,'UsuarioOrden.status'=>'1')));
+                        
+                        $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
+                        
+                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord , la misma ha sido asignada a nuestro IKARO:"
+                                . "".$deli['Usuario']['fullname']." Cédula: ".$deli['Usuario']['cedula']." Celular: ".$deli['Usuario']['movil'].", para ser retirada en su domicilio.\n  www.soloplancho.com";
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A IKARO",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
-
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO PARA PLANCHADO DESDE SOLOPLANCHO.COM');
+                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A IKARO, SOLOPLANCHO.COM');
+                            
                         $this->set('Exito','orden de servicio crearda con exito');
                     }  else {
                         $this->set('Error','error creando orden de servicio');

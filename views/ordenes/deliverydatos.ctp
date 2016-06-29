@@ -52,13 +52,13 @@ if(isset($usuario['UsuarioOrden'])){
                 echo $this->Form->create('UsuarioOrden',array('class'=>'form-group'));
               ?>
             <div class='col-xs-3'>
-                <label class='form-group'>Delivery</label>
+                <label class='form-group'>IKARO</label>
             </div>
             <?php
                 echo $this->Form->input('UsuarioOrden.id_orden',array('type' => 'hidden','value'=>$ordenes['OrdenServicio']['id_orden'],'onKeyPress'=>'return numeros(event)'));
                 echo $this->Form->input('UsuarioOrden.id_usuario',array('label' =>false,'div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>$delivery));
                 
-                echo $this->Ajax->submit(__('Asignar Delivery', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-3 form-group'),'url'=> array('controller'=>'Ordenes', 'action'=>'asigna_orden',$ordenes['OrdenServicio']['id_orden']), 'update' => 'asignar','loading'=>'mini_loading','indicator'=>'mini_loading'));
+                echo $this->Ajax->submit(__('Asignar ikaro', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-3 form-group'),'url'=> array('controller'=>'Ordenes', 'action'=>'asigna_orden',$ordenes['OrdenServicio']['id_orden']), 'update' => 'asignar','loading'=>'mini_loading','indicator'=>'mini_loading'));
 
             ?>
             </div>

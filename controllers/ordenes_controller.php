@@ -93,7 +93,7 @@ class OrdenesController extends AppController {
                         
                         $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord , la misma ha sido asignada a nuestro IKARO:"
                                 . "".$deli['Usuario']['fullname']." Cédula: ".$deli['Usuario']['cedula']." Celular: ".$deli['Usuario']['movil'].", para ser retirada en su domicilio.\n  www.soloplancho.com";
-                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A DELIVERY",'mensaje'=>$mensaje);
+                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A IKARO",'mensaje'=>$mensaje);
 			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
                         $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A IKARO, SOLOPLANCHO.COM');
                             
@@ -701,7 +701,7 @@ class OrdenesController extends AppController {
             $usu=$this->UsuarioOrden->find('first',array('conditions'=>array('UsuarioOrden.id_orden'=>$id,'UsuarioOrden.status'=>'4')));
             
             if(isset($usu['UsuarioOrden']) && !empty($usu['UsuarioOrden']['id_orden'])){
-                $this->set('Error','Posee Delivery Asignado para la entrega si asigna otro se anular el anterior');
+                $this->set('Error','Posee IKARO Asignado para la entrega si asigna otro se anular el anterior');
             }
             $pago=$this->PagoOrden->find('first',array('conditions'=>array('PagoOrden.id_orden'=>$id)));
             $this->set('pagos',$pago);
@@ -741,13 +741,13 @@ class OrdenesController extends AppController {
                         $this->set('Exito',__('El Delivery ha sido Asignado', true));
                         
                     } else {
-                        $this->set('Error',__('No se pudo Asignar Delivery.', true));
+                        $this->set('Error',__('No se pudo Asignar IKARO.', true));
                     }
                 } else {
-                    $this->set('Error',__('No se pudo Asignar Delivery.', true));
+                    $this->set('Error',__('No se pudo Asignar IKARO.', true));
                 }
             }else {
-		$this->set('Error',__('Seleccione Delivery', true));
+		$this->set('Error',__('Seleccione IKARO', true));
             }
             $emp = $this->Session->read('id_empresa');
             $resu=$this->Usuario->find('list',array('fields'=>'id_usuario,fullname','conditions'=>array('Usuario.status'=>'1','Usuario.tipo'=>'3','Usuario.id_empresa'=>$emp)));

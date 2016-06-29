@@ -52,8 +52,8 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                     }
     
     if($orden['OrdenServicio']['status']=='1'){ $status='Nueva Orden'; $class='primary-color';}
-    if($orden['OrdenServicio']['status']=='2'){ $status='Asignada Delivery'; $class='success-color';}
-    if($orden['OrdenServicio']['status']=='3'){ $status='Entregada Delivery'; $class='warning-color';}
+    if($orden['OrdenServicio']['status']=='2'){ $status='Asignada Ikaro'; $class='success-color';}
+    if($orden['OrdenServicio']['status']=='3'){ $status='Entregada Ikaro'; $class='warning-color';}
     if($orden['OrdenServicio']['status']=='4'){ $status='En Tienda';$class='info-color'; }
     if($orden['OrdenServicio']['status']=='5'){ $status='Asignado Operador'; $class='operador-color';}
     if($orden['OrdenServicio']['status']=='6'){ $status='Planchada'; $class='planchada-color';}

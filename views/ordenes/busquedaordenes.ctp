@@ -20,8 +20,8 @@
             }
 
  if($ordenes['OrdenServicio']['status']=='1'){ $status='Nueva Orden'; $class='primary-color';}
-    if($ordenes['OrdenServicio']['status']=='2'){ $status='Asignada Delivery'; $class='success-color';}
-    if($ordenes['OrdenServicio']['status']=='3'){ $status='Entregada Delivery'; $class='warning-color';}
+    if($ordenes['OrdenServicio']['status']=='2'){ $status='Asignada IKARO'; $class='success-color';}
+    if($ordenes['OrdenServicio']['status']=='3'){ $status='Entregada IKARO'; $class='warning-color';}
     if($ordenes['OrdenServicio']['status']=='4'){ $status='En Tienda';$class='info-color'; }
     if($ordenes['OrdenServicio']['status']=='5'){ $status='Asignada Operador'; $class='operador-color';}
     if($ordenes['OrdenServicio']['status']=='6'){ $status='Planchada'; $class='planchada-color';}
@@ -122,11 +122,11 @@
             </tr>
             <tr>
                 <td>
-                <?php echo "<strong>Monto : ".$monto." $$. </strong>"
-                            ."<strong>".$impuesto['Configuracion']['descripcion']." : ".$iva." $$. </strong>";
+                <?php echo "<strong>Monto : $$ ".number_format($monto, 2, '.', ',').". </strong>"
+                            ."<strong>".$impuesto['Configuracion']['descripcion']." : $$ ".number_format($iva, 2, '.', ',')." . </strong>";
                 ?>
                 </td>
-                <td>Monto Total a Pagar: <?php echo "<strong> ".$total." $$. </strong>";?></td>
+                <td>Monto Total a Pagar: <?php echo "<strong>$$ ".number_format($total, 2, '.', ',').". </strong>";?></td>
             </tr>
             <tr><td><strong>Metodo de Pago:</strong> <?php echo $pagorden['PagoOrden']['metodo_pago'];?></td>
                 <td>Número Transacción: <?php echo $pagorden['PagoOrden']['numero'];?> </td></tr>
