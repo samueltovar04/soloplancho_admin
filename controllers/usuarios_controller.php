@@ -57,7 +57,11 @@ class UsuariosController extends AppController{
         }
         function asigna_status($id,$state){
             $this->data['Usuario']['id_usuario']=$id;
-            $this->data['Usuario']['status']=$state;
+            if($state){
+                $this->data['Usuario']['status']=1;
+            }else {
+                $this->data['Usuario']['status']=0;
+            }
             if($this->Usuario->save($this->data)){
                     $this->set("Exito","Empleado Actualizado");
                     $this->data=null;
