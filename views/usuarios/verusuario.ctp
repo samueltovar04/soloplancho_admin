@@ -15,7 +15,6 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#datosempleado" aria-controls="datosempleado" role="tab" data-toggle="tab">Datos del Empleado</a></li>
-          <li role="presentation"><a href="#activausu" aria-controls="activausu" role="tab" data-toggle="tab">Activar o Inactivar</a></li>
           <li role="presentation"><a href="#ordendia" aria-controls="ordendia" role="tab" data-toggle="tab">Ordenes del Día</a></li>
           <li role="presentation"><a href="#ordenmes" aria-controls="ordenmes" role="tab" data-toggle="tab">Ordenes del Mes</a></li>
           
@@ -61,34 +60,6 @@
           <form method="post" action=""></form>
           </div>
                
-          <div role="tabpanel" class="tab-pane" id="activausu">
-                  
-           <div id="activausuario" class="panel panel-default">
-                <span class="title-window-panel"> 
-                  <i class="fa fa-tags"></i> Activar o inactivar
-                </span>
-             <div class="panel-body">
-                <?php   
-                    echo $this->Form->create('Usuario',array(
-                                        'inputDefaults' => array(
-                                        'class' => 'form-control',
-                                        'div' => array('class' => 'form-group'),
-                                        'label' => array('class' => 'control-label'),
-                                        'error' => array('attributes' => 
-                                            array('wrap' => 'span', 'class' => 'alert-danger')))
-                    )); 
-
-                   echo $this->Form->input('Usuario.id_usuario',array('type' => 'hidden','onKeyPress'=>'return numeros(event)'));
-		   echo $this->Form->input('Usuario.status',array('label' =>'Estado','div'=>array('class'=>'col-xs-5 form-group'),'class'=>"form-control",'options'=>array('1'=>'Activo','0'=>'Inactivo')));
-                
-                   echo $this->Ajax->submit(__('Actualizar', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-12 form-group'),'url'=> array('controller'=>'Usuarios', 'action'=>'asigna_status',$id), 'update' => 'activausuario .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading'));
-
-                ?>  
-             </div>
-           </div>
-            <form method="post" action=""></form>
-
-          </div>
             <div role="tabpanel" class="tab-pane" id="ordendia">
                   
            <div  class="panel panel-default">
