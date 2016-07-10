@@ -44,7 +44,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                 <td><?php echo $Cliente['Cliente']['email']; ?>&nbsp;</td>
 		<td><?php echo $Cliente['Cliente']['telefono']; ?>&nbsp;</td>
 		<td><?php echo $Cliente['Cliente']['movil']; ?>&nbsp;</td>
-                <td><?php echo $Cliente['Cliente']['status'].' ';//.$form->input('Cliente.status', array('id'=>'status','type' => 'checkbox','value'=>$Cliente['Cliente']['status'] ,'label' => false));
+                <td><?php  $Cliente['Cliente']['status'].' ';//.$form->input('Cliente.status', array('id'=>'status','type' => 'checkbox','value'=>$Cliente['Cliente']['status'] ,'label' => false));
                 if($Cliente['Cliente']['status']) $true='true'; else $true='false';
                 echo $this->Form->input('status', array(
     'div' => false,

@@ -46,7 +46,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                 }
                 ?>&nbsp;</td>
 		<td><?php echo $Cliente['Usuario']['movil']; ?>&nbsp;</td>
-                <td><?php if($Cliente['Usuario']['status']) echo "Activo"; else echo "Inactivo"; 
+                <td><?php /*if($Cliente['Usuario']['status']) echo "Activo"; else echo "Inactivo"; */
                 if($Cliente['Usuario']['status']) $true='true'; else $true='false';
                 echo $this->Form->input('status', array(
     'div' => false,
