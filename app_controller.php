@@ -39,7 +39,7 @@ class AppController extends Controller {
     
    function enviar_mensaje($log,$mensaje,$asunto)
    {
-        $header = "From: soloplancho@soloplancho.com \n";
+        $header = "From: soloplancho@gmail.com \n";
         $header .= "Mime-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 7bit";
         $descripcion = "Este mensaje fue enviado por SOLOPLANCHO,\n";
         $descripcion=utf8_decode($descripcion.$mensaje);
@@ -52,7 +52,7 @@ class AppController extends Controller {
             //system($com);
             //mail($log[$i], $asunto, $descripcion, $header);
        }
-       $m->AddAddress("soloplancho@gmail.com");
+       //$m->AddAddress("soloplancho@gmail.com");
        $m->AddSender("soloplancho@gmail.com");
        $m->AddSubject("$asunto");
        $m->AddMessage("$descripcion");

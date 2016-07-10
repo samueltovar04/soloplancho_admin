@@ -46,7 +46,20 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                 }
                 ?>&nbsp;</td>
 		<td><?php echo $Cliente['Usuario']['movil']; ?>&nbsp;</td>
-                <td><?php if($Cliente['Usuario']['status']) echo "Activo"; else echo "Inactivo"; ?>&nbsp;</td>
+                <td><?php if($Cliente['Usuario']['status']) echo "Activo"; else echo "Inactivo"; 
+                if($Cliente['Usuario']['status']) $true='true'; else $true='false';
+                echo $this->Form->input('status', array(
+    'div' => false,
+    'label' => false,
+    'hiddenField' => false,
+                    'checked'=>$true,
+                    'value'=>$Cliente['Usuario']['status'],
+                    'type'=>'checkbox',
+    'before' => '<label>',
+    'after' => '<span class="toggle"></span></label>'
+));
+                ?>
+                </td>
 	</tr>
 <?php endforeach; ?>
 	</tbody></table>
@@ -65,6 +78,25 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
 	</div>
         <script type="text/javascript">
         //<![CDATA[
+        $("[id='status']").bootstrapSwitch();
+        $('input[id="status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+            var tr=$(this).parent().parent().parent().parent().parent();
+            var id = tr.attr('id');
+            $.ajax({
+                async:true, 
+                type:'post', 
+                beforeSend:function(request) {
+                    $('#mini_loading').show();
+                }, 
+                complete:function(request, json) { 
+                    //console.log(request);
+                    $('#mini_loading').hide()},
+                url:'Usuarios/asigna_status/'+id+'/'+state});
+            //console.log($(this).parent().parent().parent().parent().parent().attr('id')); // DOM element
+            //console.log(event); // jQuery event
+            //console.log(state); // true | false
+            });
+        
 $('#tblusuario tr').bind('click', function(){ 
     var row=$(this).parent();
     

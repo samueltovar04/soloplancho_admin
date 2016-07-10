@@ -5,8 +5,8 @@ class UsuariosController extends AppController{
 	var $name = 'Usuarios';
         var  $con=array();
         var $uses=array('Cliente','Articulo','Usuario','Configuracion','OrdenServicio','UsuarioOrden');
-        var $components = array('RequestHandler');
-	var $helpers = array('Html','Form','Cargar','Ajax','Js','Paginator'=>array('ajax'=>'Ajax'));
+         var $components = array('RequestHandler');
+	var $helpers = array('Html','Form' => array('className' => 'BootstrapForm'),'Cargar','Ajax','Js','Paginator'=>array('ajax'=>'Ajax'));
         var $layout = 'ajax';
 	function index() {
 	    $emp = $this->Session->read('id_empresa');
@@ -55,7 +55,9 @@ class UsuariosController extends AppController{
             $this->data= $this->Usuario->read(null,$id);
              $this->set('id',$id);
         }
-        function asigna_status($id=null){
+        function asigna_status($id,$state){
+            $this->data['Usuario']['id_usuario']=$id;
+            $this->data['Usuario']['status']=$state;
             if($this->Usuario->save($this->data)){
                     $this->set("Exito","Empleado Actualizado");
                     $this->data=null;
