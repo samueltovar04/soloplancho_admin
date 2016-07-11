@@ -323,11 +323,11 @@ class ClientesController extends AppController {
         }
         function mostrarbadge(){
              $emp = $this->Session->read('id_empresa');
-             $cliente=$this->Cliente->find('count',array('conditions'=>array('Cliente.id_balanza'=>null)));
+             //$cliente=$this->Cliente->find('count',array('conditions'=>array('Cliente.id_balanza'=>null)));
              //$rechazo=$this->RechazaClausula->find('count',array('conditions'=>array("contactado"=>0)));
              $orden=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'1','OrdenServicio.recepcion'=>array('domicilio','drop-off'),'OrdenServicio.id_empresa'=>$emp)));
              $ordenc=$this->OrdenServicio->find('count',array('conditions'=>array('OrdenServicio.status'=>'8','OrdenServicio.id_empresa'=>$emp)));
-                $data['cliente']=$cliente;
+                //$data['cliente']=$cliente;
              	$data['ordens']=$orden;
                 $data['ordenc']=$ordenc;
                 //$data['rechazo']=$rechazo;

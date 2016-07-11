@@ -1,7 +1,7 @@
 <?php
  if(isset($Exito)){echo $cargar->msj_exito($Exito);}
 if(isset($Error)){echo $cargar->msj_error($Error);}
-  $paginator->options(array('url'=>array( 'controller' => 'Usuarios', 'action' => 'ordendia',$id),'update' => 'buscar', 'indicator' => 'mini_loading','loading'=>'mini_loading'));
+  $paginator->options(array('url'=>array( 'controller' => 'Usuarios', 'action' => 'ordensem',$id),'update' => 'buscar', 'indicator' => 'mini_loading','loading'=>'mini_loading'));
 
  ?>
 
@@ -25,7 +25,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
         <tbody id='tblordend'>
 	<?php
 	$i = 0;
-       	foreach ($ordenes as $orden):
+       	foreach ($ordeness as $orden):
           
 		$class = "fondo1";
                     if($i++%2==0){

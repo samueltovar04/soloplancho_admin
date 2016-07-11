@@ -100,7 +100,23 @@ class UsuariosController extends AppController{
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'UsuarioOrden.id_usuario'=>$id,
-                "date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=curdate()"
+                "date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=curdate() or date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=curdate()"
+                    );
+            $this->UsuarioOrden->recursive = 2;
+            $usu=$this->paginate('UsuarioOrden',$this->con);
+            $this->set('id',$id);
+            $this->set('ordenes',$usu);
+        }
+         function ordensem($id=null){
+            $emp = $this->Session->read('id_empresa');
+            
+            $this->con = array(
+                        'OrdenServicio.id_empresa'=>$emp,
+                        'UsuarioOrden.id_usuario'=>$id,
+                        "(date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate())) or "
+                . "(date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate()))"
                     );
             $this->UsuarioOrden->recursive = 2;
             $usu=$this->paginate('UsuarioOrden',$this->con);
@@ -114,7 +130,7 @@ class UsuariosController extends AppController{
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'UsuarioOrden.id_usuario'=>$id,
-                "date_format(UsuarioOrden.fecha_asigna,'%m')=date_format(curdate(),'%m')"
+                "date_format(UsuarioOrden.fecha_asigna,'%m')=date_format(curdate(),'%m') or date_format(UsuarioOrden.fecha_cumple,'%m')=date_format(curdate(),'%m')"
                     );
             $this->UsuarioOrden->recursive = 2;
             $usu=$this->paginate('UsuarioOrden',$this->con);
@@ -128,15 +144,25 @@ class UsuariosController extends AppController{
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'UsuarioOrden.id_usuario'=>$id,
-                        "date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=curdate()"
+                        "date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=curdate() or date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=curdate()"
                     );
             $this->UsuarioOrden->recursive = 2;
             $usu=$this->paginate('UsuarioOrden',$this->con);
             
+            $this->cons = array(
+                        'OrdenServicio.id_empresa'=>$emp,
+                        'UsuarioOrden.id_usuario'=>$id,
+                        "(date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate())) or "
+                . "(date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate()))"
+                    );
+            $usus=$this->paginate('UsuarioOrden',$this->cons);
+            
              $this->conm = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'UsuarioOrden.id_usuario'=>$id,
-                "date_format(UsuarioOrden.fecha_asigna,'%m')=date_format(curdate(),'%m')"
+                "date_format(UsuarioOrden.fecha_asigna,'%m')=date_format(curdate(),'%m') or date_format(UsuarioOrden.fecha_cumple,'%m')=date_format(curdate(),'%m')"
                     );
             $usum=$this->paginate('UsuarioOrden',$this->conm);
             
@@ -158,6 +184,7 @@ class UsuariosController extends AppController{
              $this->set('id',$id);
               $this->set('ordenes',$usu);
                $this->set('ordenesm',$usum);
+               $this->set('ordeness',$usus);
         }
         
         function usuarioedit(){

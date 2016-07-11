@@ -56,7 +56,7 @@ class AppController extends Controller {
        $m->AddSender("soloplancho@gmail.com");
        $m->AddSubject("$asunto");
        $m->AddMessage("$descripcion");
-       $re=$m->AddHost("localhost",2500);
+       $re=$m->AddHost("localhost",25);
        if($re)
     {
         $m->Send();

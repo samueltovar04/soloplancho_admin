@@ -103,9 +103,7 @@ echo $javascript->link('functions')."\n";
         </li>
       </ul>
 
-      <ul  class="nav navbar-nav navbar-right">
-            <li ><a class="navcliente" href="">Clientes <span class="badge blue"></span></a></li>
-        	    
+      <ul  class="nav navbar-nav navbar-right">    
         	    <li><a class="navorden" href="">Nueva Orden<span class="badge pink"></span></a></li>
                      <li><a class="navordenc" href="">Ordenes Canceladas<span class="badge yellow"></span></a></li>
 
@@ -164,6 +162,11 @@ echo $javascript->link('functions')."\n";
        <i data-parent="9" class="fa fa-user fa-5x"></i>
        <p>Empleados</p>
    </div>
+
+<div class="col-md-2 app" >
+       <i data-parent="9" class="fa fa-file-pdf-o fa-5x"></i>
+       <p>Reportes</p>
+   </div>
 <!-- /apps -->
 <div id="content-windows">	
 			<?php echo $content_for_layout; ?>
@@ -215,8 +218,8 @@ echo $javascript->link('functions')."\n";
 		console.log(data);
 		$(".navcliente .badge").html(data.cliente);
                 if(data.cliente > 0){
-			$('<audio id="audio_cl"><source src="sonidos/glass.ogg" type="audio/ogg">, <source src="sonidos/glass.mp3" type="audio/mpeg"></audio>').appendTo("body");
-			$('#audio_cl')[0].play();
+			//$('<audio id="audio_cl"><source src="sonidos/glass.ogg" type="audio/ogg">, <source src="sonidos/glass.mp3" type="audio/mpeg"></audio>').appendTo("body");
+			//$('#audio_cl')[0].play();
 		}
 		$(".navorden .badge").html(data.ordens);
 		if(data.ordens > 0){

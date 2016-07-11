@@ -30,7 +30,7 @@
     if($orden['OrdenServicio']['status']=='5'){ $status='Asignada Operador'; $class='operador-color';}
     if($orden['OrdenServicio']['status']=='6'){ $status='Planchada'; $class='planchada-color';}
     if($orden['OrdenServicio']['status']=='7'){ $status='Pendiente Pago'; $class='pendienp-color'; }
-    if($orden['OrdenServicio']['status']=='8'){ $status='Cancelada'; $class='cancelada-color'; }
+    if($orden['OrdenServicio']['status']=='8'){ $status='Verificando Pago'; $class='cancelada-color'; }
     if($orden['OrdenServicio']['status']=='9'){ $status='Enviada Cliente'; $class='enviada-color';}
     if($orden['OrdenServicio']['status']=='10'){ $status='Entregada Cliente'; $class='entragada-color';}
     
