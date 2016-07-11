@@ -113,10 +113,10 @@ class UsuariosController extends AppController{
             $this->con = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'UsuarioOrden.id_usuario'=>$id,
-                        "(date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
-                        . " date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate())) or "
-                . "(date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
-                        . " date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate()))"
+                        "(date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')>=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')<=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate())) or "
+                . "(date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')>=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')<=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate()))"
                     );
             $this->UsuarioOrden->recursive = 2;
             $usu=$this->paginate('UsuarioOrden',$this->con);
@@ -152,10 +152,10 @@ class UsuariosController extends AppController{
             $this->cons = array(
                         'OrdenServicio.id_empresa'=>$emp,
                         'UsuarioOrden.id_usuario'=>$id,
-                        "(date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
-                        . " date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate())) or "
-                . "(date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
-                        . " date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate()))"
+                        "(date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')>=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_asigna,'%Y%m%d')<=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate())) or "
+                . "(date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')>=TIMESTAMPADD(DAY,(0-WEEKDAY(curdate())),curdate()) AND"
+                        . " date_format(UsuarioOrden.fecha_cumple,'%Y%m%d')<=TIMESTAMPADD(DAY,(6-WEEKDAY(curdate())),curdate()))"
                     );
             $usus=$this->paginate('UsuarioOrden',$this->cons);
             
