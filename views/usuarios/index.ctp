@@ -89,7 +89,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                     $('#mini_loading').show();
                 }, 
                 complete:function(request, json) { 
-                    //console.log(request);
+                    console.log(json);
                     $('#mini_loading').hide()},
                 url:'Usuarios/asigna_status/'+id+'/'+state});
             //console.log($(this).parent().parent().parent().parent().parent().attr('id')); // DOM element

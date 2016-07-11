@@ -57,7 +57,7 @@ class UsuariosController extends AppController{
         }
         function asigna_status($id,$state){
             $this->data['Usuario']['id_usuario']=$id;
-            if($state){
+            if($state==='true'){ echo $tate;
                 $this->data['Usuario']['status']=1;
             }else {
                 $this->data['Usuario']['status']=0;
