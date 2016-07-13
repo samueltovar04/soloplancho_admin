@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 <?php
-echo $this->Html->meta('favicon');
+//echo $this->Html->meta('favicon');
 echo $this->Html->css('cake.generic');
 echo $this->Html->css('cantv_estilos_rojo');
 

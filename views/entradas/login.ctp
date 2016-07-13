@@ -8,7 +8,7 @@ if(isset($Exito)){echo $cargar->msj_exito($Exito);}
     <div class="col-md-4">
         <section class="login-form">
            <?php echo $form->create('entrada', array('action' => 'login','role'=>'login'));?>
-           <img src="img/soloplancho.png" class="img-responsive img-rounded" alt="Solo Plancho" width="70" height="66" />
+           <img src="img/logo.png" class="img-responsive img-rounded" alt="Solo Plancho" width="90" height="86" />
 		<fieldset class="boxBody">
 	  	    <label>Usuario</label>
 		    <div class="input-group input-group-lg">
