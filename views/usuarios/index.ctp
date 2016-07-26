@@ -39,7 +39,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
                     echo "Asistente";
                 }else if($Cliente['Usuario']['tipo']==3) 
                 {
-                    echo "Delivery";
+                    echo "Ikaro";
                 }else if($Cliente['Usuario']['tipo']==4) 
                 {
                     echo "Operador";

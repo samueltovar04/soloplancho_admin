@@ -5,11 +5,16 @@
        
     </div>  
     
-  <div class="col-xs-8">
+  <div class="col-xs-8"> <?php echo $this->Form->create('Ordenes'); ?>
     <div class="input-group">
-      <input type="text" id="busquedaordenvo" class="form-control">
+    <?php 
+            echo $this->Form->input('Ordenes.asigna',array('readonly'=>true,'id'=>"asigna",'maxlength'=>8,'class'=>"form-control",'value'=>'8','type' => 'hidden','div'=>false,'label'=>FALSE));
+         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>true,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
+       ?>
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Buscar</button>
+       <?php
+         echo $this->Ajax->submit(__('Buscar', true), array('div'=>false,'class'=>'btn btn-default form-group','url'=> array('controller'=>'Ordenes', 'action'=>'codordenesbuscar'), 'update' => 'buscarord .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading'));
+       ?>
       </span>
     </div>
   </div>

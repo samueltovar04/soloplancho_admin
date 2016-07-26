@@ -1,14 +1,22 @@
+<?php
+     if(isset($Exito)){echo $cargar->msj_exito($Exito);}
+    if(isset($Error)){echo $cargar->msj_error($Error);}
+?>
 <div role="tabpanel" id="buscarord">
 <div class="row pull-right">
     <div class="qrcode col-md-2 img-rounded">
         <i data-parent="4"  class="fa fa-qrcode fa-3x"></i>
        
     </div>
-  <div class="col-xs-8">
+  <div class="col-xs-8"> <?php echo $this->Form->create('Ordenes'); ?>
     <div class="input-group">
-      <input type="text" id="busquedaorden" class="form-control">
+    <?php 
+         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>true,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
+       ?>
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Buscar</button>
+       <?php
+         echo $this->Ajax->submit(__('Buscar', true), array('div'=>false,'class'=>'btn btn-default form-group','url'=> array('controller'=>'Ordenes', 'action'=>'codordenesbuscar'), 'update' => 'buscarord .panel-body','loading'=>'mini_loading','indicator'=>'mini_loading'));
+       ?>
       </span>
     </div>
   </div>

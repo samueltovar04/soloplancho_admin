@@ -7,9 +7,11 @@
             <file>file:/home/samuel/public_html/soloplancho/controllers/usuarios_controller.php</file>
             <file>file:/home/samuel/public_html/soloplancho/views/ordenes/facturar.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/views/usuarios/index.ctp</file>
+            <file>file:/home/samuel/public_html/soloplancho/config/core.php</file>
             <file>file:/home/samuel/public_html/soloplancho/views/usuarios/ordensem.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/views/ordenes/pdf_facturar.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/views/layouts/admin.ctp</file>
+            <file>file:/home/samuel/public_html/soloplancho/views/entradas/login.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/app_controller.php</file>
         </group>
     </open-files>

@@ -423,6 +423,21 @@ class OrdenesController extends AppController {
             $this->set('ced',$ced);
         }
         
+        function codordenesbuscar($ced=null){
+            $emp = $this->Session->read('id_empresa');
+            $this->OrdenServicio->recursive = 2;
+                $ced=$this->data['Ordenes']['verificacodbarra'];
+                $codb=$this->CodbarraArticulo->find('first',array('conditions'=>array('CodbarraArticulo.codigo_barra'=>$ced)));
+                if($codb){
+                        $orden=$this->paginate('OrdenServicio',array('OrdenServicio.id_orden'=>$codb['CodbarraArticulo']['id_orden']));
+                }else
+                    $orden=$this->paginate('OrdenServicio',array('Cliente.cedula'=>$ced,'OrdenServicio.fecha_solicitud>=DATE_SUB(curdate(), INTERVAL 1 MONTH)'));
+           
+            $this->set('ordenes',$orden);
+            $this->set('ced',$ced);
+              $this->render('qrordenesbuscar');
+        }
+        
         function busquedaordenes($id=null){
             $emp = $this->Session->read('id_empresa');
             $this->OrdenServicio->recursive = 2;

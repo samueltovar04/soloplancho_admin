@@ -181,7 +181,7 @@ function initMap() {
                     <div class="col-xs-2">Peso en Libras
                         <div class="input-group"> 
                     <?php
-                        echo $this->Form->input('OrdenServicio.peso_libras',array('readonly'=>true,'size'=>'6','label' =>false,'div'=>false,'class'=>"form-control",'id'=>'peso_libras','maxlength'=>'5','onKeyUp'=>'return costo2(this.value)','onKeyPress'=>'return numeros_punto(event)'));
+                        echo $this->Form->input('OrdenServicio.peso_libras',array('readonly'=>false,'size'=>'6','label' =>false,'div'=>false,'class'=>"form-control",'id'=>'peso_libras','maxlength'=>'5','onKeyUp'=>'return costo2(this.value)','onKeyPress'=>'return numeros_punto(event)'));
                  ?>
                        <span class="input-group-btn">
                             ...<button class="buscar_peso btn btn-default" type="button"><span class="glyphicon glyphicon-refresh"></span></button>
