@@ -35,7 +35,7 @@
                             </div>
      <?php
                     echo $this->Form->input('OrdenServicio.precio_orden',array('id'=>'precio_orden','readonly'=>'true','label' =>'Costo Servicio','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control", 'placeholder'=>"Costo del Servicio"));
-                    echo $this->Form->input('OrdenServicio.recepcion',array('label' =>'Recepción','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array('domicilio'=>'Domicilio','drop-off'=>'Drop-Off','personal'=>'Personal')));
+                    echo $this->Form->input('OrdenServicio.recepcion',array('label' =>'Recepción','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array('domicilio'=>'Domicilio','drop-off'=>'Drop-Off','tienda'=>'En Tienda')));
                     
                     echo $this->Form->input('OrdenServicio.cantidad_piezas',array('type' => 'text','id'=>'cantidadorden','readonly'=>'true','label' =>'Cantidad de Piezas','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control", 'placeholder'=>"Cantidad de Piezas"));
                     echo '<h4 class="modal-title col-xs-12 form-group"></h4>';
