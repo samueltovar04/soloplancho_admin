@@ -13,6 +13,7 @@
 			<th><?php echo $this->Paginator->sort('Fecha Solicitud','fecha_solicitud');?></th>
 			<th><?php echo $this->Paginator->sort('Fecha Entrega','fecha_entrega');?></th>
 			<th><?php echo $this->Paginator->sort('Status','OrdenServicio.status');?></th>
+                        <th><?php echo "Anular";?></th>
 			
 	</tr></thead><tbody id='tblorden'>
 	<?php
@@ -48,7 +49,20 @@
 		<td><?php echo $orden['OrdenServicio']['fecha_solicitud']; ?>&nbsp;</td>
                 <td><?php echo $orden['OrdenServicio']['fecha_entrega']; ?>&nbsp;</td>
                 <td><?php echo $status; ?>&nbsp;</td>
-
+                <td><?php  if($orden['OrdenServicio']['status']==1){ $true='true'; 
+                echo $this->Form->input('status', array(
+    'div' => false,
+    'label' => false,
+    'hiddenField' => false,
+                    'checked'=>$true,
+                    'value'=>$status,
+                    'type'=>'checkbox',
+    'before' => '<label>',
+    'after' => '<span class="toggle"></span></label>'
+));
+                }
+                ?>
+                    </td>
 	</tr>
 <?php endforeach; ?>
 	</tbody></table>
@@ -65,3 +79,25 @@
  |
 		<?php echo $this->Paginator->next(__('siguiente', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
+<script type="text/javascript">
+        //<![CDATA[
+        $("[id='status']").bootstrapSwitch();
+        $('input[id="status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+            var tr=$(this).parent().parent().parent().parent().parent();
+            var id = tr.attr('id');
+            $.ajax({
+                async:true, 
+                type:'post', 
+                beforeSend:function(request) {
+                    $('#mini_loading').show();
+                }, 
+                complete:function(request, json) { 
+                    //console.log(request);
+                    $('#mini_loading').hide()},
+                url:'Clientes/anulaorden/'+id+'/'+state});
+            //console.log($(this).parent().parent().parent().parent().parent().attr('id')); // DOM element
+            //console.log(event); // jQuery event
+            //console.log(state); // true | false
+            });
+            //]]>
+</script>

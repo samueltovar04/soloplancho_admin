@@ -227,7 +227,11 @@ class ClientesController extends AppController {
             $this->set('costo',$costo['Configuracion']['valor']);
             $this->set('idemp',$emp);
             $this->set('id',$id);
-             if (empty($this->data['OrdenServicio']['peso_libras'])) {
+            $orden=$this->OrdenServicio->find('first',array('fields'=>'OrdenServicio.id_orden','conditions'=>array('OrdenServicio.status'=>'1','OrdenServicio.id_cliente'=>$this->data['OrdenServicio']['id_cliente'])));
+            if(!empty($orden['OrdenServicio']['id_orden'])){
+                 $this->set('Error','Cliente ya posee orden nueva creada');
+            }else
+            if (empty($this->data['OrdenServicio']['peso_libras'])) {
                         $this->set('Error','Precio Libras Obligatorio');
                 }else
                      if (empty($this->data['OrdenServicio']['recepcion']) || count($this->data['OrdenServicio']['recepcion'])<1) {
@@ -266,20 +270,30 @@ class ClientesController extends AppController {
                             }
                         }
                         $cli=$this->Cliente->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('Cliente.reg_id'=>$id)));
-                        $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.cedula,Usuario.email,Usuario.movil','conditions'=>array('UsuarioOrden.id_orden'=>$ido,'UsuarioOrden.status'=>'1')));
-                        
-                        $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));
-                        
-                        $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord , la misma ha sido asignada a nuestro IKARO:"
+                        if($this->data['OrdenServicio']['recepcion']=='domicilio'){
+                                
+                            $deli=$this->UsuarioOrden->find('first',array('fields'=>'Usuario.fullname,Usuario.cedula,Usuario.email,Usuario.movil','conditions'=>array('UsuarioOrden.id_orden'=>$ido,'UsuarioOrden.status'=>'1')));
+                            $are=array(0=>strtolower(trim($cli['Cliente']['email'])),1=>strtolower(trim($deli['Usuario']['email'])));                        
+                            $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord , la misma ha sido asignada a nuestro IKARO:"
                                 . "".$deli['Usuario']['fullname']." Cédula: ".$deli['Usuario']['cedula']." Celular: ".$deli['Usuario']['movil'].", para ser retirada en su domicilio.\n  www.soloplancho.com";
-                        $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A IKARO",'mensaje'=>$mensaje);
-			$this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
-                        $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A IKARO, SOLOPLANCHO.COM');
-                            
+                            $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO ASIGNADA A IKARO",'mensaje'=>$mensaje);
+                            $this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+                            $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO ASIGNADA A IKARO, SOLOPLANCHO.COM');
+                        }  else {
+                            $are=array(0=>strtolower(trim($cli['Cliente']['email'])));                        
+                            $mensaje="Estimado(a) ".$cli['Cliente']['fullname']."\n\n\t\tEn atención a su orden de servicio # $ord \n  www.soloplancho.com";
+                            $arreglo=array('id_cliente'=>$cli['Cliente']['reg_id'],'titulo'=>"ORDEN SERVICIO CREADA",'mensaje'=>$mensaje);
+                            $this->enviar_curl("http://api.soloplancho.com/notifications/sendNotification.php", $arreglo);
+                            $this->enviar_mensaje($are, $mensaje, 'ORDEN SERVICIO CREADA, SOLOPLANCHO.COM');
+                        }
                         $this->set('Exito','orden de servicio crearda con exito');
+                            $this->data=null;
+                        //   $this->ordenescliente();
+                        //$this->render('ordenescliente');
                     }  else {
                         $this->set('Error','error creando orden de servicio');
                     }
+                    
                 }
         }
 
@@ -321,7 +335,14 @@ class ClientesController extends AppController {
             $this->set('id',$id);
                 $this->set('ordenes',$ordenes);
         }
-        function mostrarbadge(){
+        function anulaorden($id){
+                $this->data['OrdenServicio']['id_orden']=$id;
+                    $this->data['OrdenServicio']['status']=20;
+            $this->OrdenServicio->save($this->data);
+                $this->ordenescliente();
+                        $this->render('ordenescliente');
+        }
+                function mostrarbadge(){
              $emp = $this->Session->read('id_empresa');
              //$cliente=$this->Cliente->find('count',array('conditions'=>array('Cliente.id_balanza'=>null)));
              //$rechazo=$this->RechazaClausula->find('count',array('conditions'=>array("contactado"=>0)));
