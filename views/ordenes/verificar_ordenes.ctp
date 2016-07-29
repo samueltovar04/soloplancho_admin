@@ -201,7 +201,7 @@
   $('.qrcode i').on('click', function(){ 
       $('#modal_qrcode').modal('show');
   }); 
-             $('#busquedaordenvo').focus();
+             $('#verificacodbarra').focus();
         $('#tbordenv tr').on('click', function(){ 
     var row=$(this).parent();
     

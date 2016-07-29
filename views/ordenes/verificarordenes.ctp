@@ -76,7 +76,7 @@ if(count($ordenes)>1){
                         <div class="input-group">
                         <?php 
                             echo $this->Form->input('CodbarraArticulo.id_orden',array('type' => 'hidden','value'=>$ordenes['OrdenServicio']['id_orden'],'onKeyPress'=>'return numeros(event)'));
-                            echo $this->Form->input('CodbarraArticulo.verificacodbarra',array('readonly'=>true,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'type' => 'text','div'=>false,'label'=>FALSE));
+                            echo $this->Form->input('CodbarraArticulo.verificacodbarra',array('readonly'=>false,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'type' => 'text','div'=>false,'label'=>FALSE));
                         
                             ?>
                             <span class="input-group-btn">
