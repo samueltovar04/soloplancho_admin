@@ -18,7 +18,7 @@ class HOJASOL extends tcpdf
 	$this->SetY(0);
     }
 }
-$pdf = new HOJASOL('P', 'mm', array(52,72), true, 'UTF-8', false);
+$pdf = new HOJASOL('P', 'mm', array(62,100), true, 'UTF-8', false);
  $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('SETB');
 $pdf->SetTitle('QRCODE');
@@ -47,7 +47,7 @@ $PNG_TEMP_DIR = 'img/qrcode/temp'.DIRECTORY_SEPARATOR;
 $pdf->setJPEGQuality(75);
 
 // Image example
-$pdf->Image($filename , 0, 0, 50 ,50, '', '', '', true, 100);
+$pdf->Image($filename , 6, 0, 50 ,50, '', '', '', true, 100);
 $style = array(
     'position' => 'C',
     'align' => 'C',
@@ -59,13 +59,13 @@ $style = array(
     'vpadding' => 'auto',
     'fgcolor' => array(12,0,0),
     'bgcolor' => false, //array(255,255,255),
-    'text' => true,
+    'text' => false,
     'font' => 'helvetica',
     'fontsize' => 0.1,
     'stretchtext' => 6
 );
 $cedula=  base64_decode(base64_decode($cedula));
- $pdf->write1DBarcode($cedula, 'C128A', '', 60, '',6, 0.4, $style, '');
-
+ $pdf->write1DBarcode($cedula, 'C128A', '', 50, '',6, 0.4, $style, '');
+$pdf->Image('img/logo1.png' , 11, 60, 40 ,34, '', '', '', false, 100);
 $pdf->lastPage();
 $pdf->Output('Codigobarra_'.$cedula.'.pdf', 'I');

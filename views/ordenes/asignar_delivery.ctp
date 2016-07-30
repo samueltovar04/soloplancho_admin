@@ -7,8 +7,8 @@
   <div class="col-xs-8"> <?php echo $this->Form->create('Ordenes'); ?>
     <div class="input-group">
     <?php 
-            echo $this->Form->input('Ordenes.asigna',array('readonly'=>true,'id'=>"asigna",'maxlength'=>8,'class'=>"form-control",'value'=>'2','type' => 'hidden','div'=>false,'label'=>FALSE));
-         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>true,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
+         echo $this->Form->input('Ordenes.asigna',array('readonly'=>true,'id'=>"asigna",'maxlength'=>8,'class'=>"form-control",'value'=>'2','type' => 'hidden','div'=>false,'label'=>FALSE));
+         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>false,'id'=>"busquedaorden",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
        ?>
       <span class="input-group-btn">
        <?php
@@ -79,8 +79,6 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
 		<td><?php echo $orden['OrdenServicio']['recepcion']; ?>&nbsp;</td>
 		<td><?php echo $orden['OrdenServicio']['fecha_solicitud']; ?>&nbsp;</td>
                 <td><?php echo $status; ?>&nbsp;</td>
-               
-
 	</tr>
 <?php endforeach; ?>
 	</tbody></table>

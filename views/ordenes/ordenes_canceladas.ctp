@@ -4,7 +4,7 @@
     <div class="input-group">
     <?php 
             echo $this->Form->input('Ordenes.asigna',array('readonly'=>true,'id'=>"cancela",'maxlength'=>8,'class'=>"form-control",'value'=>'9','type' => 'hidden','div'=>false,'label'=>FALSE));
-         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>true,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
+         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>false,'id'=>"busquedaordenc",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
        ?>
       <span class="input-group-btn">
        <?php

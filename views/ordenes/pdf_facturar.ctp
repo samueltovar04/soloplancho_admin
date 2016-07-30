@@ -87,7 +87,7 @@ $pdf->SetFont('helvetica','B',8);
 $tabla='<table cellpadding="0" cellspacing="0"  width="180px">
     
         <tr rowspan="2">
-            <th><h4><center><b>SÓLO PLANCHO</b></center></h4></th>
+            <th><h4><center><b>SoloPlancho &+</b></center></h4></th>
             <th align="right"><font size="6">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
         </tr>
         <tr><th colspan="2" align="left"><font size="9"> '.$emp.'</font></th></tr>

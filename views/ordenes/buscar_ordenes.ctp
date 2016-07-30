@@ -11,7 +11,7 @@
   <div class="col-xs-8"> <?php echo $this->Form->create('Ordenes'); ?>
     <div class="input-group">
     <?php 
-         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>true,'id'=>"verificacodbarra",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
+         echo $this->Form->input('Ordenes.verificacodbarra',array('readonly'=>true,'id'=>"busquedaorden",'maxlength'=>8,'class'=>"form-control",'value'=>'','type' => 'text','div'=>false,'label'=>FALSE));
        ?>
       <span class="input-group-btn">
        <?php

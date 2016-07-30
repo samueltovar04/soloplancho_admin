@@ -786,7 +786,7 @@ class OrdenesController extends AppController {
             $this->set('costo',$pago);
             $this->set('pagorden',$pag);
             $codb=$this->CodbarraArticulo->find('all',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.status'=>'2')));
-                
+                pr($ordenes['Empresa']);
             $this->set('ordenes',$orden);
             $this->set('usuario',$usu);
             $this->set('codbarra',$codb);
