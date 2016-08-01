@@ -620,7 +620,7 @@ class OrdenesController extends AppController {
             $this->set('pago',$pag);
             $this->set('impuesto',$iva);
             $this->set('costo',$pago);
-            
+            /*
             if($id<10){
                 $num='000000'.$id;
             }elseif($id<100){
@@ -633,14 +633,14 @@ class OrdenesController extends AppController {
                 $num='00'.$id;
             }elseif($id<1000000){
                 $num='0'.$id;
-            }
+            }*/
             if(($this->data['PagoOrden']['metodo_pago']=='deposito' || $this->data['PagoOrden']['metodo_pago']=='transferencia') && $this->data['PagoOrden']['forma_pago']=='datafono'){
                  $this->set('Error',__('Forma Pago solo puede ser en Tienda', true));
             }else
             if(empty($this->data['OrdenServicio']['forma_entrega'])){
                 $this->set('Error',__('Seleccione Forma Entrega', true));
             }else{
-                $this->data['PagoOrden']['numero_factura']=$num;
+               // $this->data['PagoOrden']['numero_factura']=$num;
                 $this->PagoOrden->create();
                 $date=date("Y-m-d H:i:s");
                 $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
