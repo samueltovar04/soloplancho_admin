@@ -12,8 +12,8 @@
             <strong>Dirección del Ciente</strong><br>".
             $ordenes['Cliente']['DireccionCliente']['direccion']."<br>Ciudad: ".
             $ordenes['Cliente']['DireccionCliente']['ciudad']."</div>";
-            
-            $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+            $ordendscuento=$ordenes['OrdenServicio']['precio_orden']-$ordenes['OrdenServicio']['peso_descuento'];
+            $precio=$ordendscuento-($ordendscuento*$costo['Configuracion']['valor']);
             
             $iva=$precio*$impuesto['Configuracion']['valor'];
             $monto=$precio;
