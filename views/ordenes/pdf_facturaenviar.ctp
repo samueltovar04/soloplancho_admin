@@ -98,7 +98,7 @@ $id=$ordenes['OrdenServicio']['id_orden'];
             }
             $date=date("Y-m-d H:i:s");
             
-$tabla='<table cellpadding="0" cellspacing="0"  width="180px">
+$tabla='<table cellpadding="0" cellspacing="0"  width="100%">
     
         <tr rowspan="2">
             <th><h4><center><b>SoloPlancho &+</b></center></h4></th>
