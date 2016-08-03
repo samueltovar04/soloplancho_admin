@@ -90,7 +90,7 @@ $tabla='<table cellpadding="0" cellspacing="0"  width="150px">
     
         <tr rowspan="2">
             <th><h4><center>SoloPlancho &+</center></h4></th>
-            <th align="right"><font size="4">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
+            <th align="right"><font size="5">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
         </tr>
         <tr><th colspan="2" align="left"><font size="7"> '.$emp.'</font></th></tr>
         <tr><th colspan="2" align="left"><font size="7">NIT: '.$nit.'</font></th></tr>
