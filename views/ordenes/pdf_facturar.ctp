@@ -86,7 +86,7 @@ $pdf->SetFont('arial','B',8);
             $total=$pagorden['PagoOrden']['total'];
             
 
-$tabla='<table cellpadding="0" cellspacing="0"  width="155px">
+$tabla='<table cellpadding="0" cellspacing="0"  width="150px">
     
         <tr rowspan="2">
             <th><h4><center>SoloPlancho &+</center></h4></th>
@@ -100,16 +100,16 @@ $tabla='<table cellpadding="0" cellspacing="0"  width="155px">
             <th align="left"><font size="6">'.$web.'</font></th>
         </tr>
        
-        <tr border="2"><td colspan="2" align="left"><h4>Datos del Cliente:</h4></td></tr>
-        <tr border="2"><td colspan="2" align="left"><font size="8">Nit: '.$ced.'</font></td></tr>
-        <tr><td colspan="2" align="left"><font size="8">Nombre: '.$nom.'</font></td></tr>
+        <tr border="2"><td colspan="2" align="left"><font size="7">Datos del Cliente:</font></td></tr>
+        <tr border="2"><td colspan="2" align="left"><font size="7">Nit: '.$ced.'</font></td></tr>
+        <tr><td colspan="2" align="left"><font size="7">Nombre: '.$nom.'</font></td></tr>
         <tr><td colspan="2" align="left"><font size="6">Dirección: '.$dircli.'</font></td></tr>
        <tr><td colspan="2">___________________________</td></tr>
-        <tr><td align="left">Descripción:</td><td align="left">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</td></tr>
-        <tr><td rowspan="4" align="left"><h5>'.$desc.'</h5></td><td align="left">Cant. Lbs.: '.$libras.'</td></tr> 
-        <tr><td align="left"><b>Monto:       $'.number_format($monto, 2, '.', ',').'</b></td></tr>
-        <tr><td align="left"><b> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</b></td></tr>
-        <tr><td align="left"><b>Total:         $'.number_format($total, 2, '.', ',').'</b></td></tr>
+        <tr><td align="left">Descripción:</td><td align="left"><font size="6">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</font></td></tr>
+        <tr><td rowspan="4" align="left"><h5>'.$desc.'</h5></td><td align="left"><font size="6">Cant. Lbs.: '.$libras.'</font></td></tr> 
+        <tr><td align="left"><font size="6">Monto:       $'.number_format($monto, 2, '.', ',').'</font></td></tr>
+        <tr><td align="left"><font size="6"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
+        <tr><td align="left"><font size="6">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
         <tr><td colspan="2">___________________________</td></tr>
         <tr><td colspan="2"><font size="4">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y <br />certificó que recibí físicamente 
         la mercancia y/o la prestación <br />del servicio y la factura Autoriza consecutivo de la IM 0001 al IM <br />10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
