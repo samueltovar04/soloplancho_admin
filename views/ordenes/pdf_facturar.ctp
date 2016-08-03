@@ -111,8 +111,8 @@ $tabla='<table cellpadding="0" cellspacing="0"  width="150px">
         <tr><td align="left"><font size="6"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
         <tr><td align="left"><font size="6">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
         <tr><td colspan="2">___________________________</td></tr>
-        <tr><td colspan="2"><font size="4">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y <br />certificó que recibí físicamente 
-        la mercancia y/o la prestación <br />del servicio y la factura Autoriza consecutivo de la IM 0001 al IM <br />10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
+        <tr><td colspan="2" align="center"><font size="4">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
+        la mercancia y/o la prestación del servicio y la factura Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
         "Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
