@@ -8,7 +8,7 @@ class HOJASOL extends tcpdf
 
     function Header()
     {
-	$this->SetMargins(0,0.3,0);	
+	$this->SetMargins(0,0.5,0);	
         $this->SetDisplayMode(100) ;
         $this->SetY(0);
         $this->SetX(0);
@@ -86,7 +86,7 @@ $pdf->SetFont('arial','B',8);
             $total=$pagorden['PagoOrden']['total'];
             
 
-$tabla='<table cellpadding="0" cellspacing="0"  width="140px">
+$tabla='<table cellpadding="0" cellspacing="0"  width="155px">
     
         <tr rowspan="2">
             <th><h4><center>SoloPlancho &+</center></h4></th>
@@ -104,7 +104,7 @@ $tabla='<table cellpadding="0" cellspacing="0"  width="140px">
         <tr border="2"><td colspan="2" align="left"><font size="8">Nit: '.$ced.'</font></td></tr>
         <tr><td colspan="2" align="left"><font size="8">Nombre: '.$nom.'</font></td></tr>
         <tr><td colspan="2" align="left"><font size="6">Dirección: '.$dircli.'</font></td></tr>
-        <tr><td colspan="2">___________________________</td></tr>
+       <tr><td colspan="2">___________________________</td></tr>
         <tr><td align="left">Descripción:</td><td align="left">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</td></tr>
         <tr><td rowspan="4" align="left"><h5>'.$desc.'</h5></td><td align="left">Cant. Lbs.: '.$libras.'</td></tr> 
         <tr><td align="left"><b>Monto:       $'.number_format($monto, 2, '.', ',').'</b></td></tr>
