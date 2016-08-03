@@ -1520,7 +1520,7 @@ if (!class_exists('TCPDF', false)) {
 					case 'B5': {$format = array(498.90,708.66); break;}
 					case 'B6': {$format = array(354.33,498.90); break;}
 					case 'B7': {$format = array(249.45,354.33); break;}
-					case 'B8': {$format = array(175.75,249.45); break;}
+					case 'B8': {$format = array(195.75,246.45); break;}
 					case 'B9': {$format = array(124.72,175.75); break;}
 					case 'B10': {$format = array(87.87,124.72); break;}
 					case 'C0': {$format = array(2599.37,3676.54); break;}

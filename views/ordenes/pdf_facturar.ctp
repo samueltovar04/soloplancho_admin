@@ -8,8 +8,10 @@ class HOJASOL extends tcpdf
 
     function Header()
     {
-	$this->SetMargins(0,2,0);	
+	$this->SetMargins(0,0.3,0);	
         $this->SetDisplayMode(100) ;
+        $this->SetY(0);
+        $this->SetX(0);
 
     }
 
@@ -19,7 +21,7 @@ class HOJASOL extends tcpdf
 	$this->SetY(0);
     }
 }
-$pdf = new HOJASOL('P', 'mm', array(57,86), true, 'UTF-8', false);
+$pdf = new HOJASOL('P', 'cm', 'B8', true, 'UTF-8', false);
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('SETB');
 $pdf->SetTitle('FACTURA');
@@ -32,16 +34,16 @@ $pdf->SetKeywords('SETB');
 //$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 //$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-//$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+//$pdf->SetFooterMargin(1);
 //$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
  $pdf->SetAutoPageBreak(TRUE, 0);
 // add a page
 $pdf->AddPage();
 //$pdf->Image(K_PATH_IMAGES.'iuet.jpg',12,15,30,25);
 
-$pdf->SetLineWidth(0.5);
+$pdf->SetLineWidth(0);
 
-$pdf->SetFont('arial','B',6);
+$pdf->SetFont('arial','B',8);
 
 
     $emp=$ordenes['Empresa']['descripcion'];
@@ -84,7 +86,7 @@ $pdf->SetFont('arial','B',6);
             $total=$pagorden['PagoOrden']['total'];
             
 
-$tabla='<table>
+$tabla='<table cellpadding="0" cellspacing="0"  width="140px">
     
         <tr rowspan="2">
             <th><h4><center>SoloPlancho &+</center></h4></th>
@@ -109,14 +111,14 @@ $tabla='<table>
         <tr><td align="left"><b> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</b></td></tr>
         <tr><td align="left"><b>Total:         $'.number_format($total, 2, '.', ',').'</b></td></tr>
         <tr><td colspan="2">___________________________</td></tr>
-        <tr><td colspan="2"><font size="3">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y <br />certificó que recibí físicamente 
+        <tr><td colspan="2"><font size="4">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y <br />certificó que recibí físicamente 
         la mercancia y/o la prestación <br />del servicio y la factura Autoriza consecutivo de la IM 0001 al IM <br />10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
         "Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
-$pdf->writeHTMLCell(0, 0, '', '', $tabla,0, 1, 0, true, 'C',true);
+$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'L',true);
 
-$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'C',true);
+$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'L',true);
 
 //$pdf->lastPage();
 $filename='factura_'.$fact.'.pdf';
