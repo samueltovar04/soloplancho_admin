@@ -79,13 +79,22 @@ $pdf->SetFont('arial','B',8);
         }
             $valor=$costo['Configuracion']['valor'];
             $dto=$ordenes['OrdenServicio']['peso_descuento'];
+          if(isset($pagorden['PagoOrden']['numero_factura'])){
             $precio=$pagorden['PagoOrden']['precio_pago']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
             $diva=$impuesto['Configuracion']['descripcion'];
             $iva=$pagorden['PagoOrden']['iva'];
             $monto=$precio;
             $total=$pagorden['PagoOrden']['total'];
             
-
+          }else{
+              $fact='N/A';
+              $precio=$ordenes['OrdenServicio']['precio_orden']-($ordenes['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+            $diva=$impuesto['Configuracion']['descripcion'];
+            $iva=$ordenes['OrdenServicio']['peso_libras']*$costo['Configuracion']['valor'];
+            $monto=$precio;
+            $total=$monto+$iva;
+           
+          }
 $tabla='<table cellpadding="0" cellspacing="0"  width="150px">
     
         <tr rowspan="2">
