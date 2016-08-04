@@ -700,7 +700,7 @@ class OrdenesController extends AppController {
                     $this->set('Exito',__('Pago Realizado con exito', true));
                     
                 } else {
-                    $this->set('Error',__('Error Al Realizar Pago', true));
+                    $this->set('Error',__('Error Al Realizar Pago'. mysql_error(), true));
                 }
                 
             }

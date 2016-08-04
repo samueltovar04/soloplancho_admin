@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/samuel/public_html/soloplancho/views/ordenes/pdf_facturaenviar.ctp</file>
+            <file>file:/home/samuel/public_html/soloplancho/vendors/tcpdf/tcpdf.php</file>
             <file>file:/home/samuel/public_html/soloplancho/views/ordenes/facturar.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/config/core.php</file>
+            <file>file:/home/samuel/public_html/soloplancho/views/ordenes/pdf_facturar.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/views/layouts/admin.ctp</file>
             <file>file:/home/samuel/public_html/soloplancho/controllers/ordenes_controller.php</file>
             <file>file:/home/samuel/public_html/soloplancho/app_controller.php</file>
