@@ -93,7 +93,7 @@ $pdf->SetFont('arial','B',8);
             $monto=$precio;
             $total=$monto+$iva;
           }
-$tabla='<table cellpadding="0" cellspacing="0" width="132px">
+$tabla='<table cellpadding="0" cellspacing="0" width="134px">
     
         <tr rowspan="2">
             <th><h4><center>SoloPlancho &+</center></h4></th>
