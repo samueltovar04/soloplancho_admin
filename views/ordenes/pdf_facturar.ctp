@@ -10,15 +10,20 @@ class HOJASOL extends tcpdf
     {
 	$this->SetMargins(0,0.3,0);	
         $this->SetDisplayMode(70) ;
-        $this->SetY(0);
-        $this->SetX(0);
 
     }
 
     function Footer()
     {
-	$this->setFooterMargin(0);
-	$this->SetY(0);
+	$this->setFooterMargin(3);
+	$this->SetY(7.6);
+        $tablaa='<table cellpadding="0" cellspacing="0"><tr><td>_______________________________</td></tr>
+                <tr><td align="center"><font size="3">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
+        la mercancia y/o la prestación del servicio y la factura Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
+        "Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
+</table>';
+//$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
+$this->writeHTMLCell(0, 0, '', '', $tablaa,10, 1, 0, true, 'L',true);
     }
 }
 $pdf = new HOJASOL('P', 'cm', 'B8', true, 'UTF-8', false);
@@ -117,14 +122,11 @@ $tabla='<table cellpadding="0" cellspacing="0" width="134px">
         <tr><td align="left"><font size="6">Monto:       $'.number_format($monto, 2, '.', ',').'</font></td></tr>
         <tr><td align="left"><font size="6"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
         <tr><td align="left"><font size="6">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
-        <tr><td colspan="2">___________________________</td></tr>
-        <tr><td colspan="2" align="center"><font size="3">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
-        la mercancia y/o la prestación del servicio y la factura Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
-        "Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
+        
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'L',true);
-
+$pdf->AddPage();
 $pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'L',true);
 
 //$pdf->lastPage();
