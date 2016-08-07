@@ -70,10 +70,9 @@
                     echo $this->Form->input('OrdenServicio.id_orden',array('type' => 'hidden','value'=>$ordenes['OrdenServicio']['id_orden']));
 		    
                     echo $this->Form->input('OrdenServicio.forma_entrega',array('Forma de Entrega','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array('tienda'=>'En Tienda','domicilio'=>'A Domicilio')));
-                    if(!isset($pago['PagoOrden'])){
+                    
                     echo $this->Ajax->submit(__('Pagar Facturar', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-12 form-group'),'url'=> array('controller'=>'Ordenes', 'action'=>'facturar',$ordenes['OrdenServicio']['id_orden']), 'update' => 'ordeninfo','loading'=>'mini_loading','indicator'=>'mini_loading'));
-                    }
-                    else
+                   
                         if(isset($pago['PagoOrden']['id_orden'])){
                       echo $this->Html->link('IMPRIMIR FACTURA',
           array('controller'=>'Ordenes', 'action'=>'impfactura', $ordenes['OrdenServicio']['id_orden'] ),
