@@ -650,6 +650,7 @@ class OrdenesController extends AppController {
                     $this->data['PagoOrden']['status']='2';
                     $this->data['OrdenServicio']['status']='10';
                     $this->data['PagoOrden']['fecha_pago']="$date";
+                     $this->data['PagoOrden']['fecha_entrega']="$date";
                     $this->data['PagoOrden']['id_usuario']=$usu;
                     $mensaje="Estimada(o) ".$cli['Cliente']['fullname']."\n\n\t\tLa OS # $id, Según fáctura # ".$num.", en fecha $date, \n "
                         ."Esta lista para ser entregada. Según sus instrucciones Ud seleccionó recoger y pagar en Nuestra tienda"

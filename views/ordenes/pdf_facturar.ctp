@@ -58,7 +58,7 @@ $pdf->SetFont('arial','B',8);
         $nom=$ordenes['Cliente']['fullname'];
         $dircli=$ordenes['Cliente']['DireccionCliente']['direccion'].'<br />Ciudad:  '
                 .$ordenes['Cliente']['DireccionCliente']['ciudad'];
-        $fechap=$pagorden['PagoOrden']['fecha_fact'];
+        $fechap=$ordenes['OrdenServicio']['fecha_fact'];
         $libras=$ordenes['OrdenServicio']['peso_libras']-$ordenes['OrdenServicio']['peso_descuento'];
          $pp='Sin Pago';
             if(isset($pagorden['PagoOrden'])){
