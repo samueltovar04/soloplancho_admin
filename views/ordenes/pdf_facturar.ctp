@@ -8,8 +8,8 @@ class HOJASOL extends tcpdf
 
     function Header()
     {
-	$this->SetMargins(0,0.5,0);	
-        $this->SetDisplayMode(100) ;
+	$this->SetMargins(0,0.3,0);	
+        $this->SetDisplayMode(70) ;
         $this->SetY(0);
         $this->SetX(0);
 
@@ -58,7 +58,7 @@ $pdf->SetFont('arial','B',8);
         $nom=$ordenes['Cliente']['fullname'];
         $dircli=$ordenes['Cliente']['DireccionCliente']['direccion'].'<br />Ciudad:  '
                 .$ordenes['Cliente']['DireccionCliente']['ciudad'];
-        $fechap=$ordenes['OrdenServicio']['fecha_fact'];
+        $fechap=$pagorden['PagoOrden']['fecha_fact'];
         $libras=$ordenes['OrdenServicio']['peso_libras']-$ordenes['OrdenServicio']['peso_descuento'];
          $pp='Sin Pago';
             if(isset($pagorden['PagoOrden'])){
@@ -93,7 +93,7 @@ $pdf->SetFont('arial','B',8);
             $monto=$precio;
             $total=$monto+$iva;
           }
-$tabla='<table cellpadding="0" cellspacing="0">
+$tabla='<table cellpadding="0" cellspacing="0" width="132px">
     
         <tr rowspan="2">
             <th><h4><center>SoloPlancho &+</center></h4></th>
@@ -118,7 +118,7 @@ $tabla='<table cellpadding="0" cellspacing="0">
         <tr><td align="left"><font size="6"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
         <tr><td align="left"><font size="6">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
         <tr><td colspan="2">___________________________</td></tr>
-        <tr><td colspan="2" align="center"><font size="4">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
+        <tr><td colspan="2" align="center"><font size="3">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
         la mercancia y/o la prestación del servicio y la factura Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
         "Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
 </table>';
