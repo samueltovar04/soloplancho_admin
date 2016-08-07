@@ -59,10 +59,10 @@
                     )); 
                  
                     echo $this->Form->input('PagoOrden.id_orden',array('type' => 'hidden','value'=>$ordenes['OrdenServicio']['id_orden']));
-		    echo $this->Form->input('PagoOrden.precio_pago',array('type' => 'hidden','value'=>$monto,'label' =>false,'div'=>false));
+/*		    echo $this->Form->input('PagoOrden.precio_pago',array('type' => 'hidden','value'=>$monto,'label' =>false,'div'=>false));
      		    echo $this->Form->input('PagoOrden.iva',array('type' => 'hidden','value'=>$iva,'label' =>false,'div'=>false));
                     echo $this->Form->input('PagoOrden.total',array('type' => 'hidden','value'=>$total,'label' =>false,'div'=>false));
-                    
+                    */
                     echo $this->Form->input('PagoOrden.metodo_pago',array('Metodo de Pago','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array('debito'=>'Debito','credito'=>'Credito','deposito'=>'Deposito','transferencia'=>'Transferencia')));
                     echo $this->Form->input('PagoOrden.numero',array('maxlength'=>'12','label' =>'Número','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control", 'placeholder'=>"Número de Transación",'onKeyPress'=>'return numeros(event)'));
      		    echo $this->Form->input('PagoOrden.forma_pago',array('Forma de Pago','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array('tienda'=>'En Tienda','datafono'=>'Datafono')));
@@ -71,7 +71,7 @@
 		    
                     echo $this->Form->input('OrdenServicio.forma_entrega',array('Forma de Entrega','div'=>array('class'=>'col-xs-3 form-group'),'class'=>"form-control",'empty'=>array(0=>'SELECCIONE'),'options'=>array('tienda'=>'En Tienda','domicilio'=>'A Domicilio')));
                     if(!isset($pago['PagoOrden'])){
-                    echo $this->Ajax->submit(__('Facturar', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-12 form-group'),'url'=> array('controller'=>'Ordenes', 'action'=>'facturar',$ordenes['OrdenServicio']['id_orden']), 'update' => 'ordeninfo','loading'=>'mini_loading','indicator'=>'mini_loading'));
+                    echo $this->Ajax->submit(__('Pagar Facturar', true), array('class'=>'btn btn-primary','div'=>array('class'=>'col-xs-12 form-group'),'url'=> array('controller'=>'Ordenes', 'action'=>'facturar',$ordenes['OrdenServicio']['id_orden']), 'update' => 'ordeninfo','loading'=>'mini_loading','indicator'=>'mini_loading'));
                     }
                     else
                         if(isset($pago['PagoOrden']['id_orden'])){

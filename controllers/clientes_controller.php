@@ -244,9 +244,9 @@ class ClientesController extends AppController {
                     foreach ($this->data['OrdenArticulo'] as $key => $value) {
                             $can+=$value;
                         }
-                        if(empty($this->data['OrdenServicio']['precio_orden'])){
+                       // if(empty($this->data['OrdenServicio']['precio_orden'])){
                             $this->data['OrdenServicio']['precio_orden']=$costo['Configuracion']['valor']*$this->data['OrdenServicio']['peso_libras'];
-                        }
+                        //}
                         $this->data['OrdenServicio']['cantidad_piezas']=$can;
                         $date=date("Y-m-d H:i:s");
                         $this->data['OrdenServicio']['fecha_solicitud']=$date;
@@ -254,6 +254,7 @@ class ClientesController extends AppController {
                             $this->data['OrdenServicio']['status']='2';
                         }
                         // $this->data['OrdenServicio']['fecha_entrega']=$date;
+                        print_r($this->data);
                     if($this->OrdenServicio->save($this->data)){
                         $ido=$this->OrdenServicio->id;
                         $this->OrdenArticulo->create();

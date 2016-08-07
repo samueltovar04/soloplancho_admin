@@ -59,7 +59,7 @@ $pdf->SetFont('helvetica','B',8);
                 .$ordenes['Cliente']['DireccionCliente']['ciudad'];
         $fechap=$pagorden['PagoOrden']['fecha_pago'];
         $libras=$ordenes['OrdenServicio']['peso_libras']-$ordenes['OrdenServicio']['peso_descuento'];
-         $pp='Sin Pago';
+        $pp='Sin Pago';
             if(isset($pagorden['PagoOrden'])){
                 if($pagorden['PagoOrden']['status']=='1'){
                   $pp='Pendiente por verificar Pago';  
@@ -78,11 +78,11 @@ $pdf->SetFont('helvetica','B',8);
         }
         $valor=$costo['Configuracion']['valor'];
         $dto=$ordenes['OrdenServicio']['peso_descuento']*$valor;
-         $precio=$ordenes['OrdenServicio']['precio_orden']-$dto;
-            $diva=$impuesto['Configuracion']['descripcion'];
-            $iva=$precio*$impuesto['Configuracion']['valor'];
-            $monto=$precio;
-            $total=$precio+$iva;
+        $precio=$ordenes['OrdenServicio']['precio_orden']-$dto;
+        $diva=$impuesto['Configuracion']['descripcion'];
+        $iva=$precio*$impuesto['Configuracion']['valor'];
+        $monto=$precio;
+        $total=$precio+$iva;
             
 $id=$ordenes['OrdenServicio']['id_orden'];
  if($id<10){

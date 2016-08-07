@@ -607,8 +607,8 @@ class OrdenesController extends AppController {
         }
         
         function facturar($id=null){
-             $emp = $this->Session->read('id_empresa');
-             $usu = $this->Session->read('id_usuario');
+            $emp = $this->Session->read('id_empresa');
+            $usu = $this->Session->read('id_usuario');
             $this->OrdenServicio->recursive = 2;
             $orden=$this->OrdenServicio->find('first',array(
                 'conditions'=>array('OrdenServicio.id_orden'=>$id)
@@ -618,32 +618,14 @@ class OrdenesController extends AppController {
             $iva=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
             $pag=$this->PagoOrden->find('first',array('conditions'=>array('id_orden'=>$id)));
               
-            $numfact=$this->PagoOrden->find('all',array('fields'=>"MAX(numero_factura*1) AS nf"));
-            
-            $this->set('pago',$pag);
-            $this->set('impuesto',$iva);
-            $this->set('costo',$pago);
-            $id=$numfact[0][0]['nf']+1;
-            if($id < 10){
-                $num='000'.$id;
-            }elseif($id<100){
-                $num='00'.$id;
-            }elseif($id<1000){
-                $num='0'.$id;
-            }elseif($id<10000){
-                $num=$id;
-            }elseif($id<100000){
-                $num=$id;
-            }elseif($id<1000000){
-                $num=$id;
-            }
+
             if(($this->data['PagoOrden']['metodo_pago']=='deposito' || $this->data['PagoOrden']['metodo_pago']=='transferencia') && $this->data['PagoOrden']['forma_pago']=='datafono'){
                  $this->set('Error',__('Forma Pago solo puede ser en Tienda', true));
             }else
             if(empty($this->data['OrdenServicio']['forma_entrega'])){
                 $this->set('Error',__('Seleccione Forma Entrega', true));
             }else{
-                $this->data['PagoOrden']['numero_factura']=$num;
+               
                 $this->PagoOrden->create();
                 $date=date("Y-m-d H:i:s");
                 $cli=$this->OrdenServicio->find('first',array('fields'=>'Cliente.reg_id,Cliente.fullname,Cliente.email','conditions'=>array('OrdenServicio.id_orden'=>$id)));
@@ -810,13 +792,40 @@ class OrdenesController extends AppController {
             $orden=$this->OrdenServicio->find('first',array(
                 'conditions'=>array('OrdenServicio.id_orden'=>$id)
             ));
+            $costo=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'costo','status'=>'1')));
+            $impuesto=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
+            $numfact=$this->PagoOrden->find('all',array('fields'=>"MAX(numero_factura*1) AS nf"));
+
+            $id=$numfact[0][0]['nf']+1;
+            if($id < 10){
+                $num='000'.$id;
+            }elseif($id<100){
+                $num='00'.$id;
+            }elseif($id<1000){
+                $num='0'.$id;
+            }elseif($id<10000){
+                $num=$id;
+            }elseif($id<100000){
+                $num=$id;
+            }elseif($id<1000000){
+                $num=$id;
+            }
+            $this->data['PagoOrden']['id_orden']=$orden['OrdenServicio']['id_orden'];
+             $usu = $this->Session->read('id_usuario');
+            $this->data['PagoOrden']['status']='1';
+                    $this->data['PagoOrden']['id_usuario']=$usu;
+            $this->data['PagoOrden']['numero_factura']=$num;
+            $this->data['PagoOrden']['precio_pago']=$orden['OrdenServicio']['precio_orden']-($orden['OrdenServicio']['peso_descuento']*$costo['Configuracion']['valor']);
+            $this->data['PagoOrden']['iva']=$this->data['PagoOrden']['precio_pago']*$impuesto['Configuracion']['valor'];
+
+             $this->data['PagoOrden']['total']=$this->data['PagoOrden']['precio_pago']+$this->data['PagoOrden']['iva'];
+             $this->PagoOrden->create();
+             $this->PagoOrden->save($this->data);
             $usu=$this->UsuarioOrden->find('all',array('conditions'=>array('UsuarioOrden.id_orden'=>$id,'UsuarioOrden.status'=>array('1','2','3','4','5'))));
             $pag=$this->PagoOrden->find('first',array('conditions'=>array('PagoOrden.id_orden'=>$id)));
-            $pago=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'costo','status'=>'1')));
-            $iva=$this->Configuracion->find('first',array('conditions'=>array('codigo'=>'impuesto','status'=>'1')));
-            
-            $this->set('impuesto',$iva);
-            $this->set('costo',$pago);
+       
+            $this->set('impuesto',$impuesto);
+            $this->set('costo',$costo);
             $this->set('pagorden',$pag);
             $codb=$this->CodbarraArticulo->find('all',array('conditions'=>array('CodbarraArticulo.id_orden'=>$id,'CodbarraArticulo.status'=>'2')));
             
