@@ -10,20 +10,21 @@ class HOJASOL extends tcpdf
     {
 	$this->SetMargins(0,0.3,0);	
         $this->SetDisplayMode(70) ;
-
+        $this->SetX(0.1);
     }
 
     function Footer()
     {
-	$this->setFooterMargin(3);
-	$this->SetY(7.6);
-        $tablaa='<table cellpadding="0" cellspacing="0"><tr><td>_______________________________</td></tr>
-                <tr><td align="center"><font size="3">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
-        la mercancia y/o la prestación del servicio y la factura Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN<br />
-        "Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
+	$this->setFooterMargin(0);
+	$this->SetY(6);
+        
+        $tablaa='<table cellpadding="0" cellspacing="0"><tr><td>____________________________________</td></tr>
+                <tr><td align="justify"><font size="3">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente 
+        la mercancia y/o la prestación del servicio y la factura Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN
+        </font></td></tr><tr><td align="center"><font size="3">"Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
-$this->writeHTMLCell(0, 0, '', '', $tablaa,10, 1, 0, true, 'L',true);
+$this->writeHTMLCell(5, 2, 0.3, '', $tablaa,0, 0, 0, true, 'J',true);
     }
 }
 $pdf = new HOJASOL('P', 'cm', 'B8', true, 'UTF-8', false);
@@ -48,7 +49,7 @@ $pdf->AddPage();
 
 $pdf->SetLineWidth(0);
 
-$pdf->SetFont('arial','B',8);
+$pdf->SetFont('arial','B',7);
 
 
     $emp=$ordenes['Empresa']['descripcion'];
@@ -98,36 +99,39 @@ $pdf->SetFont('arial','B',8);
             $monto=$precio;
             $total=$monto+$iva;
           }
-$tabla='<table cellpadding="0" cellspacing="0" width="134px">
+$tabla='<table cellpadding="0" cellspacing="0">
     
         <tr rowspan="2">
-            <th><h4><center>SoloPlancho &+</center></h4></th>
+            <th align="center"><center><font size="6">SoloPlancho &+</font></center></th>
             <th align="right"><font size="5">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
         </tr>
-        <tr><th colspan="2" align="left"><font size="7"> '.$emp.'</font></th></tr>
-        <tr><th colspan="2" align="left"><font size="7">NIT: '.$nit.'</font></th></tr>
-        <tr><th colspan="2" align="left"><font size="6">Dirección: '.$dir.'</font></th></tr>
+        <tr><th colspan="2" align="left"><font size="6"> '.$emp.'</font></th></tr>
+        <tr><th colspan="2" align="left"><font size="6">NIT: '.$nit.'</font></th></tr>
+        <tr><th colspan="2" align="left"><font size="5">Dirección: '.$dir.'</font></th></tr>
         <tr>
-            <th align="left"><font size="6">Teléfono: '.$tel.'</font></th>
-            <th align="left"><font size="6">'.$web.'</font></th>
+            <th align="left"><font size="5">Teléfono: '.$tel.'</font></th>
+            <th align="left"><font size="5">'.$web.'</font></th>
         </tr>
        
-        <tr border="2"><td colspan="2" align="left"><font size="7">Datos del Cliente:</font></td></tr>
-        <tr border="2"><td colspan="2" align="left"><font size="7">Nit: '.$ced.'</font></td></tr>
-        <tr><td colspan="2" align="left"><font size="7">Nombre: '.$nom.'</font></td></tr>
-        <tr><td colspan="2" align="left"><font size="6">Dirección: '.$dircli.'</font></td></tr>
-       <tr><td colspan="2">___________________________</td></tr>
-        <tr><td align="left">Descripción:</td><td align="left"><font size="6">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</font></td></tr>
-        <tr><td rowspan="4" align="left"><h5>'.$desc.'</h5></td><td align="left"><font size="6">Cant. Lbs.: '.$libras.'</font></td></tr> 
+        <tr border="2"><td colspan="2" align="left"><font size="6">Datos del Cliente:</font></td></tr>
+        <tr border="2"><td colspan="2" align="left"><font size="6">Nit: '.$ced.'</font></td></tr>
+        <tr><td colspan="2" align="left"><font size="6">Nombre: '.$nom.'</font></td></tr>
+        <tr><td colspan="2" align="left"><font size="5">Dirección: '.$dircli.'</font></td></tr>
+       <tr><td colspan="2">________________________________</td></tr>
+        <tr><td align="left"><font size="6">Descripción:</font></td><td align="left"><font size="6">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</font></td></tr>
+        <tr><td rowspan="4" align="left"><font size="4">'.$desc.'</font></td><td align="left"><font size="6">Cant. Lbs.: '.$libras.'</font></td></tr> 
         <tr><td align="left"><font size="6">Monto:       $'.number_format($monto, 2, '.', ',').'</font></td></tr>
         <tr><td align="left"><font size="6"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
         <tr><td align="left"><font size="6">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
         
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
-$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'L',true);
+// get current vertical position
+$y = $pdf->getY();
+$x = $pdf->getX();
+$pdf->writeHTMLCell(5.2, 2, 0.2, $y, $tabla,1, 0, 0, true, 'J',true);
 $pdf->AddPage();
-$pdf->writeHTMLCell(0, 0, '', '', $tabla,10, 1, 0, true, 'L',true);
+$pdf->writeHTMLCell(5.2, 4, 0.2, $y, $tabla,1, 0, 0, true, 'L',true);
 
 //$pdf->lastPage();
 $filename='factura_'.$fact.'.pdf';
