@@ -76,6 +76,7 @@ class UsuariosController extends AppController{
             $emp = $this->Session->read('id_empresa');
             if(!empty($this->data)){
             $this->data['Usuario']['id_empresa']=$emp;
+            $this->data['Usuario']['clave']= md5($this->data['Usuario']['clave']);
                 if($this->Usuario->save($this->data)){
                     $this->set("Exito","Empleado Registrado");
                     $this->data=null;
@@ -198,6 +199,20 @@ class UsuariosController extends AppController{
                 }
                 else {
                     $this->set("Error","Empleado no se Actualizó");
+                }
+
+        }
+        
+        function clavereset($id){
+            $this->data['Usuario']['id_usuario']= $id;
+            $this->data['Usuario']['clave']= md5('1234');
+                if($this->Usuario->save($this->data)){
+                    $this->set("Exito","Clave Reseteada");
+                  // $this->render('usuarioedit');
+                    
+                }
+                else {
+                    $this->set("Error","Empleado no se Actualizó la clave");
                 }
 
         }

@@ -17,6 +17,7 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
 			<th><?php echo $this->Paginator->sort('Tipo Usuario','tipo');?></th>
 			<th><?php echo $this->Paginator->sort('Movil','movil');?></th>
                         <th>Estado</th>
+                        <th>Reset Clave</th>
 	</tr></thead><tbody id='tblusuario'>
 	<?php
 	$i = 0;
@@ -60,6 +61,10 @@ if(isset($Error)){echo $cargar->msj_error($Error);}
 ));
                 ?>
                 </td>
+                <td><?php echo $this->Ajax->link('Reset',
+          array('controller'=>'Usuarios', 'action'=>'clavereset',$Cliente['Usuario']['id_usuario']),
+          array('class'=>'fa fa-expeditedss btn btn-primary','update' => '','loading'=>'mini_loading','indicator'=>'mini_loading'));
+?></td>
 	</tr>
 <?php endforeach; ?>
 	</tbody></table>
