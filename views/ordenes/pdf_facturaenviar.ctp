@@ -19,7 +19,7 @@ class HOJASOL extends tcpdf
 	$this->SetY(0);
     }
 }
-$pdf = new HOJASOL('P', 'mm', array(77,94), true, 'UTF-8', false);
+$pdf = new HOJASOL('P', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('SETB');
 $pdf->SetTitle('FACTURA');
