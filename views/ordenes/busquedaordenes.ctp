@@ -62,7 +62,7 @@
 ?>
   <div class="row pull-right">
         <?php
-         echo $this->Html->link('IMPRIMIR FACTURA',
+         echo $this->Html->link('IMPRIMIR NOTA DE PAGO',
           array('controller'=>'Ordenes', 'action'=>'impfactura', $ordenes['OrdenServicio']['id_orden'] ),
           array('target'=>'_blank','class'=>'fa fa-print btn btn-primary'));
         

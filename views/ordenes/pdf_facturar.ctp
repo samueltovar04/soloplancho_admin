@@ -19,8 +19,8 @@ class HOJASOL extends tcpdf
 	$this->SetY(7.6);
         
         $tablaa='<table cellpadding="0" cellspacing="0"><tr><td>_________________________________</td></tr>
-                <tr><td align="justify"><font size="4">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente la  mercancia   y/o   la prestación del servicio y la factura  Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN
-        </font></td></tr><tr><td align="center"><font size="4">"Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
+                <tr><td align="justify"><font size="5">(Ley 1231 del 17 de Julio de 2008) Acepto el presente documento y certificó que recibí físicamente la  mercancia   y/o   la prestación del servicio y la factura  Autoriza consecutivo de la IM 0001 al IM 10000 Según Resolución No. 110000675250 de 2016/04/14 de la DIAN
+        </font></td></tr><tr><td align="center"><font size="5">"Nuestras facturas son pequeñas para preservar el medio ambiente"</font></td></tr>
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
 $this->writeHTMLCell(6, 2, 0.4, '', $tablaa,0, 0, 0, true, 'J',true);
@@ -101,27 +101,27 @@ $pdf->SetFont('arial','B',9);
 $tabla='<table cellpadding="0" cellspacing="0">
     
         <tr rowspan="2">
-            <th align="center"><center><font size="7">SoloPlancho &+</font></center></th>
-            <th align="right"><font size="6">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
+            <th align="center"><center><font size="8">SoloPlancho &+</font></center></th>
+            <th align="right"><font size="7">FACTURA #  '.$fact.'<br />FECHA: '.$fechap.'</font></th>
         </tr>
-        <tr><th colspan="2" align="left"><font size="7"> '.$emp.'</font></th></tr>
-        <tr><th colspan="2" align="left"><font size="7">NIT: '.$nit.'</font></th></tr>
-        <tr><th colspan="2" align="left"><font size="6">Dirección: '.$dir.'</font></th></tr>
+        <tr><th colspan="2" align="left"><font size="8"> '.$emp.'</font></th></tr>
+        <tr><th colspan="2" align="left"><font size="8">NIT: '.$nit.'</font></th></tr>
+        <tr><th colspan="2" align="left"><font size="7">Dirección: '.$dir.'</font></th></tr>
         <tr>
-            <th align="left"><font size="6">Teléfono: '.$tel.'</font></th>
-            <th align="left"><font size="6">'.$web.'</font></th>
+            <th align="left"><font size="7">Teléfono: '.$tel.'</font></th>
+            <th align="left"><font size="7">'.$web.'</font></th>
         </tr>
        
-        <tr border="2"><td colspan="2" align="left"><font size="7">Datos del Cliente:</font></td></tr>
-        <tr border="2"><td colspan="2" align="left"><font size="7">Nit: '.$ced.'</font></td></tr>
-        <tr><td colspan="2" align="left"><font size="7">Nombre: '.$nom.'</font></td></tr>
-        <tr><td colspan="2" align="left"><font size="6">Dirección: '.$dircli.'</font></td></tr>
+        <tr border="2"><td colspan="2" align="left"><font size="8">Datos del Cliente:</font></td></tr>
+        <tr border="2"><td colspan="2" align="left"><font size="8">Nit: '.$ced.'</font></td></tr>
+        <tr><td colspan="2" align="left"><font size="8">Nombre: '.$nom.'</font></td></tr>
+        <tr><td colspan="2" align="left"><font size="7">Dirección: '.$dircli.'</font></td></tr>
        <tr><td colspan="2">________________________________</td></tr>
-        <tr><td align="left"><font size="7">Descripción:</font></td><td align="left"><font size="7">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</font></td></tr>
-        <tr><td rowspan="4" align="left"><font size="6">'.$desc.'</font></td><td align="left"><font size="7">Cant. Lbs.: '.$libras.'</font></td></tr> 
-        <tr><td align="left"><font size="7">Monto:       $'.number_format($monto, 2, '.', ',').'</font></td></tr>
-        <tr><td align="left"><font size="7"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
-        <tr><td align="left"><font size="7">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
+        <tr><td align="left"><font size="8">Descripción:</font></td><td align="left"><font size="8">Valor Lb.: $'.number_format($valor, 2, '.', ',').'</font></td></tr>
+        <tr><td rowspan="4" align="left"><font size="7">'.$desc.'</font></td><td align="left"><font size="8">Cant. Lbs.: '.$libras.'</font></td></tr> 
+        <tr><td align="left"><font size="8">Monto:       $'.number_format($monto, 2, '.', ',').'</font></td></tr>
+        <tr><td align="left"><font size="8"> '.$diva.':   $'.number_format($iva, 2, '.', ',').'</font></td></tr>
+        <tr><td align="left"><font size="8">Total:         $'.number_format($total, 2, '.', ',').'</font></td></tr>
         
 </table>';
 //$pdf->Image(K_PATH_IMAGES.'recicla.png',6,86,6,6);
