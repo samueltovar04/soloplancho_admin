@@ -36,8 +36,7 @@ class AppController extends Controller {
    var $components = array('Session',
         'DebugKit.Toolbar' => array('panels' => array('history', 'session')));
    var $pageTitle = 'SoloPlancho .:Inicio:.';
-    
-   function enviar_mensaje($log,$mensaje,$asunto)
+  function enviar_mensaje($log,$mensaje,$asunto)
    {
         $header = "From: soloplancho@gmail.com \n";
         $header .= "Mime-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 7bit";
